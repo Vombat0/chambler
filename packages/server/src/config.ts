@@ -32,6 +32,16 @@ export interface ServerConfig {
   readonly transformBudgetBytesPerSec: number;
   /** Send interval of the batched transform flush in ms (`TRANSFORM_FLUSH_MS`, 10..200). */
   readonly transformFlushMs: number;
+  /** Directory holding table snapshots (`SNAPSHOT_DIR`). */
+  readonly snapshotDir: string;
+  /** Max snapshots kept on disk before the oldest is deleted (`MAX_SAVES`). */
+  readonly maxSaves: number;
+  /** Debounce for the automatic room save in ms (`SNAPSHOT_DEBOUNCE_MS`). */
+  readonly snapshotDebounceMs: number;
+  /** Hard cap between two automatic saves while changes keep coming (`SNAPSHOT_MAX_INTERVAL_MS`). */
+  readonly snapshotMaxIntervalMs: number;
+  /** Largest serialised snapshot accepted in bytes (`SNAPSHOT_MAX_BYTES`). */
+  readonly snapshotMaxBytes: number;
 }
 
 import { DEFAULT_TRANSFORM_BUDGET_BYTES_PER_SEC } from '@chambler/shared';
@@ -89,6 +99,11 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): ServerConfig {
       64 * 1024 * 1024,
     ),
     transformFlushMs: readInt(env, 'TRANSFORM_FLUSH_MS', 50, 10, 200),
+    snapshotDir: env.SNAPSHOT_DIR?.trim() || '.chambler/saves',
+    maxSaves: readInt(env, 'MAX_SAVES', 50, 1, 10_000),
+    snapshotDebounceMs: readInt(env, 'SNAPSHOT_DEBOUNCE_MS', 5_000, 100, 600_000),
+    snapshotMaxIntervalMs: readInt(env, 'SNAPSHOT_MAX_INTERVAL_MS', 10_000, 200, 3_600_000),
+    snapshotMaxBytes: readInt(env, 'SNAPSHOT_MAX_BYTES', 4 * 1024 * 1024, 1024, 64 * 1024 * 1024),
   };
 }
 

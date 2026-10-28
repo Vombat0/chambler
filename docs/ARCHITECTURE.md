@@ -38,6 +38,9 @@ prevents an expired owner's stale transforms from being applied). Details: A2/B1
 `HandInfo { ownerId, cardIds }` — `cardIds` is sent **only to the owner's session**;
 the server filters per-session before sending, and it is never broadcast.
 Face-up data of a face-down card (`assetRef`/meta back-mapping) is filtered the same way.
+B4 extends this to disk: snapshots are sanitized before every save (face-down
+card faces never reach `SNAPSHOT_DIR`) and to reconnects (`tableResync` is
+filtered per recipient). See `docs/PERSISTENCE.md`.
 
 ## Module ownership
 
@@ -70,3 +73,11 @@ Face-up data of a face-down card (`assetRef`/meta back-mapping) is filtered the 
 - State channel gains `seat`, `color`, `error`, `hand` messages.
 - Network types: `ObjectSnapshot`, `OwnershipState`, `TransformFrame`.
 - Hand-written validators in `packages/shared/src/validators.ts` (zero deps).
+
+## B4 shared contract additions
+- `TableSnapshot` (+ `PlayerSnapshot`, `ObjectSnapshotData`, `DieValueSnapshot`)
+  and `SNAPSHOT_SCHEMA_VERSION` in `packages/shared/src/snapshot.ts`; the
+  sanitizer, secret-leak guard and validator are shared by server and client.
+- State channel gains `tableResync` (`TableResyncMessage`): full object list
+  with last-known transforms, sent to every join/reconnect, per-recipient
+  secret-filtered.

@@ -29,3 +29,6 @@ assets/**
 # pre-existing unrelated root files (legacy harness calculator, not part of repo)
 /index.html
 /src/
+
+# B4: durable table snapshots (SNAPSHOT_DIR default) — never commit game state
+.chambler/

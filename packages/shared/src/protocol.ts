@@ -60,6 +60,7 @@ export type StateChannelMessage =
   | { type: 'color'; color: string }
   | { type: 'hand'; hand: HandInfo }
   | DieResultMessage
+  | TableResyncMessage
   | { type: 'error'; code: string; message: string };
 
 /**
@@ -77,6 +78,20 @@ export interface DieResultMessage {
   faces: number;
   /** Server clock (ms) at acceptance. */
   at: number;
+}
+
+/**
+ * Full-table resync (B4). Sent by the server to a client right after it joins
+ * or reconnects: the complete object list with last-known transforms, so the
+ * client can rebuild the table and reset interpolation without jumping.
+ * Objects are already sanitised per recipient (secret-hand rule).
+ */
+export interface TableResyncMessage {
+  type: 'tableResync';
+  roomCode: string;
+  objects: ObjectDef[];
+  /** Server clock (ms) at send time. */
+  serverTime: number;
 }
 
 /* ------------------------------------------------------------------ */

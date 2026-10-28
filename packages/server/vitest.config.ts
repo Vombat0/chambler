@@ -12,5 +12,6 @@ export default defineConfig({
     // (vitest's fork pool owns that channel). Worker threads have no IPC
     // channel, so the pool stays clean.
     pool: 'threads',
+    setupFiles: ['./src/testSetup.ts'],
   },
 });

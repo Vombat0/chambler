@@ -47,4 +47,37 @@ describe('TransformInterpolator', () => {
     ip.clear('a');
     expect(ip.has('a')).toBe(false);
   });
+
+  describe('B4 reset (reconnect, no jump)', () => {
+    it('reset drops one object without touching others', () => {
+      const ip = new TransformInterpolator();
+      ip.push('a', { seq: 1, t: 0, pos: { x: 1, y: 0, z: 0 }, rot: { w: 1, x: 0, y: 0, z: 0 } });
+      ip.push('b', { seq: 1, t: 0, pos: { x: 2, y: 0, z: 0 }, rot: { w: 1, x: 0, y: 0, z: 0 } });
+      ip.reset('a');
+      expect(ip.has('a')).toBe(false);
+      expect(ip.has('b')).toBe(true);
+    });
+
+    it('reset makes the next sample wait for a fresh frame instead of blending old ones', () => {
+      const ip = new TransformInterpolator({ delayMs: 0 });
+      ip.push('a', { seq: 1, t: 0, pos: { x: 0, y: 0, z: 0 }, rot: { w: 1, x: 0, y: 0, z: 0 } });
+      ip.push('a', { seq: 2, t: 100, pos: { x: 10, y: 0, z: 0 }, rot: { w: 1, x: 0, y: 0, z: 0 } });
+      ip.reset('a');
+      // No stale interpolation after a resync: sample is null until new data.
+      expect(ip.sample('a', 50)).toBeNull();
+      // The first fresh frame lands directly on the resynced pose.
+      ip.push('a', { seq: 3, t: 200, pos: { x: 42, y: 0, z: 0 }, rot: { w: 1, x: 0, y: 0, z: 0 } });
+      expect(ip.sample('a', 1000)?.position.x).toBe(42);
+    });
+
+    it('resetAll drops every object', () => {
+      const ip = new TransformInterpolator();
+      ip.push('a', { seq: 1, t: 0, pos: { x: 1, y: 0, z: 0 }, rot: { w: 1, x: 0, y: 0, z: 0 } });
+      ip.push('b', { seq: 1, t: 0, pos: { x: 2, y: 0, z: 0 }, rot: { w: 1, x: 0, y: 0, z: 0 } });
+      ip.resetAll();
+      expect(ip.has('a')).toBe(false);
+      expect(ip.has('b')).toBe(false);
+      expect(ip.sample('b', 100)).toBeNull();
+    });
+  });
 });

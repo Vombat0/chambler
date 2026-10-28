@@ -77,6 +77,21 @@ export class TransformInterpolator {
     else this.buffers.clear();
   }
 
+  /**
+   * B4: drops buffered frames for one object. Used after a tableResync —
+   * the next sample returns null until fresh frames arrive, so the object
+   * teleports to the resync transform instead of interpolating from
+   * pre-disconnect frames (no snap/jump).
+   */
+  reset(objectId: string): void {
+    this.buffers.delete(objectId);
+  }
+
+  /** B4: drops every buffered frame (see `reset`). */
+  resetAll(): void {
+    this.buffers.clear();
+  }
+
   has(id: string): boolean {
     return (this.buffers.get(id)?.length ?? 0) > 0;
   }

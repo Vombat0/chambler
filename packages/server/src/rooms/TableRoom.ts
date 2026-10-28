@@ -3,9 +3,10 @@
  */
 import { ErrorCode, Room, ServerError, logger, matchMaker } from 'colyseus';
 import type { Client } from 'colyseus';
-import type { DieResultMessage, StateChannelMessage } from '@chambler/shared';
+import type { DieResultMessage, StateChannelMessage, TableResyncMessage } from '@chambler/shared';
 import {
   MAX_RECORDS_PER_PACKET,
+  SNAPSHOT_SCHEMA_VERSION,
   TRANSFORM_BATCH_MESSAGE,
   TRANSFORM_JSON_MESSAGE,
   TRANSFORM_RATE_HZ,
@@ -15,7 +16,12 @@ import {
   decodeTransformBatch,
   encodeTransformBatch,
   isNewerSeq,
+  sanitizeObjectForSnapshot,
+  type DieValueSnapshot,
   type ObjectDef,
+  type ObjectSnapshotData,
+  type PlayerSnapshot,
+  type TableSnapshot,
   type Transform,
   type TransformChannelMessage,
   type WireTransformFrame,
@@ -23,7 +29,7 @@ import {
 import { loadConfig, type ServerConfig } from '../config.js';
 import { ChatRateLimiter, validateChatText } from '../lobby/chat.js';
 import { uniquePlayerName, validatePlayerName } from '../lobby/names.js';
-import { generateUniqueRoomCode } from '../lobby/roomCode.js';
+import { generateUniqueRoomCode, normalizeRoomCode } from '../lobby/roomCode.js';
 import {
   MAX_SEATS,
   firstFreeColor,
@@ -34,11 +40,62 @@ import {
 import { describeMessageType, readField } from '../lobby/validation.js';
 import { PlayerState, TableState, toPlayerInfo } from './TableState.js';
 import { ObjectState, ownerIdOrNull, ownerIdToSchema } from './ObjectState.js';
-import { filterHandForClient } from '../lobby/secrets.js';
+import { filterHandForClient, sanitizeObjectForClient } from '../lobby/secrets.js';
 import { BandwidthBudget } from './BandwidthBudget.js';
 import { dieFaceCount, validateDieResult, type DieResultEpoch } from './dieResult.js';
+import { getSnapshotStore, type SnapshotSaveResult } from '../persist/SnapshotStore.js';
 
 export const TABLE_ROOM_NAME = 'table';
+
+const IDENTITY_TRANSFORM: Transform = {
+  position: { x: 0, y: 0, z: 0 },
+  rotation: { w: 1, x: 0, y: 0, z: 0 },
+  scale: { x: 1, y: 1, z: 1 },
+};
+
+function finiteOr(value: unknown, fallback: number): number {
+  return typeof value === 'number' && Number.isFinite(value) ? value : fallback;
+}
+
+function isTransformShape(v: unknown): v is Transform {
+  return (
+    typeof v === 'object' &&
+    v !== null &&
+    'position' in v &&
+    'rotation' in v &&
+    'scale' in v
+  );
+}
+
+/**
+ * Clamps any client-supplied transform into a finite, persistable one.
+ * `null` yields the identity. Used for the last-known transform map and the
+ * snapshot path — the wire channel keeps its own binary codec.
+ */
+export function sanitizeTransform(input: Partial<Transform> | null | undefined): Transform {
+  if (!input) return { position: { ...IDENTITY_TRANSFORM.position }, rotation: { ...IDENTITY_TRANSFORM.rotation }, scale: { ...IDENTITY_TRANSFORM.scale } };
+  const position = input.position;
+  const rotation = input.rotation;
+  const scale = input.scale;
+  return {
+    position: {
+      x: finiteOr(position?.x, 0),
+      y: finiteOr(position?.y, 0),
+      z: finiteOr(position?.z, 0),
+    },
+    rotation: {
+      w: finiteOr(rotation?.w, 1),
+      x: finiteOr(rotation?.x, 0),
+      y: finiteOr(rotation?.y, 0),
+      z: finiteOr(rotation?.z, 0),
+    },
+    scale: {
+      x: finiteOr(scale?.x, 1),
+      y: finiteOr(scale?.y, 1),
+      z: finiteOr(scale?.z, 1),
+    },
+  };
+}
 
 export interface TableAuthData {
   name: string;
@@ -84,6 +141,12 @@ interface ObjectOwnership {
   seq: number;
   lastUpdate: number;
   lastBroadcast: number;
+  /**
+   * B4: set while the owning player's connection is gone but still inside the
+   * reconnection window (ownership "pending"). Cleared on reconnect; if the
+   * window expires the ownership is released and broadcast to everyone.
+   */
+  ownerGoneSince: number | null;
 }
 
 const INACTIVITY_RELEASE_MS = 30_000;
@@ -96,6 +159,8 @@ const TRANSFORM_INTERVAL_MS = 1000 / TRANSFORM_RATE_HZ;
 const MIN_OBJECT_INTERVAL_MS = TRANSFORM_INTERVAL_MS * 0.8;
 /** Max objects buffered between two flush ticks. */
 const MAX_PENDING_TRANSFORMS = 512;
+/** Max characters of object meta persisted/restored (mirrors the spawn limit). */
+const MAX_META_JSON = 4096;
 
 /** Room-level counters used by the bandwidth measurement script and ops. */
 export interface TableRoomMetrics {
@@ -138,20 +203,51 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
     flushTicks: 0,
   };
   private inactivityTimer: NodeJS.Timeout | null = null;
+  /* ---------------- B4: persistence + reconnection state ---------------- */
+  /** Last-known transform per object (transforms never enter the schema). */
+  private readonly lastTransforms = new Map<string, Transform>();
+  /** Seat/colour remembered per player name (B4 restore + returning players). */
+  private readonly rememberedSeats = new Map<string, { seat: number; color: string }>();
+  private saveTimer: NodeJS.Timeout | null = null;
+  private scheduledSaveAt = 0;
+  private lastSaveAt = 0;
+  private dirty = false;
+  private everHadPlayers = false;
+  private restoredFrom: TableSnapshot | null = null;
 
-  override async onCreate(): Promise<void> {
+  override async onCreate(options?: unknown): Promise<void> {
     this.config = defaultServerConfig ?? loadConfig();
     this.maxClients = this.config.maxPlayers;
     this.autoDispose = true;
+    this.lastSaveAt = this.startedAt;
 
-    const code = await this.claimRoomCode();
+    const restoreCode = normalizeRoomCode(readField(options, 'restoreCode'));
+    let code: string;
+    let restored: TableSnapshot | null = null;
+    if (restoreCode && !(await this.isRoomCodeLive(restoreCode))) {
+      const load = getSnapshotStore().load(restoreCode);
+      if (load.status === 'ok') {
+        restored = load.snapshot;
+        code = restoreCode;
+        codesInCreation.add(code);
+        logger.info(`[table:${code}] reopening from snapshot (saved ${new Date(load.snapshot.savedAt).toISOString()})`);
+      } else {
+        code = await this.claimRoomCode();
+      }
+    } else {
+      code = await this.claimRoomCode();
+    }
+
     try {
       this.roomId = code;
       const state = new TableState();
       state.code = code;
       state.maxPlayers = this.maxClients;
-      state.createdAt = Date.now();
+      state.createdAt = restored ? restored.createdAt : Date.now();
       this.setState(state);
+      if (restored) {
+        this.restoreFromSnapshot(restored);
+      }
     } catch (error) {
       codesInCreation.delete(code);
       throw error;
@@ -166,7 +262,66 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
     this.registerMessageHandlers();
     this.flushTimer = setInterval(() => this.flushTransforms(), this.config.transformFlushMs);
     this.inactivityTimer = setInterval(() => this.sweepInactivity(), 5000);
-    logger.info(`[table:${code}] created (max ${this.maxClients} players)`);
+    logger.info(`[table:${code}] created (max ${this.maxClients} players${restored ? ', restored' : ''})`);
+  }
+
+  /** True when a live room already uses `code` (restore collision check). */
+  private async isRoomCodeLive(code: string): Promise<boolean> {
+    try {
+      for (const room of await matchMaker.query({ name: TABLE_ROOM_NAME })) {
+        if (room.roomId === code) return true;
+      }
+    } catch {
+      // ignore
+    }
+    return codesInCreation.has(code);
+  }
+
+  /** Rebuilds objects, die results and remembered seats from a snapshot. */
+  private restoreFromSnapshot(snapshot: TableSnapshot): void {
+    for (const object of snapshot.objects) {
+      if (this.state.objects.has(object.id)) continue;
+      let metaJson = '{}';
+      try {
+        metaJson = JSON.stringify(object.meta ?? {});
+      } catch {
+        metaJson = '{}';
+      }
+      if (metaJson.length > MAX_META_JSON) {
+        logger.warn(`[table:${this.roomId}] object ${object.id} meta too large, dropped on restore`);
+        metaJson = '{}';
+      }
+      const os = new ObjectState();
+      os.id = object.id;
+      os.kind = object.kind;
+      // After a restart nobody is connected: every object starts free.
+      os.ownerId = ownerIdToSchema(null);
+      os.locked = object.locked;
+      os.faceUp = object.faceUp;
+      os.metaJson = metaJson;
+      os.assetRef = object.assetRef;
+      os.netIndex = this.idTable.indexOf(object.id);
+      const die = snapshot.dieValues[object.id];
+      if (die && die.value > 0) {
+        os.dieValue = die.value;
+        os.dieRolledBy = die.rolledBy;
+        os.dieRolledAt = die.rolledAt;
+      }
+      this.state.objects.set(object.id, os);
+      this.ownership.set(object.id, {
+        ownerId: null,
+        claimToken: null,
+        seq: 0,
+        lastUpdate: Date.now(),
+        lastBroadcast: 0,
+        ownerGoneSince: null,
+      });
+      this.lastTransforms.set(object.id, sanitizeTransform(object.transform));
+    }
+    for (const player of snapshot.players) {
+      this.rememberedSeats.set(player.name, { seat: player.seat, color: player.color });
+    }
+    this.restoredFrom = snapshot;
   }
 
   private async claimRoomCode(): Promise<string> {
@@ -196,8 +351,17 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
 
   override onJoin(client: Client, _options?: unknown, auth?: TableAuthData): void {
     const players = [...this.state.players.values()];
-    const seat = firstFreeSeat(players.map((player) => player.seat), this.maxClients);
-    const color = firstFreeColor(players.map((player) => player.color));
+    const name = auth?.name ?? uniquePlayerName('Player', players.map((entry) => entry.name));
+    let seat = firstFreeSeat(players.map((player) => player.seat), this.maxClients);
+    let color = firstFreeColor(players.map((player) => player.color));
+    // B4: a player returning to a restored table finds their old seat/colour.
+    const remembered = this.rememberedSeats.get(name);
+    if (remembered) {
+      const seatFree = seat !== null && !players.some((p) => p.seat === remembered.seat);
+      const colorFree = color !== null && !players.some((p) => p.color === remembered.color);
+      if (remembered.seat >= 0 && remembered.seat < this.maxClients && seatFree) seat = remembered.seat;
+      if (colorFree) color = remembered.color as typeof color;
+    }
     if (seat === null || color === null) {
       throw new ServerError(ErrorCode.APPLICATION_ERROR, 'ROOM_FULL: no seat or colour left.');
     }
@@ -205,7 +369,7 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
     const isFirstPlayer = this.state.players.size === 0;
     const player = new PlayerState();
     player.id = client.sessionId;
-    player.name = auth?.name ?? uniquePlayerName('Player', players.map((entry) => entry.name));
+    player.name = name;
     player.color = color;
     player.seat = seat;
     player.isHost = isFirstPlayer;
@@ -219,9 +383,15 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
     }
 
     this.budget.setPlayers(this.maxClients);
+    this.everHadPlayers = true;
+    this.rememberSeat(player.name, player.seat, player.color);
 
     this.broadcast('join', { type: 'join', player: toPlayerInfo(player) } satisfies StateChannelMessage, { except: client });
     this.replayDieResults(client);
+    // B4: full state for fresh joins and reconnects — object list with
+    // last-known transforms, so the client can reset interpolation cleanly.
+    this.sendTableResync(client);
+    this.markDirty();
     logger.info(`[table:${this.roomId}] ${player.name} joined (seat ${player.seat})`);
   }
 
@@ -235,6 +405,8 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
     if (!consented && this.config.reconnectionSeconds > 0 && this.hasOtherPlayers(client.sessionId)) {
       player.connected = false;
       const oldId = client.sessionId;
+      // B4: ownership goes "pending" while the reconnection window is open.
+      this.markOwnershipGone(oldId);
       try {
         const reconnected = await this.allowReconnection(client, this.config.reconnectionSeconds);
         const current = this.state.players.get(oldId);
@@ -250,13 +422,18 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
           }
           current.connected = true;
         }
+        // Back within the window: the player keeps everything they owned.
+        this.clearOwnershipGone(reconnected.sessionId);
+        this.markDirty();
         return;
       } catch {
-        // fall through
+        // Window expired: fall through and release the pending ownership.
       }
     }
 
+    this.releaseOwnershipOf(client.sessionId);
     this.removePlayer(client.sessionId);
+    this.markDirty();
   }
 
   override onDispose(): void {
@@ -269,8 +446,16 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
       clearInterval(this.inactivityTimer);
       this.inactivityTimer = null;
     }
+    if (this.saveTimer) {
+      clearTimeout(this.saveTimer);
+      this.saveTimer = null;
+    }
     codesInCreation.delete(this.state.code);
     this.chatLimiter.clear();
+    // B4: forced save — the table survives the room (and the process).
+    if (this.state.objects.size > 0 || this.everHadPlayers) {
+      this.persistNow();
+    }
     logger.info(`[table:${this.roomId}] disposed`);
   }
 
@@ -333,6 +518,8 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
       }
     }
     player.seat = seat as number;
+    this.rememberSeat(player.name, player.seat, player.color);
+    this.markDirty();
   }
 
   private handleColorChange(client: Client, payload: unknown): void {
@@ -350,6 +537,8 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
       }
     }
     player.color = color;
+    this.rememberSeat(player.name, player.seat, player.color);
+    this.markDirty();
   }
 
   // ---------- object handlers ----------
@@ -358,25 +547,24 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
     return this.state.hostId === client.sessionId;
   }
 
-  private getObjectDefFromState(id: string): ObjectDef | null {
-    const s = this.state.objects.get(id);
-    if (!s) return null;
+  /** Full ObjectDef view of an ObjectState, with the last-known transform. */
+  private objectDefFromState(os: ObjectState): ObjectDef {
     let meta: Record<string, unknown> = {};
     try {
-      meta = JSON.parse(s.metaJson || '{}');
+      meta = JSON.parse(os.metaJson || '{}');
     } catch {
       meta = {};
     }
     return {
-      id: s.id,
-      kind: s.kind as ObjectDef['kind'],
-      assetRef: s.assetRef,
-      transform: { position: { x: 0, y: 0, z: 0 }, rotation: { w: 1, x: 0, y: 0, z: 0 }, scale: { x: 1, y: 1, z: 1 } },
-      ownerId: ownerIdOrNull(s.ownerId),
-      locked: s.locked,
-      faceUp: s.faceUp,
+      id: os.id,
+      kind: os.kind as ObjectDef['kind'],
+      assetRef: os.assetRef,
+      transform: this.lastTransforms.get(os.id) ?? sanitizeTransform(null),
+      ownerId: ownerIdOrNull(os.ownerId),
+      locked: os.locked,
+      faceUp: os.faceUp,
       meta,
-      netIndex: s.netIndex,
+      netIndex: os.netIndex,
     };
   }
 
@@ -412,12 +600,15 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
     os.netIndex = this.idTable.indexOf(obj.id);
     this.state.objects.set(obj.id, os);
 
+    this.lastTransforms.set(obj.id, sanitizeTransform(obj.transform));
+
     this.ownership.set(obj.id, {
       ownerId,
       claimToken: null,
       seq: 0,
       lastUpdate: Date.now(),
       lastBroadcast: 0,
+      ownerGoneSince: null,
     });
 
     const def: ObjectDef = {
@@ -435,6 +626,7 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
     };
 
     this.broadcast('objectSpawn', { type: 'objectSpawn', object: def } satisfies StateChannelMessage);
+    this.markDirty();
     logger.info(`[table:${this.roomId}] object ${obj.id} spawned by ${client.sessionId}`);
   }
 
@@ -455,9 +647,11 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
     this.state.objects.delete(objectId);
     this.ownership.delete(objectId);
     this.pendingTransforms.delete(objectId);
+    this.lastTransforms.delete(objectId);
     this.idTable.delete(objectId);
     this.dieEpochs.delete(objectId);
     this.broadcast('objectRemove', { type: 'objectRemove', objectId } satisfies StateChannelMessage);
+    this.markDirty();
   }
 
   private handleObjectClaim(client: Client, payload: unknown): void {
@@ -488,6 +682,7 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
       playerId: client.sessionId,
       claimToken,
     } satisfies StateChannelMessage);
+    this.markDirty();
   }
 
   private handleObjectRelease(client: Client, payload: unknown): void {
@@ -515,6 +710,7 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
       objectId,
       playerId: client.sessionId,
     } satisfies StateChannelMessage);
+    this.markDirty();
   }
 
   private handleObjectLock(client: Client, payload: unknown): void {
@@ -539,6 +735,7 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
       playerId: readField(payload, 'playerId') !== undefined ? (readField(payload, 'playerId') as string | null) : client.sessionId,
       locked,
     } satisfies StateChannelMessage);
+    this.markDirty();
   }
 
   private handleFlip(client: Client, payload: unknown): void {
@@ -560,6 +757,7 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
     const os = this.state.objects.get(objectId)!;
     os.faceUp = faceUp;
     this.broadcast('flip', { type: 'flip', objectId, faceUp } satisfies StateChannelMessage);
+    this.markDirty();
   }
 
   private handleDeckShuffle(client: Client, payload: unknown): void {
@@ -576,6 +774,7 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
       return;
     }
     this.broadcast('deckShuffle', { type: 'deckShuffle', deckId } satisfies StateChannelMessage);
+    this.markDirty();
   }
 
   /**
@@ -637,6 +836,7 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
       own.lastUpdate = now;
       own.seq = frame.seq;
       this.objectLastSeq.set(id, frame.seq);
+      this.rememberTransform(id, frame.position, frame.rotation);
       this.pendingTransforms.delete(id); // newer data supersedes the queued frame
       this.pendingTransforms.set(id, frame);
       if (this.pendingTransforms.size > MAX_PENDING_TRANSFORMS) {
@@ -648,6 +848,7 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
       }
       this.metrics.transformFramesAccepted += 1;
     }
+    this.markDirty();
   }
 
   /**
@@ -727,6 +928,10 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
       seq,
       t: typeof readField(payload, 't') === 'number' ? (readField(payload, 't') as number) : now,
     };
+    const transform = msg.transform;
+    if (transform && isTransformShape(transform)) {
+      this.rememberTransform(id, transform.position, transform.rotation);
+    }
     let size = 0;
     try {
       size = Buffer.byteLength(JSON.stringify(msg), 'utf8');
@@ -745,6 +950,7 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
     this.metrics.legacyJsonFrames += 1;
     this.metrics.transformFramesAccepted += 1;
     this.metrics.transformBytesSent += size * recipients;
+    this.markDirty();
 
     this.broadcast(TRANSFORM_JSON_MESSAGE, msg, { except: client });
   }
@@ -831,6 +1037,7 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
       at,
     };
     this.broadcast('dieResult', message satisfies StateChannelMessage);
+    this.markDirty();
     logger.info(`[table:${this.roomId}] die ${objectId} -> ${verdict.value} (d${verdict.faces}) by ${player.name}`);
   }
 
@@ -865,6 +1072,158 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
       players: this.clients.length,
       objects: this.state.objects.size,
     };
+  }
+
+  // ---------- B4: persistence ----------
+
+  /**
+   * Debounced autosave trigger (classic debounce + max interval).
+   *
+   * The save runs `snapshotDebounceMs` after the last change — unless changes
+   * keep arriving, in which case it fires at the latest `snapshotMaxIntervalMs`
+   * after the previous save, so a continuously moving object (20 Hz dirty
+   * marks) still produces at most one write per interval and never starves.
+   */
+  private markDirty(): void {
+    this.dirty = true;
+    const now = Date.now();
+    const desired = Math.min(
+      now + this.config.snapshotDebounceMs,
+      this.lastSaveAt + this.config.snapshotMaxIntervalMs,
+    );
+    if (this.saveTimer) clearTimeout(this.saveTimer);
+    this.scheduledSaveAt = desired;
+    this.saveTimer = setTimeout(() => {
+      this.saveTimer = null;
+      this.persistNow();
+    }, Math.max(0, desired - now));
+  }
+
+  /**
+   * Writes the table to disk immediately (host request, debounce fire or
+   * room disposal). Synchronous on purpose: `onDispose` must not race the
+   * process shutdown. Returns the store result for the HTTP endpoint.
+   */
+  persistNow(): SnapshotSaveResult {
+    if (this.saveTimer) {
+      clearTimeout(this.saveTimer);
+      this.saveTimer = null;
+    }
+    this.dirty = false;
+    this.lastSaveAt = Date.now();
+    const result = getSnapshotStore().save(this.buildSnapshot());
+    if (!result.ok) {
+      logger.warn(`[table:${this.roomId}] save rejected: ${result.code}: ${result.message}`);
+    }
+    return result;
+  }
+
+  /** True when a change is still waiting for its debounced save. */
+  isDirty(): boolean {
+    return this.dirty;
+  }
+
+  /** Remembers a name -> seat/colour mapping (bounded, insertion order). */
+  private rememberSeat(name: string, seat: number, color: string): void {
+    this.rememberedSeats.delete(name);
+    this.rememberedSeats.set(name, { seat, color });
+    if (this.rememberedSeats.size > 64) {
+      const oldest = this.rememberedSeats.keys().next();
+      if (!oldest.done) this.rememberedSeats.delete(oldest.value);
+    }
+  }
+
+  /** Builds the durable state of this table (sanitised — no card faces). */
+  buildSnapshot(): TableSnapshot {
+    const objects: ObjectSnapshotData[] = [];
+    const dieValues: Record<string, DieValueSnapshot> = {};
+    for (const os of this.state.objects.values()) {
+      objects.push(sanitizeObjectForSnapshot(this.objectDefFromState(os)));
+      if (os.dieValue > 0) {
+        dieValues[os.id] = {
+          value: os.dieValue,
+          rolledBy: os.dieRolledBy,
+          rolledAt: Number(os.dieRolledAt),
+        };
+      }
+    }
+    // Players are remembered by name (live state + departed players whose
+    // seat a returning player should find again).
+    const liveByName = new Map<string, PlayerState>();
+    for (const player of this.state.players.values()) liveByName.set(player.name, player);
+    const players: PlayerSnapshot[] = [...this.rememberedSeats.entries()].map(([name, seat]) => ({
+      name,
+      color: seat.color,
+      seat: seat.seat,
+      isHost: liveByName.get(name)?.isHost ?? false,
+    }));
+    return {
+      schemaVersion: SNAPSHOT_SCHEMA_VERSION,
+      roomCode: this.state.code,
+      createdAt: Number(this.state.createdAt),
+      savedAt: Date.now(),
+      objects,
+      players,
+      dieValues,
+    };
+  }
+
+  /** Full state for a fresh join or reconnect (secret-hand filtered). */
+  private sendTableResync(client: Client): void {
+    const objects: ObjectDef[] = [];
+    for (const os of this.state.objects.values()) {
+      objects.push(sanitizeObjectForClient(this.objectDefFromState(os), client.sessionId));
+    }
+    client.send('tableResync', {
+      type: 'tableResync',
+      roomCode: this.state.code,
+      objects,
+      serverTime: Date.now(),
+    } satisfies TableResyncMessage);
+  }
+
+  /** Merges an accepted transform frame into the last-known transform. */
+  private rememberTransform(id: string, position: unknown, rotation: unknown): void {
+    const current = this.lastTransforms.get(id) ?? sanitizeTransform(null);
+    this.lastTransforms.set(id, sanitizeTransform({ ...current, position, rotation } as Partial<Transform>));
+  }
+
+  // ---------- B4: pending ownership across reconnection ----------
+
+  /** Marks every object owned by `playerId` as pending (owner gone). */
+  private markOwnershipGone(playerId: string): void {
+    const now = Date.now();
+    for (const own of this.ownership.values()) {
+      if (own.ownerId === playerId) own.ownerGoneSince = now;
+    }
+  }
+
+  /** Clears the pending flag after a successful reconnect. */
+  private clearOwnershipGone(playerId: string): void {
+    for (const own of this.ownership.values()) {
+      if (own.ownerId === playerId) own.ownerGoneSince = null;
+    }
+  }
+
+  /**
+   * Releases every object owned by `playerId` (reconnection window expired or
+   * consented leave) and broadcasts the release to everyone.
+   */
+  private releaseOwnershipOf(playerId: string): void {
+    for (const [objectId, own] of this.ownership.entries()) {
+      if (own.ownerId !== playerId) continue;
+      own.ownerId = null;
+      own.claimToken = null;
+      own.ownerGoneSince = null;
+      const os = this.state.objects.get(objectId);
+      if (os) os.ownerId = ownerIdToSchema(null);
+      this.broadcast('objectRelease', {
+        type: 'objectRelease',
+        objectId,
+        playerId,
+      } satisfies StateChannelMessage);
+      logger.info(`[table:${this.roomId}] released ${objectId} (owner ${playerId} gone)`);
+    }
   }
 
   // ---------- helpers ----------

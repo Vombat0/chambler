@@ -9,7 +9,8 @@
     "build": "tsc -p tsconfig.json",
     "test": "vitest run",
     "test:watch": "vitest watch",
-    "bandwidth": "tsx scripts/bandwidth.ts"
+    "bandwidth": "tsx scripts/bandwidth.ts",
+    "e2e:persistence": "tsx scripts/e2e-persistence.ts"
   },
   "dependencies": {
     "@chambler/shared": "workspace:*",

@@ -8,10 +8,12 @@ import http from 'node:http';
 import express, { type RequestHandler } from 'express';
 import { Server, matchMaker } from 'colyseus';
 import { WebSocketTransport, type TransportOptions } from '@colyseus/ws-transport';
+import { SNAPSHOT_VERSION_UNSUPPORTED } from '@chambler/shared';
 import { isOriginAllowed, loadConfig, type ServerConfig } from './config.js';
 import { normalizeRoomCode } from './lobby/roomCode.js';
 import { TABLE_ROOM_NAME, TableRoom, configureTableRoom } from './rooms/TableRoom.js';
 import { toPlayerInfo } from './rooms/TableState.js';
+import { SnapshotStore, configureSnapshotStore, getSnapshotStore } from './persist/SnapshotStore.js';
 
 export interface ChamblerServer {
   readonly config: ServerConfig;
@@ -58,10 +60,18 @@ function verifyClient(
 export function createChamblerServer(overrides: Partial<ServerConfig> = {}): ChamblerServer {
   const config: ServerConfig = { ...loadConfig(), ...overrides };
   configureTableRoom(config);
+  configureSnapshotStore(
+    new SnapshotStore({
+      dir: config.snapshotDir,
+      maxSaves: config.maxSaves,
+      maxBytes: config.snapshotMaxBytes,
+    }),
+  );
 
   const app = express();
   app.disable('x-powered-by');
   app.use(corsMiddleware(config.corsOrigins));
+  app.use(express.json({ limit: '1mb' }));
 
   // Kept from A1: liveness probe for deploys and the smoke test.
   app.get('/health', (_req, res) => {
@@ -97,6 +107,144 @@ export function createChamblerServer(overrides: Partial<ServerConfig> = {}): Cha
       maxPlayers: room.state.maxPlayers,
       players: [...room.state.players.values()].map(toPlayerInfo),
     });
+  });
+
+  // ----------------------- B4: persistence API -----------------------
+
+  /**
+   * Saves a live room now. Host only: the caller proves it by passing its
+   * `sessionId` (query parameter or JSON body); it must match the room host.
+   */
+  app.post('/api/rooms/:code/save', (req, res) => {
+    const code = normalizeRoomCode(req.params.code);
+    if (code === null) {
+      res.status(400).json({
+        error: 'ROOM_CODE_INVALID',
+        message: 'Room codes are 5 characters from A-Z (except I, L, O) and 2-9.',
+      });
+      return;
+    }
+    const room = matchMaker.getLocalRoomById(code) as TableRoom | undefined;
+    if (!room || !room.state) {
+      res.status(404).json({ error: 'ROOM_NOT_FOUND', message: `No live room with code ${code}.` });
+      return;
+    }
+    const body = (req.body ?? {}) as { sessionId?: unknown };
+    const sessionId = typeof req.query.sessionId === 'string' ? req.query.sessionId : body.sessionId;
+    if (typeof sessionId !== 'string' || sessionId !== room.state.hostId) {
+      res.status(403).json({ error: 'NOT_HOST', message: 'Only the host can force a save.' });
+      return;
+    }
+    const result = room.persistNow();
+    if (!result.ok) {
+      res.status(result.code === 'TOO_LARGE' ? 413 : 400).json({
+        error: result.code,
+        message: result.message,
+      });
+      return;
+    }
+    res.status(200).json({
+      code,
+      savedAt: result.savedAt,
+      bytes: result.bytes,
+      objects: room.state.objects.size,
+      players: [...room.state.players.values()].map(toPlayerInfo),
+    });
+  });
+
+  /**
+   * Returns the room's snapshot. A live room answers with its current state;
+   * otherwise the durable save on disk is returned (a restarted table).
+   */
+  app.get('/api/rooms/:code/save', (req, res) => {
+    const code = normalizeRoomCode(req.params.code);
+    if (code === null) {
+      res.status(400).json({
+        error: 'ROOM_CODE_INVALID',
+        message: 'Room codes are 5 characters from A-Z (except I, L, O) and 2-9.',
+      });
+      return;
+    }
+    const room = matchMaker.getLocalRoomById(code) as TableRoom | undefined;
+    if (room && room.state) {
+      res.status(200).json(room.buildSnapshot());
+      return;
+    }
+    const load = getSnapshotStore().load(code);
+    if (load.status === 'ok') {
+      res.status(200).json(load.snapshot);
+      return;
+    }
+    if (load.status === 'unsupported') {
+      res.status(400).json({
+        error: SNAPSHOT_VERSION_UNSUPPORTED,
+        message: `Save for ${code} uses schema version ${load.foundVersion}; this server understands a different one.`,
+      });
+      return;
+    }
+    res.status(404).json({
+      error: 'SNAPSHOT_NOT_FOUND',
+      message: load.status === 'corrupt' ? `Save for ${code} was corrupt and has been quarantined.` : `No save for code ${code}.`,
+    });
+  });
+
+  /** Lists saved tables, newest first. */
+  app.get('/api/saves', (_req, res) => {
+    res.status(200).json({ saves: getSnapshotStore().list() });
+  });
+
+  /**
+   * Reopens a saved table by code: creates a live room restored from the
+   * snapshot. 409 when the room is already live (just join it), 404 when no
+   * save exists, 400 when the save's schema version is not supported.
+   */
+  app.post('/api/rooms/:code/reopen', async (req, res) => {
+    const code = normalizeRoomCode(req.params.code);
+    if (code === null) {
+      res.status(400).json({
+        error: 'ROOM_CODE_INVALID',
+        message: 'Room codes are 5 characters from A-Z (except I, L, O) and 2-9.',
+      });
+      return;
+    }
+    if (matchMaker.getLocalRoomById(code)) {
+      res.status(409).json({
+        error: 'ROOM_ALREADY_LIVE',
+        message: `Room ${code} is live; join it instead of reopening it.`,
+      });
+      return;
+    }
+    const load = getSnapshotStore().load(code);
+    if (load.status === 'missing' || load.status === 'corrupt') {
+      res.status(404).json({
+        error: 'SNAPSHOT_NOT_FOUND',
+        message: load.status === 'corrupt' ? `Save for ${code} was corrupt and has been quarantined.` : `No save for code ${code}.`,
+      });
+      return;
+    }
+    if (load.status === 'unsupported') {
+      res.status(400).json({
+        error: SNAPSHOT_VERSION_UNSUPPORTED,
+        message: `Save for ${code} uses schema version ${load.foundVersion}; this server understands a different one.`,
+      });
+      return;
+    }
+    try {
+      const cache = await matchMaker.createRoom(TABLE_ROOM_NAME, { restoreCode: code });
+      res.status(200).json({
+        code,
+        roomId: cache.roomId,
+        restored: true,
+        createdAt: load.snapshot.createdAt,
+        objects: load.snapshot.objects.length,
+        players: load.snapshot.players.length,
+      });
+    } catch (error) {
+      res.status(500).json({
+        error: 'REOPEN_FAILED',
+        message: `Could not reopen ${code}: ${String(error)}`,
+      });
+    }
   });
 
   const httpServer = http.createServer(app);

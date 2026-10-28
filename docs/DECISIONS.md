@@ -55,3 +55,15 @@ When a provider hits a quota limit, its pending work is reassigned to
 eligible models on other providers (respecting D7) instead of waiting for
 recovery. Outages and cooldowns are recorded in
 `.orchestrator/performance/credits.json`.
+
+## D9 — Server-wins reconciliation, secrets never at rest (2026-10-29)
+
+Table persistence (B4) stores one JSON snapshot per room code with atomic
+writes (tmp → fsync → rename) and quarantines corrupt files instead of
+deleting them; unsupported schema versions are left for future servers.
+Face-down card faces are never written to disk — the sanitizer strips
+identity and face-mapping keys before every save and a leak guard fails the
+save. On reconnect the server is authoritative: the client applies
+`tableResync` (rebuild + interpolation reset, no jump) and replays its
+offline intent queue only where it does not conflict with the resynced
+table (dropped object, re-owned object, duplicate spawn → dropped).
