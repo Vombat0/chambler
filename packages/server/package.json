@@ -1,22 +1,29 @@
 {
   "name": "@chambler/server",
   "version": "0.1.0",
-  "description": "Colyseus sunucu; su an yalnizca /health (oda agirliklari B1).",
+  "description": "Colyseus sunucu: masa odalari, oda kodlari, koltuklar ve sohbet (B1).",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "tsx watch --ignore ../../node_modules --ignore ./node_modules src/index.ts",
-    "build": "tsc -p tsconfig.json"
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "test:watch": "vitest watch"
   },
   "dependencies": {
     "@chambler/shared": "workspace:*",
+    "@colyseus/schema": "^3.0.76",
+    "@colyseus/ws-transport": "^0.16.5",
     "colyseus": "^0.16.1",
     "express": "^5.3.0"
   },
   "devDependencies": {
+    "@colyseus/testing": "^0.16.3",
     "@types/express": "^5.0.6",
     "@types/node": "^20.19.43",
+    "colyseus.js": "^0.16.22",
     "tsx": "^4.0.0",
-    "typescript": "~5.9.3"
+    "typescript": "~5.9.3",
+    "vitest": "^3.2.7"
   }
 }

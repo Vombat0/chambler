@@ -4,7 +4,10 @@
     "rootDir": "src",
     "outDir": "dist",
     "sourceMap": true,
-    "types": ["node"]
+    "types": ["node"],
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["src/**/*.test.ts", "src/**/__tests__/**"]
 }

@@ -1,19 +1,27 @@
-import http from 'node:http';
-import express from 'express';
-import { Server } from 'colyseus';
+/** Entry point: builds the server from environment variables and binds the port. */
+import { createChamblerServer } from './app.js';
 
-const PORT = Number(process.env.PORT ?? 3001);
+const server = createChamblerServer();
+const port = await server.start();
 
-const app = express();
+console.log(`[chambler-server] listening on :${port} (ws + /health)`);
+console.log(`[chambler-server] cors origins: ${server.config.corsOrigins.join(', ')}`);
 
-app.get('/health', (_req, res) => {
-  res.status(200).json({ status: 'ok', service: 'chambler-server' });
-});
+let shuttingDown = false;
+async function shutdown(signal: string): Promise<void> {
+  if (shuttingDown) {
+    return;
+  }
+  shuttingDown = true;
+  console.log(`[chambler-server] ${signal} received, shutting down`);
+  try {
+    await server.stop();
+    process.exit(0);
+  } catch (error) {
+    console.error('[chambler-server] shutdown failed', error);
+    process.exit(1);
+  }
+}
 
-// Oda mantigi YOK (B1 gorevine ait). Sunucu su an sadece yukarida duruyor.
-const httpServer = http.createServer(app);
-const gameServer = new Server({ server: httpServer });
-
-void gameServer.listen(PORT).then(() => {
-  console.log(`[chambler-server] listening on :${PORT} (ws + /health)`);
-});
+process.on('SIGINT', () => void shutdown('SIGINT'));
+process.on('SIGTERM', () => void shutdown('SIGTERM'));
