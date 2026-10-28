@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, expect, it, vi } from 'vitest';
+import { decodeTransformBatch, encodeTransformBatch } from '@chambler/shared';
 import { ObjectEventEmitter } from '../object/ObjectEvents.js';
 import { NetBridge } from './NetBridge.js';
 import type { ObjectManager } from '../object/ObjectManager.js';
@@ -63,14 +64,84 @@ describe('NetBridge', () => {
     expect(sent.length).toBe(0);
   });
 
-  it('sends transformUpdate from local emitter', () => {
+  it('sends a binary transformBatch from the local emitter', async () => {
     const { om, emitter } = makeObjectManager();
     const { nc, sent } = makeNetClient();
     const bridge = new NetBridge({ localPlayerId: 'local', objectManager: om, networkClient: nc });
     bridge.wireLocal();
     const t = { position: { x: 1, y: 0, z: 0 }, rotation: { w: 1, x: 0, y: 0, z: 0 }, scale: { x: 1, y: 1, z: 1 } };
     emitter.emitTransformUpdate('o1', t as any, undefined, 0);
-    expect(sent.some((s) => s.type === 'transformUpdate')).toBe(true);
+    await new Promise((resolve) => setTimeout(resolve, 5)); // coalesced flush
+    const batch = sent.find((s) => s.type === 'transformBatch');
+    expect(batch).toBeTruthy();
+    expect(batch!.payload).toBeInstanceOf(Uint8Array);
+    const frame = decodeTransformBatch(batch!.payload as Uint8Array).frames[0]!;
+    expect(frame.position.x).toBeCloseTo(1, 4);
+    expect(bridge.sender.idTable.idOf(frame.index)).toBe('o1');
+  });
+
+  it('does not send a still object twice', async () => {
+    const { om, emitter } = makeObjectManager();
+    const { nc, sent } = makeNetClient();
+    const bridge = new NetBridge({ localPlayerId: 'local', objectManager: om, networkClient: nc });
+    bridge.wireLocal();
+    const t = { position: { x: 1, y: 0, z: 0 }, rotation: { w: 1, x: 0, y: 0, z: 0 }, scale: { x: 1, y: 1, z: 1 } };
+    emitter.emitTransformUpdate('o1', t as any, undefined, 0);
+    await new Promise((resolve) => setTimeout(resolve, 5));
+    const first = sent.filter((s) => s.type === 'transformBatch').length;
+    emitter.resetThrottle();
+    emitter.emitTransformUpdate('o1', t as any, undefined, 0);
+    await new Promise((resolve) => setTimeout(resolve, 5));
+    expect(sent.filter((s) => s.type === 'transformBatch').length).toBe(first);
+    expect(bridge.sender.stats.framesSuppressed).toBe(1);
+  });
+
+  it('decodes a remote transformBatch into the interpolator', () => {
+    const { om } = makeObjectManager();
+    const roomHandlers: Record<string, (m: any) => void> = {};
+    const room: any = { send: () => {}, onMessage: (t: string, cb: any) => { roomHandlers[t] = cb; } };
+    const nc: any = { getRoom: () => room, getStatus: () => 'connected', onStatus: (cb: any) => { cb('connected', 0); return () => {}; } };
+    const bridge = new NetBridge({ localPlayerId: 'local', objectManager: om, networkClient: nc });
+    bridge.wireRemote();
+    // spawn arrives over the wire and carries the server-assigned netIndex
+    roomHandlers['objectSpawn']?.({ object: { id: 'r9', kind: 'pawn', assetRef: '', transform: { position: { x: 0, y: 0, z: 0 }, rotation: { w: 1, x: 0, y: 0, z: 0 }, scale: { x: 1, y: 1, z: 1 } }, ownerId: 'remote', locked: false, faceUp: true, meta: {}, netIndex: 12 } });
+    const packet = encodeTransformBatch([
+      { index: 12, position: { x: 4, y: 1, z: 0 }, rotation: { w: 1, x: 0, y: 0, z: 0 }, velocity: { x: 0, y: 0, z: 0 }, seq: 3, t: Date.now() },
+    ]);
+    roomHandlers['transformBatch']?.(packet);
+    expect(bridge.interpolator.has('r9')).toBe(true);
+    const sampled = bridge.interpolator.sample('r9', Date.now() + 1000);
+    expect(sampled!.position.x).toBeCloseTo(4, 4);
+  });
+
+  it('ignores a batch for an unknown index', () => {
+    const { om } = makeObjectManager();
+    const roomHandlers: Record<string, (m: any) => void> = {};
+    const room: any = { send: () => {}, onMessage: (t: string, cb: any) => { roomHandlers[t] = cb; } };
+    const nc: any = { getRoom: () => room, getStatus: () => 'connected', onStatus: (cb: any) => { cb('connected', 0); return () => {}; } };
+    const bridge = new NetBridge({ localPlayerId: 'local', objectManager: om, networkClient: nc });
+    bridge.wireRemote();
+    const packet = encodeTransformBatch([
+      { index: 999, position: { x: 4, y: 1, z: 0 }, rotation: { w: 1, x: 0, y: 0, z: 0 }, velocity: { x: 0, y: 0, z: 0 }, seq: 1, t: Date.now() },
+    ]);
+    expect(() => roomHandlers['transformBatch']?.(packet)).not.toThrow();
+    expect(bridge.interpolator.has('unknown')).toBe(false);
+  });
+
+  it('sends a local dieResult and applies a remote one', () => {
+    const { om, emitter } = makeObjectManager();
+    const roomHandlers: Record<string, (m: any) => void> = {};
+    const { nc, sent } = makeNetClient();
+    (nc.getRoom() as any).onMessage = (t: string, cb: any) => { roomHandlers[t] = cb; };
+    om.spawn({ id: 'die', kind: 'die', assetRef: '', transform: { position: { x: 0, y: 0, z: 0 }, rotation: { w: 1, x: 0, y: 0, z: 0 }, scale: { x: 1, y: 1, z: 1 } }, ownerId: 'local', locked: false, faceUp: true, meta: { faces: 6 } });
+    const bridge = new NetBridge({ localPlayerId: 'local', objectManager: om, networkClient: nc });
+    bridge.wireLocal();
+    bridge.wireRemote();
+    emitter.emit('dieResult', { id: 'die', value: 5 });
+    expect(sent.find((s) => s.type === 'dieResult')?.payload).toEqual({ objectId: 'die', value: 5 });
+
+    roomHandlers['dieResult']?.({ objectId: 'die', value: 2, faces: 6 });
+    expect((om.get('die')!.def.meta as any).dieValue).toBe(2);
   });
 
   it('sends flip from local', () => {

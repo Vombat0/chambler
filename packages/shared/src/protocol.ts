@@ -6,6 +6,40 @@ import type { HandInfo, ObjectDef, ObjectSnapshot, OwnershipState, PlayerInfo, T
  */
 export const TRANSFORM_RATE_HZ = 20;
 
+/** Message name of the binary transform batch (see `transformCodec.ts`). */
+export const TRANSFORM_BATCH_MESSAGE = 'transformBatch';
+
+/** Message name of the legacy JSON transform frame (deprecated, B2 compatible). */
+export const TRANSFORM_JSON_MESSAGE = 'transformUpdate';
+
+/* ------------------------------------------------------------------ */
+/* Motion gating (B3) — a still object costs zero bandwidth.           */
+/* ------------------------------------------------------------------ */
+
+/** Position delta below which an object counts as not moving (0.5 mm). */
+export const TRANSFORM_MOTION_EPSILON_M = 0.0005;
+
+/** Rotation delta below which an object counts as not rotating (0.1 deg). */
+export const TRANSFORM_MOTION_EPSILON_DEG = 0.1;
+
+/** Send interval while the object moves fast (20 Hz). */
+export const TRANSFORM_FAST_INTERVAL_MS = 1000 / 20;
+
+/** Send interval while the object moves slowly / comes to rest (5 Hz). */
+export const TRANSFORM_SLOW_INTERVAL_MS = 1000 / 5;
+
+/** Linear speed (m/s) above which the fast interval is used. */
+export const TRANSFORM_FAST_SPEED_MPS = 0.1;
+
+/** Angular speed (deg/s) above which the fast interval is used. */
+export const TRANSFORM_FAST_ANGULAR_DPS = 30;
+
+/** Default room-wide outbound transform budget (bytes/second), env-overridable. */
+export const DEFAULT_TRANSFORM_BUDGET_BYTES_PER_SEC = 64 * 1024;
+
+/** Conflict window (ms) during which a die may not report a different value. */
+export const DIE_RESULT_CONFLICT_WINDOW_MS = 1500;
+
 /* ------------------------------------------------------------------ */
 /* Channel 1: STATE — reliable, ordered, persistent (each server)      */
 /* ------------------------------------------------------------------ */
@@ -25,7 +59,25 @@ export type StateChannelMessage =
   | { type: 'seat'; seat: number }
   | { type: 'color'; color: string }
   | { type: 'hand'; hand: HandInfo }
+  | DieResultMessage
   | { type: 'error'; code: string; message: string };
+
+/**
+ * Authoritative die result (B3). The owning client reads the face after the die
+ * stops, the server validates it (1..faces, no conflicting re-report inside the
+ * conflict window), persists it in room state and broadcasts it to everyone.
+ */
+export interface DieResultMessage {
+  type: 'dieResult';
+  objectId: string;
+  /** Player that reported the result (the owner). */
+  playerId: string;
+  value: number;
+  /** Number of faces the server validated against. */
+  faces: number;
+  /** Server clock (ms) at acceptance. */
+  at: number;
+}
 
 /* ------------------------------------------------------------------ */
 /* Channel 2: TRANSFORM — unreliable, unordered, sampled at 20 Hz      */

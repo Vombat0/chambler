@@ -24,7 +24,17 @@ export interface ServerConfig {
   readonly chatRateWindowMs: number;
   /** Largest accepted WebSocket frame (bytes). Protects against oversized payloads. */
   readonly maxPayloadBytes: number;
+  /**
+   * Room-wide outbound transform budget in bytes per second (B3). Frames above
+   * it are trimmed fairly per player; the session is never dropped.
+   * `TRANSFORM_BUDGET_BYTES_PER_SEC`.
+   */
+  readonly transformBudgetBytesPerSec: number;
+  /** Send interval of the batched transform flush in ms (`TRANSFORM_FLUSH_MS`, 10..200). */
+  readonly transformFlushMs: number;
 }
+
+import { DEFAULT_TRANSFORM_BUDGET_BYTES_PER_SEC } from '@chambler/shared';
 
 export const DEFAULT_CORS_ORIGIN = 'http://localhost:5173';
 export const MAX_TABLE_PLAYERS = 8;
@@ -71,6 +81,14 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): ServerConfig {
     chatRateLimit: readInt(env, 'CHAT_RATE_LIMIT', 3, 1, 100),
     chatRateWindowMs: readInt(env, 'CHAT_RATE_WINDOW_MS', 1000, 100, 60_000),
     maxPayloadBytes: readInt(env, 'MAX_PAYLOAD_BYTES', 16 * 1024, 1024, 1024 * 1024),
+    transformBudgetBytesPerSec: readInt(
+      env,
+      'TRANSFORM_BUDGET_BYTES_PER_SEC',
+      DEFAULT_TRANSFORM_BUDGET_BYTES_PER_SEC,
+      1024,
+      64 * 1024 * 1024,
+    ),
+    transformFlushMs: readInt(env, 'TRANSFORM_FLUSH_MS', 50, 10, 200),
   };
 }
 

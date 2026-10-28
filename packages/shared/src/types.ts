@@ -39,6 +39,11 @@ export interface ObjectDef {
   faceUp: boolean;
   /** Free-form content-package data. */
   meta: Record<string, unknown>;
+  /**
+   * Stable uint16 index assigned by the server for the binary transform channel
+   * (B3). Both sides use it in `transformCodec` frames instead of the string id.
+   */
+  netIndex?: number;
 }
 
 /**

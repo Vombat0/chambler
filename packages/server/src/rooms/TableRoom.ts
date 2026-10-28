@@ -3,12 +3,22 @@
  */
 import { ErrorCode, Room, ServerError, logger, matchMaker } from 'colyseus';
 import type { Client } from 'colyseus';
-import type { StateChannelMessage } from '@chambler/shared';
+import type { DieResultMessage, StateChannelMessage } from '@chambler/shared';
 import {
+  MAX_RECORDS_PER_PACKET,
+  TRANSFORM_BATCH_MESSAGE,
+  TRANSFORM_JSON_MESSAGE,
   TRANSFORM_RATE_HZ,
+  TRANSFORM_RECORD_BYTES,
+  TransformCodecError,
+  TransformIdTable,
+  decodeTransformBatch,
+  encodeTransformBatch,
+  isNewerSeq,
   type ObjectDef,
   type Transform,
   type TransformChannelMessage,
+  type WireTransformFrame,
 } from '@chambler/shared';
 import { loadConfig, type ServerConfig } from '../config.js';
 import { ChatRateLimiter, validateChatText } from '../lobby/chat.js';
@@ -25,6 +35,8 @@ import { describeMessageType, readField } from '../lobby/validation.js';
 import { PlayerState, TableState, toPlayerInfo } from './TableState.js';
 import { ObjectState, ownerIdOrNull, ownerIdToSchema } from './ObjectState.js';
 import { filterHandForClient } from '../lobby/secrets.js';
+import { BandwidthBudget } from './BandwidthBudget.js';
+import { dieFaceCount, validateDieResult, type DieResultEpoch } from './dieResult.js';
 
 export const TABLE_ROOM_NAME = 'table';
 
@@ -41,6 +53,25 @@ export interface TableRoomMetadata {
 
 const codesInCreation = new Set<string>();
 
+/**
+ * Normalises the transport payload of a binary message. Colyseus/msgpack hands
+ * `bin` values over as Uint8Array (or Buffer); plain arrays are tolerated for
+ * hand-written test clients.
+ */
+function toBytes(payload: unknown): Uint8Array | null {
+  if (payload instanceof Uint8Array) return payload;
+  if (payload instanceof ArrayBuffer) return new Uint8Array(payload);
+  if (Array.isArray(payload) && payload.every((v) => typeof v === 'number')) {
+    return Uint8Array.from(payload as number[]);
+  }
+  if (payload && typeof payload === 'object' && 'data' in payload) {
+    const data = (payload as { data?: unknown }).data;
+    if (data instanceof Uint8Array) return data;
+    if (data instanceof ArrayBuffer) return new Uint8Array(data);
+  }
+  return null;
+}
+
 let defaultServerConfig: ServerConfig | null = null;
 
 export function configureTableRoom(config: ServerConfig): void {
@@ -56,8 +87,31 @@ interface ObjectOwnership {
 }
 
 const INACTIVITY_RELEASE_MS = 30_000;
-const BANDWIDTH_BUDGET_BYTES_PER_SEC = 200_000;
 const TRANSFORM_INTERVAL_MS = 1000 / TRANSFORM_RATE_HZ;
+/**
+ * Server-side floor between two accepted frames of the same object. Slightly
+ * below the client's 20 Hz so network jitter does not eat legitimate frames,
+ * while still capping a client that ignores the sampling contract.
+ */
+const MIN_OBJECT_INTERVAL_MS = TRANSFORM_INTERVAL_MS * 0.8;
+/** Max objects buffered between two flush ticks. */
+const MAX_PENDING_TRANSFORMS = 512;
+
+/** Room-level counters used by the bandwidth measurement script and ops. */
+export interface TableRoomMetrics {
+  /** Outbound application bytes accepted for broadcast (payload x recipients). */
+  transformBytesSent: number;
+  transformFramesAccepted: number;
+  transformFramesDropped: number;
+  /** Binary packets sent (one per client per flush chunk). */
+  transformBatchesSent: number;
+  transformBytesDropped: number;
+  budgetRejections: number;
+  legacyJsonFrames: number;
+  dieResultsAccepted: number;
+  dieResultsRejected: number;
+  flushTicks: number;
+}
 
 export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, TableAuthData> {
   private config: ServerConfig = loadConfig();
@@ -65,8 +119,24 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
   private readonly startedAt = Date.now();
   private readonly ownership = new Map<string, ObjectOwnership>();
   private readonly objectLastSeq = new Map<string, number>();
-  private bandwidthWindowStart = Date.now();
-  private bandwidthBytes = 0;
+  private budget: BandwidthBudget = new BandwidthBudget({ roomBytesPerSecond: 64 * 1024, players: 8 });
+  private readonly idTable = new TransformIdTable();
+  private readonly pendingTransforms = new Map<string, WireTransformFrame>();
+  private readonly dieEpochs = new Map<string, DieResultEpoch>();
+  private readonly budgetWarned = new Set<string>();
+  private flushTimer: NodeJS.Timeout | null = null;
+  private readonly metrics: TableRoomMetrics = {
+    transformBytesSent: 0,
+    transformFramesAccepted: 0,
+    transformFramesDropped: 0,
+    transformBatchesSent: 0,
+    transformBytesDropped: 0,
+    budgetRejections: 0,
+    legacyJsonFrames: 0,
+    dieResultsAccepted: 0,
+    dieResultsRejected: 0,
+    flushTicks: 0,
+  };
   private inactivityTimer: NodeJS.Timeout | null = null;
 
   override async onCreate(): Promise<void> {
@@ -89,7 +159,12 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
 
     void this.setMetadata({ code, createdAt: this.startedAt, maxPlayers: this.maxClients, hostId: '' });
 
+    this.budget = new BandwidthBudget({
+      roomBytesPerSecond: this.config.transformBudgetBytesPerSec,
+      players: this.maxClients,
+    });
     this.registerMessageHandlers();
+    this.flushTimer = setInterval(() => this.flushTransforms(), this.config.transformFlushMs);
     this.inactivityTimer = setInterval(() => this.sweepInactivity(), 5000);
     logger.info(`[table:${code}] created (max ${this.maxClients} players)`);
   }
@@ -143,7 +218,10 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
       void this.setMetadata({ hostId: player.id });
     }
 
+    this.budget.setPlayers(this.maxClients);
+
     this.broadcast('join', { type: 'join', player: toPlayerInfo(player) } satisfies StateChannelMessage, { except: client });
+    this.replayDieResults(client);
     logger.info(`[table:${this.roomId}] ${player.name} joined (seat ${player.seat})`);
   }
 
@@ -182,6 +260,11 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
   }
 
   override onDispose(): void {
+    if (this.flushTimer) {
+      clearInterval(this.flushTimer);
+      this.flushTimer = null;
+    }
+    this.pendingTransforms.clear();
     if (this.inactivityTimer) {
       clearInterval(this.inactivityTimer);
       this.inactivityTimer = null;
@@ -203,7 +286,9 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
     this.onMessage('objectLock', (client, payload) => this.handleObjectLock(client, payload));
     this.onMessage('flip', (client, payload) => this.handleFlip(client, payload));
     this.onMessage('deckShuffle', (client, payload) => this.handleDeckShuffle(client, payload));
-    this.onMessage('transformUpdate', (client, payload) => this.handleTransformUpdate(client, payload));
+    this.onMessage(TRANSFORM_BATCH_MESSAGE, (client, payload) => this.handleTransformBatch(client, payload));
+    this.onMessage(TRANSFORM_JSON_MESSAGE, (client, payload) => this.handleTransformUpdate(client, payload));
+    this.onMessage('dieResult', (client, payload) => this.handleDieResult(client, payload));
 
     this.onMessage('*', (client, type) => {
       logger.warn(`[table:${this.roomId}] ignoring unknown message "${describeMessageType(type)}" from ${client.sessionId}`);
@@ -291,6 +376,7 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
       locked: s.locked,
       faceUp: s.faceUp,
       meta,
+      netIndex: s.netIndex,
     };
   }
 
@@ -323,6 +409,7 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
     os.faceUp = obj.faceUp !== false;
     os.metaJson = metaJson;
     os.assetRef = typeof obj.assetRef === 'string' ? obj.assetRef : '';
+    os.netIndex = this.idTable.indexOf(obj.id);
     this.state.objects.set(obj.id, os);
 
     this.ownership.set(obj.id, {
@@ -344,6 +431,7 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
       locked: os.locked,
       faceUp: os.faceUp,
       meta,
+      netIndex: os.netIndex,
     };
 
     this.broadcast('objectSpawn', { type: 'objectSpawn', object: def } satisfies StateChannelMessage);
@@ -366,6 +454,9 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
     }
     this.state.objects.delete(objectId);
     this.ownership.delete(objectId);
+    this.pendingTransforms.delete(objectId);
+    this.idTable.delete(objectId);
+    this.dieEpochs.delete(objectId);
     this.broadcast('objectRemove', { type: 'objectRemove', objectId } satisfies StateChannelMessage);
   }
 
@@ -487,6 +578,122 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
     this.broadcast('deckShuffle', { type: 'deckShuffle', deckId } satisfies StateChannelMessage);
   }
 
+  /**
+   * Binary transform batch (B3, preferred path).
+   *
+   * Wire: `transformBatch` with a `Uint8Array` payload (see transformCodec).
+   * Every frame is checked for ownership, staleness and the room bandwidth
+   * budget before it is queued; the queue is flushed once per tick as one
+   * packet per 255 objects instead of one message per object.
+   */
+  private handleTransformBatch(client: Client, payload: unknown): void {
+    const player = this.state.players.get(client.sessionId);
+    if (!player) return;
+    const bytes = toBytes(payload);
+    if (!bytes) {
+      this.sendError(client, 'TRANSFORM_MALFORMED', 'transformBatch expects a binary payload.');
+      return;
+    }
+
+    let frames: WireTransformFrame[];
+    try {
+      frames = decodeTransformBatch(bytes).frames;
+    } catch (error) {
+      const code = error instanceof TransformCodecError ? error.code : 'DECODE_FAILED';
+      this.metrics.transformFramesDropped += 1;
+      this.sendError(client, 'TRANSFORM_MALFORMED', `Rejected transform batch (${code}).`);
+      return;
+    }
+
+    const now = Date.now();
+    // The owner is excluded from the fan-out, so the cost is (clients - 1).
+    const recipients = Math.max(1, this.clients.length - 1);
+    for (const frame of frames) {
+      const id = this.idTable.idOf(frame.index);
+      if (!id) {
+        this.metrics.transformFramesDropped += 1;
+        continue;
+      }
+      const own = this.ownership.get(id);
+      if (!own || own.ownerId !== client.sessionId) {
+        this.metrics.transformFramesDropped += 1;
+        this.sendError(client, 'TRANSFORM_FORBIDDEN', 'Only the owner can move this object.');
+        continue;
+      }
+      if (this.objectLastSeq.has(id) && !isNewerSeq(frame.seq, this.objectLastSeq.get(id) ?? 0)) {
+        this.metrics.transformFramesDropped += 1; // stale / duplicate seq
+        continue;
+      }
+      if (now - own.lastBroadcast < MIN_OBJECT_INTERVAL_MS) {
+        this.metrics.transformFramesDropped += 1; // per-object frequency cap
+        continue;
+      }
+      if (!this.spendTransformBudget(client, TRANSFORM_RECORD_BYTES * recipients, now)) {
+        this.metrics.transformFramesDropped += 1;
+        continue;
+      }
+
+      own.lastBroadcast = now;
+      own.lastUpdate = now;
+      own.seq = frame.seq;
+      this.objectLastSeq.set(id, frame.seq);
+      this.pendingTransforms.delete(id); // newer data supersedes the queued frame
+      this.pendingTransforms.set(id, frame);
+      if (this.pendingTransforms.size > MAX_PENDING_TRANSFORMS) {
+        const oldest = this.pendingTransforms.keys().next();
+        if (!oldest.done) {
+          this.pendingTransforms.delete(oldest.value);
+          this.metrics.transformFramesDropped += 1;
+        }
+      }
+      this.metrics.transformFramesAccepted += 1;
+    }
+  }
+
+  /**
+   * Flushes queued transforms as binary packets.
+   *
+   * The owner of an object never receives its own frame (it is authoritative
+   * locally), so each client gets a packet filtered to the objects it does not
+   * own. Packets are chunked at 255 records (uint8 count) and the filtering
+   * costs one encode per client per tick, which is cheaper than the ~12% of
+   * egress an unconditional broadcast would waste.
+   */
+  private flushTransforms(): void {
+    this.metrics.flushTicks += 1;
+    if (this.pendingTransforms.size === 0) return;
+    const queued = [...this.pendingTransforms.entries()];
+    this.pendingTransforms.clear();
+    const clients = [...this.clients];
+    if (clients.length === 0) return;
+
+    for (let offset = 0; offset < queued.length; offset += MAX_RECORDS_PER_PACKET) {
+      const chunk = queued.slice(offset, offset + MAX_RECORDS_PER_PACKET);
+      for (const client of clients) {
+        const frames: WireTransformFrame[] = [];
+        for (const [id, frame] of chunk) {
+          if (this.ownership.get(id)?.ownerId === client.sessionId) continue;
+          frames.push(frame);
+        }
+        if (frames.length === 0) continue;
+        let packet: Uint8Array;
+        try {
+          packet = encodeTransformBatch(frames);
+        } catch (error) {
+          logger.warn(`[table:${this.roomId}] could not encode transform batch: ${String(error)}`);
+          continue;
+        }
+        this.metrics.transformBatchesSent += 1;
+        this.metrics.transformBytesSent += packet.byteLength;
+        client.send(TRANSFORM_BATCH_MESSAGE, packet);
+      }
+    }
+  }
+
+  /**
+   * Legacy JSON transform frame (B2 wire format). Kept so old clients and the
+   * bandwidth baseline still work; new clients use `transformBatch`.
+   */
   private handleTransformUpdate(client: Client, payload: unknown): void {
     const player = this.state.players.get(client.sessionId);
     if (!player) return;
@@ -502,7 +709,8 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
 
     const seqRaw = readField(payload, 'seq');
     const seq = typeof seqRaw === 'number' ? seqRaw : own.seq;
-    if (seq < (this.objectLastSeq.get(id) ?? 0)) {
+    const lastSeq = this.objectLastSeq.get(id);
+    if (lastSeq !== undefined && seq < lastSeq) {
       return; // stale seq dropped
     }
 
@@ -511,7 +719,6 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
       return; // frequency limit
     }
 
-    // bandwidth budget
     const msg: TransformChannelMessage = {
       type: 'transformUpdate',
       id,
@@ -526,22 +733,138 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
     } catch {
       size = 256;
     }
-    if (now - this.bandwidthWindowStart >= 1000) {
-      this.bandwidthWindowStart = now;
-      this.bandwidthBytes = 0;
-    }
-    if (this.bandwidthBytes + size > BANDWIDTH_BUDGET_BYTES_PER_SEC) {
-      logger.warn(`[table:${this.roomId}] bandwidth budget exceeded, dropping transform for ${id}`);
+    const recipients = Math.max(1, this.clients.length - 1);
+    if (!this.spendTransformBudget(client, size * recipients, now)) {
       return;
     }
-    this.bandwidthBytes += size;
 
     own.lastBroadcast = now;
     own.lastUpdate = now;
     own.seq = seq;
     this.objectLastSeq.set(id, seq);
+    this.metrics.legacyJsonFrames += 1;
+    this.metrics.transformFramesAccepted += 1;
+    this.metrics.transformBytesSent += size * recipients;
 
-    this.broadcast('transformUpdate', msg, { except: client });
+    this.broadcast(TRANSFORM_JSON_MESSAGE, msg, { except: client });
+  }
+
+  /** Charges the room budget; trims (and warns once per window) when exceeded. */
+  private spendTransformBudget(client: Client, bytes: number, now: number): boolean {
+    const decision = this.budget.tryConsume(client.sessionId, bytes, now);
+    if (decision.allowed) {
+      // Bytes are only counted when the packet is really broadcast; charging
+      // here as well would double count (see broadcastTransformPacket).
+      this.budgetWarned.delete(client.sessionId);
+      return true;
+    }
+    this.metrics.budgetRejections += 1;
+    this.metrics.transformBytesDropped += bytes;
+    if (!this.budgetWarned.has(client.sessionId)) {
+      this.budgetWarned.add(client.sessionId);
+      logger.warn(
+        `[table:${this.roomId}] transform budget ${decision.reason} exceeded by ${client.sessionId}; trimming frames (session kept)`,
+      );
+      this.sendError(
+        client,
+        'TRANSFORM_BUDGET',
+        `Transform budget exceeded (${decision.reason}); frames are being trimmed.`,
+      );
+    }
+    return false;
+  }
+
+  /**
+   * Authoritative die result (B3).
+   *
+   * The owner reads the face and reports it; the server validates the value
+   * against the die's face count, refuses a contradictory re-report inside the
+   * same throw, persists the value in room state (so late joiners and
+   * reconnecting clients see it) and broadcasts it to everyone.
+   */
+  private handleDieResult(client: Client, payload: unknown): void {
+    const player = this.state.players.get(client.sessionId);
+    if (!player) return;
+    const objectId = String(readField(payload, 'objectId') ?? readField(payload, 'id') ?? '');
+    const os = objectId ? this.state.objects.get(objectId) : undefined;
+    if (!objectId || !os) {
+      this.sendError(client, 'OBJECT_NOT_FOUND', `Object ${objectId} not found.`);
+      return;
+    }
+
+    let meta: Record<string, unknown> = {};
+    try {
+      meta = JSON.parse(os.metaJson || '{}');
+    } catch {
+      meta = {};
+    }
+    const own = this.ownership.get(objectId);
+    const verdict = validateDieResult({
+      kind: os.kind,
+      faces: dieFaceCount(meta),
+      value: readField(payload, 'value'),
+      isOwner: own?.ownerId === client.sessionId,
+      claimToken: own?.claimToken ?? null,
+      previous: this.dieEpochs.get(objectId) ?? null,
+      now: Date.now(),
+    });
+
+    if (!verdict.ok) {
+      this.metrics.dieResultsRejected += 1;
+      this.sendError(client, verdict.code, verdict.message);
+      return;
+    }
+
+    const at = Date.now();
+    this.dieEpochs.set(objectId, { value: verdict.value, claimToken: own?.claimToken ?? null, at });
+    os.dieValue = verdict.value;
+    os.dieRolledBy = client.sessionId;
+    os.dieRolledAt = at;
+    this.metrics.dieResultsAccepted += 1;
+
+    const message: DieResultMessage = {
+      type: 'dieResult',
+      objectId,
+      playerId: client.sessionId,
+      value: verdict.value,
+      faces: verdict.faces,
+      at,
+    };
+    this.broadcast('dieResult', message satisfies StateChannelMessage);
+    logger.info(`[table:${this.roomId}] die ${objectId} -> ${verdict.value} (d${verdict.faces}) by ${player.name}`);
+  }
+
+  /** Sends the persisted die results to a fresh / reconnecting client. */
+  private replayDieResults(client: Client): void {
+    for (const os of this.state.objects.values()) {
+      if (os.dieValue <= 0) continue;
+      client.send('dieResult', {
+        type: 'dieResult',
+        objectId: os.id,
+        playerId: os.dieRolledBy,
+        value: os.dieValue,
+        faces: dieFaceCount(this.parseMeta(os)),
+        at: Number(os.dieRolledAt),
+      } satisfies StateChannelMessage);
+    }
+  }
+
+  private parseMeta(os: ObjectState): Record<string, unknown> {
+    try {
+      return JSON.parse(os.metaJson || '{}') as Record<string, unknown>;
+    } catch {
+      return {};
+    }
+  }
+
+  /** Live counters for the bandwidth script and operational dashboards. */
+  public getMetrics(): TableRoomMetrics & { budget: ReturnType<BandwidthBudget['stats']>; players: number; objects: number } {
+    return {
+      ...this.metrics,
+      budget: this.budget.stats(),
+      players: this.clients.length,
+      objects: this.state.objects.size,
+    };
   }
 
   // ---------- helpers ----------
@@ -618,11 +941,11 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
   public sendHand(client: Client, hand: { ownerId: string; cardIds: string[] }): void {
     const filtered = filterHandForClient(hand, client.sessionId);
     if (!filtered) return;
-    this.send(client, 'hand', { type: 'hand', hand: filtered } satisfies StateChannelMessage);
+    client.send('hand', { type: 'hand', hand: filtered } satisfies StateChannelMessage);
   }
 
   private sendError(client: Client, code: string, message: string): void {
-    this.send(client, 'error', { code, message });
+    client.send('error', { code, message });
   }
 }
 
