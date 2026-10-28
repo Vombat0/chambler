@@ -12,6 +12,7 @@ export class OwnershipTable {
 
   remove(objectId: string): void {
     this.owners.delete(objectId);
+    this.emitter?.forget(objectId);
   }
 
   getOwner(objectId: string): string | null {
@@ -33,6 +34,7 @@ export class OwnershipTable {
   release(objectId: string, playerId: string): boolean {
     if (this.getOwner(objectId) !== playerId) return false;
     this.owners.set(objectId, null);
+    this.emitter?.forget(objectId);
     this.emitter?.emit('objectRelease', { objectId, playerId });
     return true;
   }

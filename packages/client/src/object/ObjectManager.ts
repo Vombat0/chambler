@@ -54,6 +54,7 @@ export class ObjectManager {
     this.sceneManager.scene.remove(mo.mesh);
     this.objects.delete(id);
     this.ownership.remove(id);
+    this.emitter.forget(id);
   }
 
   get(id: string): ManagedObject | undefined {
