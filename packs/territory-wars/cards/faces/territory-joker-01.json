@@ -1,0 +1,8 @@
+{
+  "id": "territory-joker-01",
+  "deckId": "territory",
+  "titleKey": "card.joker.title",
+  "textKey": "card.joker.text",
+  "wild": true,
+  "value": 1
+}

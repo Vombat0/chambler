@@ -1,0 +1,9 @@
+{
+  "id": "territory-reedmarsh",
+  "deckId": "territory",
+  "titleKey": "region.reedmarsh.name",
+  "textKey": "card.territory.reedmarsh.text",
+  "regionId": "reedmarsh",
+  "continentId": "koros",
+  "value": 1
+}

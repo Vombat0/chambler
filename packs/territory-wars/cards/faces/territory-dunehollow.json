@@ -1,0 +1,9 @@
+{
+  "id": "territory-dunehollow",
+  "deckId": "territory",
+  "titleKey": "region.dunehollow.name",
+  "textKey": "card.territory.dunehollow.text",
+  "regionId": "dunehollow",
+  "continentId": "sundar",
+  "value": 1
+}

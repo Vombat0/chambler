@@ -1,0 +1,9 @@
+{
+  "id": "territory-ashen-quay",
+  "deckId": "territory",
+  "titleKey": "region.ashen-quay.name",
+  "textKey": "card.territory.ashen-quay.text",
+  "regionId": "ashen-quay",
+  "continentId": "emberisle",
+  "value": 1
+}

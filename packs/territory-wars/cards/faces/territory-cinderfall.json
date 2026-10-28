@@ -1,0 +1,9 @@
+{
+  "id": "territory-cinderfall",
+  "deckId": "territory",
+  "titleKey": "region.cinderfall.name",
+  "textKey": "card.territory.cinderfall.text",
+  "regionId": "cinderfall",
+  "continentId": "sundar",
+  "value": 1
+}

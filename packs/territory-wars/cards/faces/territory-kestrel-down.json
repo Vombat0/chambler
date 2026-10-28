@@ -1,0 +1,9 @@
+{
+  "id": "territory-kestrel-down",
+  "deckId": "territory",
+  "titleKey": "region.kestrel-down.name",
+  "textKey": "card.territory.kestrel-down.text",
+  "regionId": "kestrel-down",
+  "continentId": "koros",
+  "value": 1
+}

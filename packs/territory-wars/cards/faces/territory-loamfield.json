@@ -1,0 +1,9 @@
+{
+  "id": "territory-loamfield",
+  "deckId": "territory",
+  "titleKey": "region.loamfield.name",
+  "textKey": "card.territory.loamfield.text",
+  "regionId": "loamfield",
+  "continentId": "koros",
+  "value": 1
+}

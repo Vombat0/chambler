@@ -1,0 +1,41 @@
+{
+  "formatVersion": 1,
+  "boardId": "territory-wars-aetheris",
+  "world": "aetheris",
+  "canvas": { "width": 1600, "height": 900 },
+  "note": "Original world map of Aetheris. Anchors are label/seed points used to generate the procedural region polygons; neighbors is the canonical adjacency graph and must stay symmetric and connected (enforced by tests).",
+  "regions": [
+    { "id": "fangreach", "continent": "drakemoor", "nameKey": "region.fangreach.name", "anchor": [150, 140], "neighbors": ["stormfell", "aldermoor"] },
+    { "id": "stormfell", "continent": "drakemoor", "nameKey": "region.stormfell.name", "anchor": [470, 110], "neighbors": ["fangreach", "ironfrost", "hollowbridge"] },
+    { "id": "ironfrost", "continent": "drakemoor", "nameKey": "region.ironfrost.name", "anchor": [790, 130], "neighbors": ["stormfell", "whitmane", "mistral-basin"] },
+    { "id": "whitmane", "continent": "drakemoor", "nameKey": "region.whitmane.name", "anchor": [1110, 120], "neighbors": ["ironfrost", "grimhold", "kestrel-down"] },
+    { "id": "grimhold", "continent": "drakemoor", "nameKey": "region.grimhold.name", "anchor": [1380, 140], "neighbors": ["whitmane", "sundergate", "ashen-quay"] },
+
+    { "id": "aldermoor", "continent": "koros", "nameKey": "region.aldermoor.name", "anchor": [120, 380], "neighbors": ["hollowbridge", "larkspur", "fangreach"] },
+    { "id": "hollowbridge", "continent": "koros", "nameKey": "region.hollowbridge.name", "anchor": [420, 360], "neighbors": ["aldermoor", "mistral-basin", "loamfield", "stormfell"] },
+    { "id": "mistral-basin", "continent": "koros", "nameKey": "region.mistral-basin.name", "anchor": [730, 400], "fortress": true, "neighbors": ["hollowbridge", "kestrel-down", "reedmarsh", "ironfrost"] },
+    { "id": "kestrel-down", "continent": "koros", "nameKey": "region.kestrel-down.name", "anchor": [1030, 340], "neighbors": ["mistral-basin", "sundergate", "whitmane", "amber-steppe"] },
+    { "id": "sundergate", "continent": "koros", "nameKey": "region.sundergate.name", "anchor": [1300, 300], "fortress": true, "neighbors": ["kestrel-down", "emberwatch", "grimhold"] },
+    { "id": "emberwatch", "continent": "koros", "nameKey": "region.emberwatch.name", "anchor": [1420, 430], "neighbors": ["sundergate", "pyre-key", "cinderfall"] },
+    { "id": "loamfield", "continent": "koros", "nameKey": "region.loamfield.name", "anchor": [300, 590], "neighbors": ["hollowbridge", "reedmarsh", "glassholt"] },
+    { "id": "reedmarsh", "continent": "koros", "nameKey": "region.reedmarsh.name", "anchor": [570, 610], "neighbors": ["loamfield", "mistral-basin", "sunspire"] },
+
+    { "id": "larkspur", "continent": "virelai", "nameKey": "region.larkspur.name", "anchor": [150, 620], "neighbors": ["aldermoor", "glassholt"] },
+    { "id": "glassholt", "continent": "virelai", "nameKey": "region.glassholt.name", "anchor": [330, 780], "fortress": true, "neighbors": ["larkspur", "tidewick", "fernmarsh", "loamfield"] },
+    { "id": "tidewick", "continent": "virelai", "nameKey": "region.tidewick.name", "anchor": [130, 830], "neighbors": ["glassholt", "fernmarsh"] },
+    { "id": "fernmarsh", "continent": "virelai", "nameKey": "region.fernmarsh.name", "anchor": [500, 860], "neighbors": ["glassholt", "tidewick", "sunspire"] },
+
+    { "id": "sunspire", "continent": "sundar", "nameKey": "region.sunspire.name", "anchor": [760, 700], "neighbors": ["reedmarsh", "fernmarsh", "amber-steppe", "myrravale"] },
+    { "id": "amber-steppe", "continent": "sundar", "nameKey": "region.amber-steppe.name", "anchor": [1020, 640], "neighbors": ["sunspire", "dunehollow", "myrravale", "kestrel-down"] },
+    { "id": "dunehollow", "continent": "sundar", "nameKey": "region.dunehollow.name", "anchor": [1240, 640], "neighbors": ["amber-steppe", "cinderfall", "olivane", "saltmerrow"] },
+    { "id": "cinderfall", "continent": "sundar", "nameKey": "region.cinderfall.name", "anchor": [1440, 650], "neighbors": ["dunehollow", "emberwatch", "saltmerrow", "coral-reach"] },
+    { "id": "myrravale", "continent": "sundar", "nameKey": "region.myrravale.name", "anchor": [860, 870], "neighbors": ["sunspire", "amber-steppe", "olivane"] },
+    { "id": "olivane", "continent": "sundar", "nameKey": "region.olivane.name", "anchor": [1120, 840], "neighbors": ["dunehollow", "myrravale", "stormcay"] },
+
+    { "id": "ashen-quay", "continent": "emberisle", "nameKey": "region.ashen-quay.name", "anchor": [1540, 210], "neighbors": ["grimhold", "pyre-key"] },
+    { "id": "pyre-key", "continent": "emberisle", "nameKey": "region.pyre-key.name", "anchor": [1550, 470], "neighbors": ["ashen-quay", "emberwatch", "coral-reach"] },
+    { "id": "coral-reach", "continent": "emberisle", "nameKey": "region.coral-reach.name", "anchor": [1540, 780], "neighbors": ["pyre-key", "saltmerrow", "cinderfall"] },
+    { "id": "saltmerrow", "continent": "emberisle", "nameKey": "region.saltmerrow.name", "anchor": [1360, 790], "neighbors": ["coral-reach", "cinderfall", "stormcay", "dunehollow"] },
+    { "id": "stormcay", "continent": "emberisle", "nameKey": "region.stormcay.name", "anchor": [1250, 870], "neighbors": ["saltmerrow", "olivane"] }
+  ]
+}

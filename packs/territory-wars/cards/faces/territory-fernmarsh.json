@@ -1,0 +1,9 @@
+{
+  "id": "territory-fernmarsh",
+  "deckId": "territory",
+  "titleKey": "region.fernmarsh.name",
+  "textKey": "card.territory.fernmarsh.text",
+  "regionId": "fernmarsh",
+  "continentId": "virelai",
+  "value": 1
+}

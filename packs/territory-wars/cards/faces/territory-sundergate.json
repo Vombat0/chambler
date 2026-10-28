@@ -1,0 +1,9 @@
+{
+  "id": "territory-sundergate",
+  "deckId": "territory",
+  "titleKey": "region.sundergate.name",
+  "textKey": "card.territory.sundergate.text",
+  "regionId": "sundergate",
+  "continentId": "koros",
+  "value": 1
+}

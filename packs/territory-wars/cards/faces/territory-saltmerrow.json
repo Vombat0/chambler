@@ -1,0 +1,9 @@
+{
+  "id": "territory-saltmerrow",
+  "deckId": "territory",
+  "titleKey": "region.saltmerrow.name",
+  "textKey": "card.territory.saltmerrow.text",
+  "regionId": "saltmerrow",
+  "continentId": "emberisle",
+  "value": 1
+}

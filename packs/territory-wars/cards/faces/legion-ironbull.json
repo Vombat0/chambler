@@ -1,0 +1,12 @@
+{
+  "id": "legion-ironbull",
+  "deckId": "legions",
+  "titleKey": "legion.ironbull.name",
+  "textKey": "legion.ironbull.text",
+  "legionId": "ironbull",
+  "effect": {
+    "type": "pursuit-min",
+    "amount": 2,
+    "when": "conquer"
+  }
+}

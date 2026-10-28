@@ -1,0 +1,22 @@
+{
+  "name": "@chambler/pack-territory-wars",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Territory Wars — conquest strategy pack for Chambler: 28 regions, 5 continents, 3-vs-2 conflict dice, code-generated art.",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "art": "tsx scripts/generate-art.ts",
+    "manifest": "tsx scripts/build-manifest.ts",
+    "build": "pnpm run art && pnpm run manifest",
+    "validate": "node ../../packages/modkit/dist/cli.js .",
+    "test": "vitest run",
+    "test:local": "node ../../packages/modkit/node_modules/vitest/vitest.mjs run",
+    "art:local": "../../packages/modkit/node_modules/.bin/tsx scripts/generate-art.ts",
+    "manifest:local": "../../packages/modkit/node_modules/.bin/tsx scripts/build-manifest.ts"
+  },
+  "devDependencies": {
+    "tsx": "^4.23.15",
+    "vitest": "^3.2.7"
+  }
+}

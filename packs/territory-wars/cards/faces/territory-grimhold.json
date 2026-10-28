@@ -1,0 +1,9 @@
+{
+  "id": "territory-grimhold",
+  "deckId": "territory",
+  "titleKey": "region.grimhold.name",
+  "textKey": "card.territory.grimhold.text",
+  "regionId": "grimhold",
+  "continentId": "drakemoor",
+  "value": 1
+}

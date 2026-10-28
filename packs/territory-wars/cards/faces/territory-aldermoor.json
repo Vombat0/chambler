@@ -1,0 +1,9 @@
+{
+  "id": "territory-aldermoor",
+  "deckId": "territory",
+  "titleKey": "region.aldermoor.name",
+  "textKey": "card.territory.aldermoor.text",
+  "regionId": "aldermoor",
+  "continentId": "koros",
+  "value": 1
+}

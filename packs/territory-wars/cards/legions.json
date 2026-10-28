@@ -1,0 +1,44 @@
+{
+  "formatVersion": 1,
+  "deckId": "legions",
+  "nameKey": "deck.legions.name",
+  "shuffle": "auto",
+  "cardCount": 3,
+  "cards": [
+    {
+      "id": "legion-spearwatch",
+      "titleKey": "legion.spearwatch.name",
+      "textKey": "legion.spearwatch.text",
+      "legionId": "spearwatch",
+      "effect": {
+        "type": "defense-die-bonus",
+        "amount": 1,
+        "cap": 6,
+        "when": "defend"
+      }
+    },
+    {
+      "id": "legion-stormwing",
+      "titleKey": "legion.stormwing.name",
+      "textKey": "legion.stormwing.text",
+      "legionId": "stormwing",
+      "effect": {
+        "type": "attack-reroll",
+        "dieValue": 1,
+        "rerolls": 1,
+        "when": "attack"
+      }
+    },
+    {
+      "id": "legion-ironbull",
+      "titleKey": "legion.ironbull.name",
+      "textKey": "legion.ironbull.text",
+      "legionId": "ironbull",
+      "effect": {
+        "type": "pursuit-min",
+        "amount": 2,
+        "when": "conquer"
+      }
+    }
+  ]
+}

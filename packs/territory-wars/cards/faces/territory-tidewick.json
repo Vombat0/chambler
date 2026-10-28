@@ -1,0 +1,9 @@
+{
+  "id": "territory-tidewick",
+  "deckId": "territory",
+  "titleKey": "region.tidewick.name",
+  "textKey": "card.territory.tidewick.text",
+  "regionId": "tidewick",
+  "continentId": "virelai",
+  "value": 1
+}

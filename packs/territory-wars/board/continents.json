@@ -1,0 +1,41 @@
+{
+  "formatVersion": 1,
+  "note": "Continents of Aetheris. Bonus armies are granted when a player holds every member region at the start of their reinforcement step. Members must match region.continent in board.json (tests enforce both directions and per-continent connectivity).",
+  "continents": [
+    {
+      "id": "drakemoor",
+      "nameKey": "continent.drakemoor.name",
+      "color": "#3D6E8F",
+      "bonus": 5,
+      "members": ["fangreach", "stormfell", "ironfrost", "whitmane", "grimhold"]
+    },
+    {
+      "id": "koros",
+      "nameKey": "continent.koros.name",
+      "color": "#B98A3C",
+      "bonus": 7,
+      "members": ["aldermoor", "hollowbridge", "mistral-basin", "kestrel-down", "sundergate", "emberwatch", "loamfield", "reedmarsh"]
+    },
+    {
+      "id": "virelai",
+      "nameKey": "continent.virelai.name",
+      "color": "#6B4A8C",
+      "bonus": 3,
+      "members": ["larkspur", "glassholt", "tidewick", "fernmarsh"]
+    },
+    {
+      "id": "sundar",
+      "nameKey": "continent.sundar.name",
+      "color": "#B4552D",
+      "bonus": 4,
+      "members": ["sunspire", "amber-steppe", "dunehollow", "cinderfall", "myrravale", "olivane"]
+    },
+    {
+      "id": "emberisle",
+      "nameKey": "continent.emberisle.name",
+      "color": "#2E7D4F",
+      "bonus": 3,
+      "members": ["ashen-quay", "pyre-key", "coral-reach", "saltmerrow", "stormcay"]
+    }
+  ]
+}

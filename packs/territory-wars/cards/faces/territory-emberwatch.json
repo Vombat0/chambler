@@ -1,0 +1,9 @@
+{
+  "id": "territory-emberwatch",
+  "deckId": "territory",
+  "titleKey": "region.emberwatch.name",
+  "textKey": "card.territory.emberwatch.text",
+  "regionId": "emberwatch",
+  "continentId": "koros",
+  "value": 1
+}

@@ -1,0 +1,9 @@
+{
+  "id": "territory-olivane",
+  "deckId": "territory",
+  "titleKey": "region.olivane.name",
+  "textKey": "card.territory.olivane.text",
+  "regionId": "olivane",
+  "continentId": "sundar",
+  "value": 1
+}

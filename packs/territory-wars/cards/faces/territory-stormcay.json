@@ -1,0 +1,9 @@
+{
+  "id": "territory-stormcay",
+  "deckId": "territory",
+  "titleKey": "region.stormcay.name",
+  "textKey": "card.territory.stormcay.text",
+  "regionId": "stormcay",
+  "continentId": "emberisle",
+  "value": 1
+}

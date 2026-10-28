@@ -1,0 +1,9 @@
+{
+  "id": "territory-hollowbridge",
+  "deckId": "territory",
+  "titleKey": "region.hollowbridge.name",
+  "textKey": "card.territory.hollowbridge.text",
+  "regionId": "hollowbridge",
+  "continentId": "koros",
+  "value": 1
+}

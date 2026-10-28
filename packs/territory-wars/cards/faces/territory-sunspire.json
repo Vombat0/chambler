@@ -1,0 +1,9 @@
+{
+  "id": "territory-sunspire",
+  "deckId": "territory",
+  "titleKey": "region.sunspire.name",
+  "textKey": "card.territory.sunspire.text",
+  "regionId": "sunspire",
+  "continentId": "sundar",
+  "value": 1
+}

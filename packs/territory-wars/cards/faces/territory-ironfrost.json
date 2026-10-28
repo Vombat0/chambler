@@ -1,0 +1,9 @@
+{
+  "id": "territory-ironfrost",
+  "deckId": "territory",
+  "titleKey": "region.ironfrost.name",
+  "textKey": "card.territory.ironfrost.text",
+  "regionId": "ironfrost",
+  "continentId": "drakemoor",
+  "value": 1
+}

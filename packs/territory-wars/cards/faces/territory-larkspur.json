@@ -1,0 +1,9 @@
+{
+  "id": "territory-larkspur",
+  "deckId": "territory",
+  "titleKey": "region.larkspur.name",
+  "textKey": "card.territory.larkspur.text",
+  "regionId": "larkspur",
+  "continentId": "virelai",
+  "value": 1
+}

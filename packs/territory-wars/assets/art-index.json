@@ -1,0 +1,521 @@
+{
+  "generator": "scripts/generate-art.ts",
+  "note": "All art is generated procedurally: the region polygons are a Voronoi partition of the board anchors, rasters are encoded by the built-in PNG writer. No third-party images.",
+  "pngCount": 24,
+  "svgCount": 33,
+  "files": [
+    {
+      "key": "army-disc",
+      "path": "assets/army-disc.png",
+      "kind": "png",
+      "width": 128,
+      "height": 128,
+      "bytes": 3199,
+      "sha256": "f8246603564d2eb8cb0b301c5c1a0484ebad3b620988cdc9e01861bfec79b646"
+    },
+    {
+      "key": "card-back-legions",
+      "path": "assets/card-back-legions.png",
+      "kind": "png",
+      "width": 320,
+      "height": 440,
+      "bytes": 77877,
+      "sha256": "caafc54942100bb658fd0925788d691cc90a20f1081162f60622d12433a3f081"
+    },
+    {
+      "key": "card-back-territory",
+      "path": "assets/card-back-territory.png",
+      "kind": "png",
+      "width": 320,
+      "height": 440,
+      "bytes": 78818,
+      "sha256": "2164197657e4f90e86c58778f8f73c247fc2446ebf9047d8afda7cdef9870658"
+    },
+    {
+      "key": "dice-1",
+      "path": "assets/dice-1.png",
+      "kind": "png",
+      "width": 128,
+      "height": 128,
+      "bytes": 2377,
+      "sha256": "0de7deff0ddd9758c727a8c9814b8cafeac755f946a7446fcb5c005f4a65366c"
+    },
+    {
+      "key": "dice-2",
+      "path": "assets/dice-2.png",
+      "kind": "png",
+      "width": 128,
+      "height": 128,
+      "bytes": 2427,
+      "sha256": "f9554a779e22f0cb78b34e6c0ee411eba9269f0e9a82cb0c928b1e2472c66d43"
+    },
+    {
+      "key": "dice-3",
+      "path": "assets/dice-3.png",
+      "kind": "png",
+      "width": 128,
+      "height": 128,
+      "bytes": 2498,
+      "sha256": "efa01fd2cd232c1bcb9c49ff94d5602f3dc2a45e4c573b5ed18aed5928a7977e"
+    },
+    {
+      "key": "dice-4",
+      "path": "assets/dice-4.png",
+      "kind": "png",
+      "width": 128,
+      "height": 128,
+      "bytes": 2570,
+      "sha256": "7ea2a953d0388de1ea75dd42f04446886ef4e269552caee281f9df43223e2400"
+    },
+    {
+      "key": "dice-5",
+      "path": "assets/dice-5.png",
+      "kind": "png",
+      "width": 128,
+      "height": 128,
+      "bytes": 2640,
+      "sha256": "588a85d9db4dfd8f4d7f1069958896e69fabc8443ce38c3a3eafa62b868aaf58"
+    },
+    {
+      "key": "dice-6",
+      "path": "assets/dice-6.png",
+      "kind": "png",
+      "width": 128,
+      "height": 128,
+      "bytes": 2682,
+      "sha256": "7cf48b2a271333dcc13be0ab29deeacd5b27afa4a5061cf067ca0219d34cef85"
+    },
+    {
+      "key": "joker-banner",
+      "path": "assets/joker-banner.png",
+      "kind": "png",
+      "width": 320,
+      "height": 440,
+      "bytes": 21275,
+      "sha256": "8e8871eaf69e8f9e1d418a889bc268bf8f7538692971d4d98e1238db2681e902"
+    },
+    {
+      "key": "legion-ironbull",
+      "path": "assets/legion-ironbull.png",
+      "kind": "png",
+      "width": 320,
+      "height": 440,
+      "bytes": 20376,
+      "sha256": "8e23be370ced17ec1b2b5b2f4de218d491bca14368bd0d0738f16bff79faa5b1"
+    },
+    {
+      "key": "legion-spearwatch",
+      "path": "assets/legion-spearwatch.png",
+      "kind": "png",
+      "width": 320,
+      "height": 440,
+      "bytes": 20671,
+      "sha256": "a67bb49e2aca75815f2cfc9749818137754b54c6e38d7a71748cb9a78da9046f"
+    },
+    {
+      "key": "legion-stormwing",
+      "path": "assets/legion-stormwing.png",
+      "kind": "png",
+      "width": 320,
+      "height": 440,
+      "bytes": 20387,
+      "sha256": "396a2f679bda9ab3653d7e4db94f594191944a6bfe63acda9700baff26212c63"
+    },
+    {
+      "key": "map-plate",
+      "path": "assets/map.png",
+      "kind": "png",
+      "width": 1600,
+      "height": 900,
+      "bytes": 1382721,
+      "sha256": "f51e61b542fc0fa00738a9bdbc919d2812f8c9da5e54ccd5e87e50e67c03d56a"
+    },
+    {
+      "key": "map-adjacency",
+      "path": "assets/svg/adjacency.svg",
+      "kind": "svg",
+      "width": 1600,
+      "height": 900,
+      "bytes": 8280,
+      "sha256": "8fdf395202316b2e6b373b05fdd184217132b7d6a47208a65ab56f4df2d55ae9"
+    },
+    {
+      "key": "army-disc-vector",
+      "path": "assets/svg/army-disc.svg",
+      "kind": "svg",
+      "width": 128,
+      "height": 128,
+      "bytes": 1574,
+      "sha256": "f0875248b06014544d878ca45bb6ed3990cff03448c8643c0c0557b82cd34fa1"
+    },
+    {
+      "key": "card-back-legions-vector",
+      "path": "assets/svg/card-back-legions.svg",
+      "kind": "svg",
+      "width": 320,
+      "height": 440,
+      "bytes": 1648,
+      "sha256": "4f01886dc62f84ed8de7aa77c2d3f37a06fc4a6d1bfe47b9a59187e7df087028"
+    },
+    {
+      "key": "card-back-territory-vector",
+      "path": "assets/svg/card-back-territory.svg",
+      "kind": "svg",
+      "width": 320,
+      "height": 440,
+      "bytes": 1643,
+      "sha256": "e7c732e8b34f77f66ce0211f71e1a2fa8472d0d610e9b8f8d39dd02152a0d123"
+    },
+    {
+      "key": "continent-drakemoor",
+      "path": "assets/svg/continent-drakemoor.svg",
+      "kind": "svg",
+      "width": 1600,
+      "height": 900,
+      "bytes": 1693,
+      "sha256": "8f2c8406e49953dc51a7c51842837601478401a5417b92c630a74f955f932466"
+    },
+    {
+      "key": "continent-emberisle",
+      "path": "assets/svg/continent-emberisle.svg",
+      "kind": "svg",
+      "width": 1600,
+      "height": 900,
+      "bytes": 1721,
+      "sha256": "cf7d0f893c41db8029ebd0cccc22f297ebd84f37bb4bbedf0541683baaad3dff"
+    },
+    {
+      "key": "continent-koros",
+      "path": "assets/svg/continent-koros.svg",
+      "kind": "svg",
+      "width": 1600,
+      "height": 900,
+      "bytes": 2329,
+      "sha256": "2add8c1cd971754b37e14f81ccd5daaef1ee14bb1f3a42e718e62c28bf9a7eb2"
+    },
+    {
+      "key": "continent-sundar",
+      "path": "assets/svg/continent-sundar.svg",
+      "kind": "svg",
+      "width": 1600,
+      "height": 900,
+      "bytes": 1972,
+      "sha256": "4e5e045bdfc702639d2f4770cb7a4b5ce08262410c62230206e8c47b8a6e8880"
+    },
+    {
+      "key": "continent-virelai",
+      "path": "assets/svg/continent-virelai.svg",
+      "kind": "svg",
+      "width": 1600,
+      "height": 900,
+      "bytes": 1537,
+      "sha256": "fe7e14fff5e7f3e883b960232a66c2e1ce60ea3f5ac503b00cb39f9a459ad23c"
+    },
+    {
+      "key": "dice-1-vector",
+      "path": "assets/svg/dice-1.svg",
+      "kind": "svg",
+      "width": 128,
+      "height": 128,
+      "bytes": 1156,
+      "sha256": "0465c080a030614e172260f045fb8b79015c97e639cc56fcf34d75500b404b04"
+    },
+    {
+      "key": "dice-2-vector",
+      "path": "assets/svg/dice-2.svg",
+      "kind": "svg",
+      "width": 128,
+      "height": 128,
+      "bytes": 1206,
+      "sha256": "5abbbc9e786f807ab72b6fbe25d8062b934da800a58533364c537c0cd8a80d1a"
+    },
+    {
+      "key": "dice-3-vector",
+      "path": "assets/svg/dice-3.svg",
+      "kind": "svg",
+      "width": 128,
+      "height": 128,
+      "bytes": 1256,
+      "sha256": "37d1f7a2bcbc5315337fc3dbd80b6572d665889728da3f80f95a9e4eb7e5e5af"
+    },
+    {
+      "key": "dice-4-vector",
+      "path": "assets/svg/dice-4.svg",
+      "kind": "svg",
+      "width": 128,
+      "height": 128,
+      "bytes": 1306,
+      "sha256": "b8a2b132c3f6b3bed2a7c1de4f0e811d9b8d19329dd7fca1aa3dcd4132d3957e"
+    },
+    {
+      "key": "dice-5-vector",
+      "path": "assets/svg/dice-5.svg",
+      "kind": "svg",
+      "width": 128,
+      "height": 128,
+      "bytes": 1356,
+      "sha256": "91102d2a33cc850dcac6832e8f5c043e76949d13916709450d202cb661060349"
+    },
+    {
+      "key": "dice-6-vector",
+      "path": "assets/svg/dice-6.svg",
+      "kind": "svg",
+      "width": 128,
+      "height": 128,
+      "bytes": 1406,
+      "sha256": "422ac91fe9a9a5e7cdf7e524610fec5b36b5e39ed8608f56a83c58c8c4808cd3"
+    },
+    {
+      "key": "joker-banner-vector",
+      "path": "assets/svg/joker-banner.svg",
+      "kind": "svg",
+      "width": 320,
+      "height": 440,
+      "bytes": 2373,
+      "sha256": "e24cbe78969bc1288d9e047ddcbc3636c7a4be522b7b3ec1bd47a287dc6dac4b"
+    },
+    {
+      "key": "legion-ironbull-vector",
+      "path": "assets/svg/legion-ironbull.svg",
+      "kind": "svg",
+      "width": 320,
+      "height": 440,
+      "bytes": 2054,
+      "sha256": "dd81f8e9bf2c869d2910431536f161671fa0b56b11874e646a8ffd7261062c33"
+    },
+    {
+      "key": "legion-spearwatch-vector",
+      "path": "assets/svg/legion-spearwatch.svg",
+      "kind": "svg",
+      "width": 320,
+      "height": 440,
+      "bytes": 1822,
+      "sha256": "5a4babb95702288b36c3363bbaee3a049739faefd27e32b08c476b778169acc0"
+    },
+    {
+      "key": "legion-stormwing-vector",
+      "path": "assets/svg/legion-stormwing.svg",
+      "kind": "svg",
+      "width": 320,
+      "height": 440,
+      "bytes": 2200,
+      "sha256": "de9d74e8f153088759691db673733eff47c0f652cd82a2b3f577c7d9c39ae58b"
+    },
+    {
+      "key": "map-regions",
+      "path": "assets/svg/map-regions.svg",
+      "kind": "svg",
+      "width": 1600,
+      "height": 900,
+      "bytes": 10112,
+      "sha256": "32d78f1952d19e5d6ccabb705f7d335c76ca5e21a7f191f36617335e8498da78"
+    },
+    {
+      "key": "map-vector",
+      "path": "assets/svg/map.svg",
+      "kind": "svg",
+      "width": 1600,
+      "height": 900,
+      "bytes": 13113,
+      "sha256": "a9c4d8debbbb1e9d78cd1db736989a9b04eb6d68fdd5195e14fa88e71a7ed95e"
+    },
+    {
+      "key": "region-labels-en",
+      "path": "assets/svg/region-labels-en.svg",
+      "kind": "svg",
+      "width": 1600,
+      "height": 900,
+      "bytes": 6321,
+      "sha256": "132d85e03c8fa3ee5d495605c65ab71f8a2746aaec74e3954bffe19b2dddb57e"
+    },
+    {
+      "key": "region-labels-tr",
+      "path": "assets/svg/region-labels-tr.svg",
+      "kind": "svg",
+      "width": 1600,
+      "height": 900,
+      "bytes": 6321,
+      "sha256": "ac1e6d70159fb58232f6fe09a434af865977a75e3d7a926fcd83c77e7b5f53e6"
+    },
+    {
+      "key": "territory-card-vector",
+      "path": "assets/svg/territory-card.svg",
+      "kind": "svg",
+      "width": 320,
+      "height": 440,
+      "bytes": 2552,
+      "sha256": "7d5ba7b63d0a2d316a6c1f6792b5f2985cd777efac8aec93559a9ed67f360da3"
+    },
+    {
+      "key": "token-amber-vector",
+      "path": "assets/svg/token-amber.svg",
+      "kind": "svg",
+      "width": 128,
+      "height": 128,
+      "bytes": 1363,
+      "sha256": "58ad63d6c9b6df6731497ca38c495871211d1f9b09f82a4bd938bef82b4e3ad7"
+    },
+    {
+      "key": "token-indigo-vector",
+      "path": "assets/svg/token-indigo.svg",
+      "kind": "svg",
+      "width": 128,
+      "height": 128,
+      "bytes": 1363,
+      "sha256": "c046e2fc6ce3f9b8e3e653a17b7ff032ec23287cb7bc8ee9656a4723829f4562"
+    },
+    {
+      "key": "token-jade-vector",
+      "path": "assets/svg/token-jade.svg",
+      "kind": "svg",
+      "width": 128,
+      "height": 128,
+      "bytes": 1359,
+      "sha256": "03baba2b8b03fcae43cc14edc003dfae3cf961eca6ea33de7f548cc300117fdc"
+    },
+    {
+      "key": "token-scarlet-vector",
+      "path": "assets/svg/token-scarlet.svg",
+      "kind": "svg",
+      "width": 128,
+      "height": 128,
+      "bytes": 1361,
+      "sha256": "991c598a0d7f1c6a342d06d1684083a9f008bf93624a05bb1da328ee9c650e2b"
+    },
+    {
+      "key": "token-silver-vector",
+      "path": "assets/svg/token-silver.svg",
+      "kind": "svg",
+      "width": 128,
+      "height": 128,
+      "bytes": 1363,
+      "sha256": "6b39f97e6de980de19476b53049231b31c6571c95a30ffe82474d96f2b1d6c48"
+    },
+    {
+      "key": "token-umber-vector",
+      "path": "assets/svg/token-umber.svg",
+      "kind": "svg",
+      "width": 128,
+      "height": 128,
+      "bytes": 1361,
+      "sha256": "6a69f9da44f4d8874e550fa6abc3519a7b38e9f49305bd67bfccfcb1445ee4c6"
+    },
+    {
+      "key": "unit-ironbull-vector",
+      "path": "assets/svg/unit-ironbull.svg",
+      "kind": "svg",
+      "width": 128,
+      "height": 128,
+      "bytes": 1682,
+      "sha256": "9cf61791840e7cf83670b2c4997e537b55ddcd14efedd64bbd7c164700c4fb80"
+    },
+    {
+      "key": "unit-spearwatch-vector",
+      "path": "assets/svg/unit-spearwatch.svg",
+      "kind": "svg",
+      "width": 128,
+      "height": 128,
+      "bytes": 1456,
+      "sha256": "2b8551a4d1395f476d20979862b129206e6484bd60893784d8574ddd8260919a"
+    },
+    {
+      "key": "unit-stormwing-vector",
+      "path": "assets/svg/unit-stormwing.svg",
+      "kind": "svg",
+      "width": 128,
+      "height": 128,
+      "bytes": 2036,
+      "sha256": "2d738132705d3339cb37e5ae9f04c05f806444d475e030f1cfec68e727b40414"
+    },
+    {
+      "key": "territory-card",
+      "path": "assets/territory-card.png",
+      "kind": "png",
+      "width": 320,
+      "height": 440,
+      "bytes": 21179,
+      "sha256": "05a25088f1771528c6b189a9afdff24d7d6fd4b3035b105fbb51e5a1298fcf78"
+    },
+    {
+      "key": "token-amber",
+      "path": "assets/token-amber.png",
+      "kind": "png",
+      "width": 128,
+      "height": 128,
+      "bytes": 3361,
+      "sha256": "0a4ed13c363a304a66698b973c77821adf39d415d540392b858cdba4a1b8de65"
+    },
+    {
+      "key": "token-indigo",
+      "path": "assets/token-indigo.png",
+      "kind": "png",
+      "width": 128,
+      "height": 128,
+      "bytes": 3303,
+      "sha256": "05047b658736cb2233359be0e1fc6a80ba87434a3f42a77152481640097d7954"
+    },
+    {
+      "key": "token-jade",
+      "path": "assets/token-jade.png",
+      "kind": "png",
+      "width": 128,
+      "height": 128,
+      "bytes": 3251,
+      "sha256": "63714014ad19758e304df07cdeda3020d5dfb7e1e64e3d03aa5cc80a7059cb4e"
+    },
+    {
+      "key": "token-scarlet",
+      "path": "assets/token-scarlet.png",
+      "kind": "png",
+      "width": 128,
+      "height": 128,
+      "bytes": 3308,
+      "sha256": "64b075ca04ac134059c9444965f40046cd292dff427f9061ca3161355cc65cca"
+    },
+    {
+      "key": "token-silver",
+      "path": "assets/token-silver.png",
+      "kind": "png",
+      "width": 128,
+      "height": 128,
+      "bytes": 3154,
+      "sha256": "cbfa0d5c3fa69a47f0237952f8ce07774641dc6149bc5bed66eea86fa427040c"
+    },
+    {
+      "key": "token-umber",
+      "path": "assets/token-umber.png",
+      "kind": "png",
+      "width": 128,
+      "height": 128,
+      "bytes": 3277,
+      "sha256": "b52f1f02eba75d1e443fba3e7bb37ce8d07e4d9db1702d13cf997b9598f7997c"
+    },
+    {
+      "key": "unit-ironbull",
+      "path": "assets/unit-ironbull.png",
+      "kind": "png",
+      "width": 128,
+      "height": 128,
+      "bytes": 3152,
+      "sha256": "cb92697c5ad598561229617149fa1bed529b9cc744b28577381d4b9b7999e083"
+    },
+    {
+      "key": "unit-spearwatch",
+      "path": "assets/unit-spearwatch.png",
+      "kind": "png",
+      "width": 128,
+      "height": 128,
+      "bytes": 3245,
+      "sha256": "22471bc14b10e84113cf183fb8d741d6bc41fcaa84a4d0a51693f79f270e9c74"
+    },
+    {
+      "key": "unit-stormwing",
+      "path": "assets/unit-stormwing.png",
+      "kind": "png",
+      "width": 128,
+      "height": 128,
+      "bytes": 3144,
+      "sha256": "f28279205aebeb4b4ca7b380d1d8d20530c3e8b669fba728acbf7a76766cabe2"
+    }
+  ]
+}

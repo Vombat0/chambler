@@ -1,0 +1,9 @@
+{
+  "id": "territory-stormfell",
+  "deckId": "territory",
+  "titleKey": "region.stormfell.name",
+  "textKey": "card.territory.stormfell.text",
+  "regionId": "stormfell",
+  "continentId": "drakemoor",
+  "value": 1
+}

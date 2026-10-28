@@ -1,0 +1,247 @@
+{
+  "formatVersion": 1,
+  "deckId": "territory",
+  "nameKey": "deck.territory.name",
+  "shuffle": "auto",
+  "cardCount": 30,
+  "cards": [
+    {
+      "id": "territory-fangreach",
+      "titleKey": "region.fangreach.name",
+      "textKey": "card.territory.fangreach.text",
+      "regionId": "fangreach",
+      "continentId": "drakemoor",
+      "value": 1
+    },
+    {
+      "id": "territory-stormfell",
+      "titleKey": "region.stormfell.name",
+      "textKey": "card.territory.stormfell.text",
+      "regionId": "stormfell",
+      "continentId": "drakemoor",
+      "value": 1
+    },
+    {
+      "id": "territory-ironfrost",
+      "titleKey": "region.ironfrost.name",
+      "textKey": "card.territory.ironfrost.text",
+      "regionId": "ironfrost",
+      "continentId": "drakemoor",
+      "value": 1
+    },
+    {
+      "id": "territory-whitmane",
+      "titleKey": "region.whitmane.name",
+      "textKey": "card.territory.whitmane.text",
+      "regionId": "whitmane",
+      "continentId": "drakemoor",
+      "value": 1
+    },
+    {
+      "id": "territory-grimhold",
+      "titleKey": "region.grimhold.name",
+      "textKey": "card.territory.grimhold.text",
+      "regionId": "grimhold",
+      "continentId": "drakemoor",
+      "value": 1
+    },
+    {
+      "id": "territory-aldermoor",
+      "titleKey": "region.aldermoor.name",
+      "textKey": "card.territory.aldermoor.text",
+      "regionId": "aldermoor",
+      "continentId": "koros",
+      "value": 1
+    },
+    {
+      "id": "territory-hollowbridge",
+      "titleKey": "region.hollowbridge.name",
+      "textKey": "card.territory.hollowbridge.text",
+      "regionId": "hollowbridge",
+      "continentId": "koros",
+      "value": 1
+    },
+    {
+      "id": "territory-mistral-basin",
+      "titleKey": "region.mistral-basin.name",
+      "textKey": "card.territory.mistral-basin.text",
+      "regionId": "mistral-basin",
+      "continentId": "koros",
+      "value": 1
+    },
+    {
+      "id": "territory-kestrel-down",
+      "titleKey": "region.kestrel-down.name",
+      "textKey": "card.territory.kestrel-down.text",
+      "regionId": "kestrel-down",
+      "continentId": "koros",
+      "value": 1
+    },
+    {
+      "id": "territory-sundergate",
+      "titleKey": "region.sundergate.name",
+      "textKey": "card.territory.sundergate.text",
+      "regionId": "sundergate",
+      "continentId": "koros",
+      "value": 1
+    },
+    {
+      "id": "territory-emberwatch",
+      "titleKey": "region.emberwatch.name",
+      "textKey": "card.territory.emberwatch.text",
+      "regionId": "emberwatch",
+      "continentId": "koros",
+      "value": 1
+    },
+    {
+      "id": "territory-loamfield",
+      "titleKey": "region.loamfield.name",
+      "textKey": "card.territory.loamfield.text",
+      "regionId": "loamfield",
+      "continentId": "koros",
+      "value": 1
+    },
+    {
+      "id": "territory-reedmarsh",
+      "titleKey": "region.reedmarsh.name",
+      "textKey": "card.territory.reedmarsh.text",
+      "regionId": "reedmarsh",
+      "continentId": "koros",
+      "value": 1
+    },
+    {
+      "id": "territory-larkspur",
+      "titleKey": "region.larkspur.name",
+      "textKey": "card.territory.larkspur.text",
+      "regionId": "larkspur",
+      "continentId": "virelai",
+      "value": 1
+    },
+    {
+      "id": "territory-glassholt",
+      "titleKey": "region.glassholt.name",
+      "textKey": "card.territory.glassholt.text",
+      "regionId": "glassholt",
+      "continentId": "virelai",
+      "value": 1
+    },
+    {
+      "id": "territory-tidewick",
+      "titleKey": "region.tidewick.name",
+      "textKey": "card.territory.tidewick.text",
+      "regionId": "tidewick",
+      "continentId": "virelai",
+      "value": 1
+    },
+    {
+      "id": "territory-fernmarsh",
+      "titleKey": "region.fernmarsh.name",
+      "textKey": "card.territory.fernmarsh.text",
+      "regionId": "fernmarsh",
+      "continentId": "virelai",
+      "value": 1
+    },
+    {
+      "id": "territory-sunspire",
+      "titleKey": "region.sunspire.name",
+      "textKey": "card.territory.sunspire.text",
+      "regionId": "sunspire",
+      "continentId": "sundar",
+      "value": 1
+    },
+    {
+      "id": "territory-amber-steppe",
+      "titleKey": "region.amber-steppe.name",
+      "textKey": "card.territory.amber-steppe.text",
+      "regionId": "amber-steppe",
+      "continentId": "sundar",
+      "value": 1
+    },
+    {
+      "id": "territory-dunehollow",
+      "titleKey": "region.dunehollow.name",
+      "textKey": "card.territory.dunehollow.text",
+      "regionId": "dunehollow",
+      "continentId": "sundar",
+      "value": 1
+    },
+    {
+      "id": "territory-cinderfall",
+      "titleKey": "region.cinderfall.name",
+      "textKey": "card.territory.cinderfall.text",
+      "regionId": "cinderfall",
+      "continentId": "sundar",
+      "value": 1
+    },
+    {
+      "id": "territory-myrravale",
+      "titleKey": "region.myrravale.name",
+      "textKey": "card.territory.myrravale.text",
+      "regionId": "myrravale",
+      "continentId": "sundar",
+      "value": 1
+    },
+    {
+      "id": "territory-olivane",
+      "titleKey": "region.olivane.name",
+      "textKey": "card.territory.olivane.text",
+      "regionId": "olivane",
+      "continentId": "sundar",
+      "value": 1
+    },
+    {
+      "id": "territory-ashen-quay",
+      "titleKey": "region.ashen-quay.name",
+      "textKey": "card.territory.ashen-quay.text",
+      "regionId": "ashen-quay",
+      "continentId": "emberisle",
+      "value": 1
+    },
+    {
+      "id": "territory-pyre-key",
+      "titleKey": "region.pyre-key.name",
+      "textKey": "card.territory.pyre-key.text",
+      "regionId": "pyre-key",
+      "continentId": "emberisle",
+      "value": 1
+    },
+    {
+      "id": "territory-coral-reach",
+      "titleKey": "region.coral-reach.name",
+      "textKey": "card.territory.coral-reach.text",
+      "regionId": "coral-reach",
+      "continentId": "emberisle",
+      "value": 1
+    },
+    {
+      "id": "territory-saltmerrow",
+      "titleKey": "region.saltmerrow.name",
+      "textKey": "card.territory.saltmerrow.text",
+      "regionId": "saltmerrow",
+      "continentId": "emberisle",
+      "value": 1
+    },
+    {
+      "id": "territory-stormcay",
+      "titleKey": "region.stormcay.name",
+      "textKey": "card.territory.stormcay.text",
+      "regionId": "stormcay",
+      "continentId": "emberisle",
+      "value": 1
+    },
+    {
+      "id": "territory-joker-01",
+      "titleKey": "card.joker.title",
+      "textKey": "card.joker.text",
+      "wild": true,
+      "value": 1
+    },
+    {
+      "id": "territory-joker-02",
+      "titleKey": "card.joker.title",
+      "textKey": "card.joker.text",
+      "wild": true,
+      "value": 1
+    }
+  ]
+}

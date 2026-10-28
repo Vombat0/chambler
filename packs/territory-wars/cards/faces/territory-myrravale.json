@@ -1,0 +1,9 @@
+{
+  "id": "territory-myrravale",
+  "deckId": "territory",
+  "titleKey": "region.myrravale.name",
+  "textKey": "card.territory.myrravale.text",
+  "regionId": "myrravale",
+  "continentId": "sundar",
+  "value": 1
+}

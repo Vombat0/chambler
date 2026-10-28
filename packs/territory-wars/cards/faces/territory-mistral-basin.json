@@ -1,0 +1,9 @@
+{
+  "id": "territory-mistral-basin",
+  "deckId": "territory",
+  "titleKey": "region.mistral-basin.name",
+  "textKey": "card.territory.mistral-basin.text",
+  "regionId": "mistral-basin",
+  "continentId": "koros",
+  "value": 1
+}

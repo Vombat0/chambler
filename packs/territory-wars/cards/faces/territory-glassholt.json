@@ -1,0 +1,9 @@
+{
+  "id": "territory-glassholt",
+  "deckId": "territory",
+  "titleKey": "region.glassholt.name",
+  "textKey": "card.territory.glassholt.text",
+  "regionId": "glassholt",
+  "continentId": "virelai",
+  "value": 1
+}

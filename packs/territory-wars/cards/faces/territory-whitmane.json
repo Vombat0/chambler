@@ -1,0 +1,9 @@
+{
+  "id": "territory-whitmane",
+  "deckId": "territory",
+  "titleKey": "region.whitmane.name",
+  "textKey": "card.territory.whitmane.text",
+  "regionId": "whitmane",
+  "continentId": "drakemoor",
+  "value": 1
+}

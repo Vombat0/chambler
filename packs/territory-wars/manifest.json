@@ -1,0 +1,850 @@
+{
+  "schemaVersion": 1,
+  "packId": "territory-wars",
+  "name": "Territory Wars",
+  "description": "A conquest strategy game on the invented world of Aetheris: 28 regions across 5 continents, reinforce, march along the adjacency roads and settle it with 3-vs-2 conflict dice. Original map, original region and continent names, original card texts and code-generated artwork; only the area-control mechanics are shared with the genre.",
+  "version": "0.1.0",
+  "author": "Chambler Pack Team",
+  "license": "MIT",
+  "minEngineVersion": "0.1.0",
+  "players": {
+    "min": 2,
+    "max": 6
+  },
+  "tags": [
+    "board-game",
+    "strategy",
+    "area-control",
+    "conquest",
+    "dice",
+    "cards",
+    "2-6-players"
+  ],
+  "assets": {
+    "board-layout": "board/board.json",
+    "board-continents": "board/continents.json",
+    "rules": "rules/rules.json",
+    "tokens": "tokens/tokens.json",
+    "deck-territory": "cards/territory.json",
+    "deck-legions": "cards/legions.json",
+    "i18n-tr": "i18n/tr.json",
+    "i18n-en": "i18n/en.json",
+    "art-index": "assets/art-index.json",
+    "card-legion-ironbull": "cards/faces/legion-ironbull.json",
+    "card-legion-spearwatch": "cards/faces/legion-spearwatch.json",
+    "card-legion-stormwing": "cards/faces/legion-stormwing.json",
+    "card-territory-aldermoor": "cards/faces/territory-aldermoor.json",
+    "card-territory-amber-steppe": "cards/faces/territory-amber-steppe.json",
+    "card-territory-ashen-quay": "cards/faces/territory-ashen-quay.json",
+    "card-territory-cinderfall": "cards/faces/territory-cinderfall.json",
+    "card-territory-coral-reach": "cards/faces/territory-coral-reach.json",
+    "card-territory-dunehollow": "cards/faces/territory-dunehollow.json",
+    "card-territory-emberwatch": "cards/faces/territory-emberwatch.json",
+    "card-territory-fangreach": "cards/faces/territory-fangreach.json",
+    "card-territory-fernmarsh": "cards/faces/territory-fernmarsh.json",
+    "card-territory-glassholt": "cards/faces/territory-glassholt.json",
+    "card-territory-grimhold": "cards/faces/territory-grimhold.json",
+    "card-territory-hollowbridge": "cards/faces/territory-hollowbridge.json",
+    "card-territory-ironfrost": "cards/faces/territory-ironfrost.json",
+    "card-territory-joker-01": "cards/faces/territory-joker-01.json",
+    "card-territory-joker-02": "cards/faces/territory-joker-02.json",
+    "card-territory-kestrel-down": "cards/faces/territory-kestrel-down.json",
+    "card-territory-larkspur": "cards/faces/territory-larkspur.json",
+    "card-territory-loamfield": "cards/faces/territory-loamfield.json",
+    "card-territory-mistral-basin": "cards/faces/territory-mistral-basin.json",
+    "card-territory-myrravale": "cards/faces/territory-myrravale.json",
+    "card-territory-olivane": "cards/faces/territory-olivane.json",
+    "card-territory-pyre-key": "cards/faces/territory-pyre-key.json",
+    "card-territory-reedmarsh": "cards/faces/territory-reedmarsh.json",
+    "card-territory-saltmerrow": "cards/faces/territory-saltmerrow.json",
+    "card-territory-stormcay": "cards/faces/territory-stormcay.json",
+    "card-territory-stormfell": "cards/faces/territory-stormfell.json",
+    "card-territory-sundergate": "cards/faces/territory-sundergate.json",
+    "card-territory-sunspire": "cards/faces/territory-sunspire.json",
+    "card-territory-tidewick": "cards/faces/territory-tidewick.json",
+    "card-territory-whitmane": "cards/faces/territory-whitmane.json",
+    "army-disc": "assets/army-disc.png",
+    "card-back-legions": "assets/card-back-legions.png",
+    "card-back-territory": "assets/card-back-territory.png",
+    "dice-1": "assets/dice-1.png",
+    "dice-2": "assets/dice-2.png",
+    "dice-3": "assets/dice-3.png",
+    "dice-4": "assets/dice-4.png",
+    "dice-5": "assets/dice-5.png",
+    "dice-6": "assets/dice-6.png",
+    "joker-banner": "assets/joker-banner.png",
+    "legion-ironbull": "assets/legion-ironbull.png",
+    "legion-spearwatch": "assets/legion-spearwatch.png",
+    "legion-stormwing": "assets/legion-stormwing.png",
+    "map-plate": "assets/map.png",
+    "territory-card": "assets/territory-card.png",
+    "token-amber": "assets/token-amber.png",
+    "token-indigo": "assets/token-indigo.png",
+    "token-jade": "assets/token-jade.png",
+    "token-scarlet": "assets/token-scarlet.png",
+    "token-silver": "assets/token-silver.png",
+    "token-umber": "assets/token-umber.png",
+    "unit-ironbull": "assets/unit-ironbull.png",
+    "unit-spearwatch": "assets/unit-spearwatch.png",
+    "unit-stormwing": "assets/unit-stormwing.png"
+  },
+  "components": [
+    {
+      "id": "war-map",
+      "kind": "board",
+      "assetRef": "map-plate",
+      "count": 1
+    },
+    {
+      "id": "die-d6",
+      "kind": "die",
+      "assetRef": "dice-6",
+      "count": 2,
+      "defaultMeta": {
+        "sides": 6
+      }
+    },
+    {
+      "id": "token-scarlet",
+      "kind": "pawn",
+      "assetRef": "token-scarlet",
+      "count": 1,
+      "defaultMeta": {
+        "color": "#B33A3A"
+      }
+    },
+    {
+      "id": "token-indigo",
+      "kind": "pawn",
+      "assetRef": "token-indigo",
+      "count": 1,
+      "defaultMeta": {
+        "color": "#3D5A9E"
+      }
+    },
+    {
+      "id": "token-jade",
+      "kind": "pawn",
+      "assetRef": "token-jade",
+      "count": 1,
+      "defaultMeta": {
+        "color": "#2E7D4F"
+      }
+    },
+    {
+      "id": "token-umber",
+      "kind": "pawn",
+      "assetRef": "token-umber",
+      "count": 1,
+      "defaultMeta": {
+        "color": "#8F5B2C"
+      }
+    },
+    {
+      "id": "token-silver",
+      "kind": "pawn",
+      "assetRef": "token-silver",
+      "count": 1,
+      "defaultMeta": {
+        "color": "#8A8FA3"
+      }
+    },
+    {
+      "id": "token-amber",
+      "kind": "pawn",
+      "assetRef": "token-amber",
+      "count": 1,
+      "defaultMeta": {
+        "color": "#D4A72C"
+      }
+    },
+    {
+      "id": "army-disc",
+      "kind": "token",
+      "assetRef": "army-disc",
+      "count": 50,
+      "defaultMeta": {
+        "role": "army"
+      }
+    },
+    {
+      "id": "unit-spearwatch",
+      "kind": "token",
+      "assetRef": "unit-spearwatch",
+      "count": 3,
+      "defaultMeta": {
+        "legionId": "spearwatch"
+      }
+    },
+    {
+      "id": "unit-stormwing",
+      "kind": "token",
+      "assetRef": "unit-stormwing",
+      "count": 3,
+      "defaultMeta": {
+        "legionId": "stormwing"
+      }
+    },
+    {
+      "id": "unit-ironbull",
+      "kind": "token",
+      "assetRef": "unit-ironbull",
+      "count": 3,
+      "defaultMeta": {
+        "legionId": "ironbull"
+      }
+    },
+    {
+      "id": "territory-banner-stack",
+      "kind": "card",
+      "assetRef": "card-back-territory",
+      "count": 30,
+      "defaultMeta": {
+        "deck": "territory"
+      }
+    },
+    {
+      "id": "legion-writ-stack",
+      "kind": "card",
+      "assetRef": "card-back-legions",
+      "count": 3,
+      "defaultMeta": {
+        "deck": "legions"
+      }
+    }
+  ],
+  "board": {
+    "snapPoints": [
+      {
+        "id": "region-fangreach",
+        "position": [
+          1.5,
+          0,
+          1.4
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "region-stormfell",
+        "position": [
+          4.7,
+          0,
+          1.1
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "region-ironfrost",
+        "position": [
+          7.9,
+          0,
+          1.3
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "region-whitmane",
+        "position": [
+          11.1,
+          0,
+          1.2
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "region-grimhold",
+        "position": [
+          13.8,
+          0,
+          1.4
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "region-aldermoor",
+        "position": [
+          1.2,
+          0,
+          3.8
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "region-hollowbridge",
+        "position": [
+          4.2,
+          0,
+          3.6
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "region-mistral-basin",
+        "position": [
+          7.3,
+          0,
+          4
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "region-kestrel-down",
+        "position": [
+          10.3,
+          0,
+          3.4
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "region-sundergate",
+        "position": [
+          13,
+          0,
+          3
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "region-emberwatch",
+        "position": [
+          14.2,
+          0,
+          4.3
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "region-loamfield",
+        "position": [
+          3,
+          0,
+          5.9
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "region-reedmarsh",
+        "position": [
+          5.7,
+          0,
+          6.1
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "region-larkspur",
+        "position": [
+          1.5,
+          0,
+          6.2
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "region-glassholt",
+        "position": [
+          3.3,
+          0,
+          7.8
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "region-tidewick",
+        "position": [
+          1.3,
+          0,
+          8.3
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "region-fernmarsh",
+        "position": [
+          5,
+          0,
+          8.6
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "region-sunspire",
+        "position": [
+          7.6,
+          0,
+          7
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "region-amber-steppe",
+        "position": [
+          10.2,
+          0,
+          6.4
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "region-dunehollow",
+        "position": [
+          12.4,
+          0,
+          6.4
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "region-cinderfall",
+        "position": [
+          14.4,
+          0,
+          6.5
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "region-myrravale",
+        "position": [
+          8.6,
+          0,
+          8.7
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "region-olivane",
+        "position": [
+          11.2,
+          0,
+          8.4
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "region-ashen-quay",
+        "position": [
+          15.4,
+          0,
+          2.1
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "region-pyre-key",
+        "position": [
+          15.5,
+          0,
+          4.7
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "region-coral-reach",
+        "position": [
+          15.4,
+          0,
+          7.8
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "region-saltmerrow",
+        "position": [
+          13.6,
+          0,
+          7.9
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "id": "region-stormcay",
+        "position": [
+          12.5,
+          0,
+          8.7
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  "decks": [
+    {
+      "id": "territory",
+      "faces": [
+        "card-territory-fangreach",
+        "card-territory-stormfell",
+        "card-territory-ironfrost",
+        "card-territory-whitmane",
+        "card-territory-grimhold",
+        "card-territory-aldermoor",
+        "card-territory-hollowbridge",
+        "card-territory-mistral-basin",
+        "card-territory-kestrel-down",
+        "card-territory-sundergate",
+        "card-territory-emberwatch",
+        "card-territory-loamfield",
+        "card-territory-reedmarsh",
+        "card-territory-larkspur",
+        "card-territory-glassholt",
+        "card-territory-tidewick",
+        "card-territory-fernmarsh",
+        "card-territory-sunspire",
+        "card-territory-amber-steppe",
+        "card-territory-dunehollow",
+        "card-territory-cinderfall",
+        "card-territory-myrravale",
+        "card-territory-olivane",
+        "card-territory-ashen-quay",
+        "card-territory-pyre-key",
+        "card-territory-coral-reach",
+        "card-territory-saltmerrow",
+        "card-territory-stormcay",
+        "card-territory-joker-01",
+        "card-territory-joker-02"
+      ],
+      "backAssetRef": "card-back-territory",
+      "shuffle": "auto"
+    },
+    {
+      "id": "legions",
+      "faces": [
+        "card-legion-spearwatch",
+        "card-legion-stormwing",
+        "card-legion-ironbull"
+      ],
+      "backAssetRef": "card-back-legions",
+      "shuffle": "auto"
+    }
+  ],
+  "helpers": [
+    {
+      "type": "dice",
+      "config": {
+        "sides": 6,
+        "maxPerRoll": 3,
+        "role": "conflict"
+      }
+    },
+    {
+      "type": "turn",
+      "config": {
+        "maxPlayers": 6,
+        "direction": "clockwise"
+      }
+    },
+    {
+      "type": "score",
+      "config": {
+        "min": 0,
+        "max": 28,
+        "label": "regions"
+      }
+    }
+  ],
+  "localization": {
+    "tr": {
+      "game.title": "Territory Wars",
+      "game.subtitle": "Aetheris'in 28 bölgesini fethet ve tek sancak altında topla.",
+      "continent.drakemoor.name": "Drakemoor Uçları",
+      "continent.koros.name": "Koros Yaylası",
+      "continent.virelai.name": "Virelai Bataklıkları",
+      "continent.sundar.name": "Sundar Bozkırı",
+      "continent.emberisle.name": "Ember Adaları",
+      "region.fangreach.name": "Fangreach",
+      "card.territory.fangreach.text": "Bu sancak kartı Fangreach bölgesini temsil eder.",
+      "region.stormfell.name": "Stormfell",
+      "card.territory.stormfell.text": "Bu sancak kartı Stormfell bölgesini temsil eder.",
+      "region.ironfrost.name": "Ironfrost",
+      "card.territory.ironfrost.text": "Bu sancak kartı Ironfrost bölgesini temsil eder.",
+      "region.whitmane.name": "Whitmane",
+      "card.territory.whitmane.text": "Bu sancak kartı Whitmane bölgesini temsil eder.",
+      "region.grimhold.name": "Grimhold",
+      "card.territory.grimhold.text": "Bu sancak kartı Grimhold bölgesini temsil eder.",
+      "region.aldermoor.name": "Aldermoor",
+      "card.territory.aldermoor.text": "Bu sancak kartı Aldermoor bölgesini temsil eder.",
+      "region.hollowbridge.name": "Hollowbridge",
+      "card.territory.hollowbridge.text": "Bu sancak kartı Hollowbridge bölgesini temsil eder.",
+      "region.mistral-basin.name": "Mistral Basin",
+      "card.territory.mistral-basin.text": "Bu sancak kartı Mistral Basin bölgesini temsil eder.",
+      "region.kestrel-down.name": "Kestrel Down",
+      "card.territory.kestrel-down.text": "Bu sancak kartı Kestrel Down bölgesini temsil eder.",
+      "region.sundergate.name": "Sundergate",
+      "card.territory.sundergate.text": "Bu sancak kartı Sundergate bölgesini temsil eder.",
+      "region.emberwatch.name": "Emberwatch",
+      "card.territory.emberwatch.text": "Bu sancak kartı Emberwatch bölgesini temsil eder.",
+      "region.loamfield.name": "Loamfield",
+      "card.territory.loamfield.text": "Bu sancak kartı Loamfield bölgesini temsil eder.",
+      "region.reedmarsh.name": "Reedmarsh",
+      "card.territory.reedmarsh.text": "Bu sancak kartı Reedmarsh bölgesini temsil eder.",
+      "region.larkspur.name": "Larkspur",
+      "card.territory.larkspur.text": "Bu sancak kartı Larkspur bölgesini temsil eder.",
+      "region.glassholt.name": "Glassholt",
+      "card.territory.glassholt.text": "Bu sancak kartı Glassholt bölgesini temsil eder.",
+      "region.tidewick.name": "Tidewick",
+      "card.territory.tidewick.text": "Bu sancak kartı Tidewick bölgesini temsil eder.",
+      "region.fernmarsh.name": "Fernmarsh",
+      "card.territory.fernmarsh.text": "Bu sancak kartı Fernmarsh bölgesini temsil eder.",
+      "region.sunspire.name": "Sunspire",
+      "card.territory.sunspire.text": "Bu sancak kartı Sunspire bölgesini temsil eder.",
+      "region.amber-steppe.name": "Amber Steppe",
+      "card.territory.amber-steppe.text": "Bu sancak kartı Amber Steppe bölgesini temsil eder.",
+      "region.dunehollow.name": "Dunehollow",
+      "card.territory.dunehollow.text": "Bu sancak kartı Dunehollow bölgesini temsil eder.",
+      "region.cinderfall.name": "Cinderfall",
+      "card.territory.cinderfall.text": "Bu sancak kartı Cinderfall bölgesini temsil eder.",
+      "region.myrravale.name": "Myrravale",
+      "card.territory.myrravale.text": "Bu sancak kartı Myrravale bölgesini temsil eder.",
+      "region.olivane.name": "Olivane",
+      "card.territory.olivane.text": "Bu sancak kartı Olivane bölgesini temsil eder.",
+      "region.ashen-quay.name": "Ashen Quay",
+      "card.territory.ashen-quay.text": "Bu sancak kartı Ashen Quay bölgesini temsil eder.",
+      "region.pyre-key.name": "Pyre Key",
+      "card.territory.pyre-key.text": "Bu sancak kartı Pyre Key bölgesini temsil eder.",
+      "region.coral-reach.name": "Coral Reach",
+      "card.territory.coral-reach.text": "Bu sancak kartı Coral Reach bölgesini temsil eder.",
+      "region.saltmerrow.name": "Saltmerrow",
+      "card.territory.saltmerrow.text": "Bu sancak kartı Saltmerrow bölgesini temsil eder.",
+      "region.stormcay.name": "Stormcay",
+      "card.territory.stormcay.text": "Bu sancak kartı Stormcay bölgesini temsil eder.",
+      "card.joker.title": "Aetheris Sancağı",
+      "card.joker.text": "Herhangi bir bölge kartının yerine geçer; bozdurmada eksik kartı tamamlar.",
+      "deck.territory.name": "Bölge Sancakları",
+      "deck.legions.name": "Lejyon Kararnameleri",
+      "legion.spearwatch.name": "Mızrakkale Muhafızları",
+      "legion.spearwatch.text": "Savunma yaparken ilk zarına +1 eklersin (en fazla 6).",
+      "legion.stormwing.name": "Fırtınatkanat Akıncıları",
+      "legion.stormwing.text": "Saldırıda ilk zarın 1 gelirse o zarı bir kez yeniden atarsın.",
+      "legion.ironbull.name": "Demirboğa Koşucuları",
+      "legion.ironbull.text": "Bir bölgeyi ele geçirdiğinde en az 2 birliği ilerletmek zorundasın.",
+      "rule.setup": "Sırayla bölge kap; her bölgeye 1 muhafız koy, kalan orduyu başkentinde beklet.",
+      "rule.reinforce": "Turunun başında bölge sayısının üçte biri kadar, en az 3, takviye al.",
+      "rule.bonus": "Bir kıtanın her bölgesi sendeyse kıta bonusunu al; başkent +2 verir.",
+      "rule.attack": "Komşu bölgeye saldır; 2+ birlikli bölgeden en çok 3 zar atarsın.",
+      "rule.defend": "Savunan taraf en çok 2 zar atar.",
+      "rule.pairing": "Zarlar büyükten küçüğe eşleşir; her eşleşmede kaybeden 1 birlik verir.",
+      "rule.ties": "Eşitlikte zarı savunan kazanır; kale bölgeleri savunmanın ilk zarına +1 ekler.",
+      "rule.conquest": "Bölgeyi alınca kullandığın zar sayısından az olmamak üzere birlik ilerlet.",
+      "rule.trade": "3 sancak kartı birikince takviye sonrası bozdur; seri büyüdükçe ödül artar.",
+      "rule.legion": "Takviyeden sonra 1 lejyon kararnamesi çek; her turda 1 lejyon oynanır.",
+      "rule.elimination": "Son bölgesini kaybeden oyundan çekilir; sancakları fetihçiye devreder.",
+      "rule.end": "Ayağa kalan son komutan Aetheris'i yönetir; eşitlikte daha az tur oynayan kazanır.",
+      "token.token-scarlet.name": "Kızıl Komutan",
+      "token.token-indigo.name": "Lacivert Komutan",
+      "token.token-jade.name": "Yeşim Komutan",
+      "token.token-umber.name": "Kestane Komutan",
+      "token.token-silver.name": "Gümüş Komutan",
+      "token.token-amber.name": "Kehribar Komutan",
+      "token.army-disc.name": "Birlik Pullu",
+      "army.per-region": "Her bölge en az 1 birlik bulundurur."
+    },
+    "en": {
+      "game.title": "Territory Wars",
+      "game.subtitle": "Conquer the 28 regions of Aetheris and unite them under one banner.",
+      "continent.drakemoor.name": "Drakemoor Reaches",
+      "continent.koros.name": "Koros Heartlands",
+      "continent.virelai.name": "Virelai Fens",
+      "continent.sundar.name": "Sundar Expanse",
+      "continent.emberisle.name": "Ember Isles",
+      "region.fangreach.name": "Fangreach",
+      "card.territory.fangreach.text": "This banner card represents the region of Fangreach.",
+      "region.stormfell.name": "Stormfell",
+      "card.territory.stormfell.text": "This banner card represents the region of Stormfell.",
+      "region.ironfrost.name": "Ironfrost",
+      "card.territory.ironfrost.text": "This banner card represents the region of Ironfrost.",
+      "region.whitmane.name": "Whitmane",
+      "card.territory.whitmane.text": "This banner card represents the region of Whitmane.",
+      "region.grimhold.name": "Grimhold",
+      "card.territory.grimhold.text": "This banner card represents the region of Grimhold.",
+      "region.aldermoor.name": "Aldermoor",
+      "card.territory.aldermoor.text": "This banner card represents the region of Aldermoor.",
+      "region.hollowbridge.name": "Hollowbridge",
+      "card.territory.hollowbridge.text": "This banner card represents the region of Hollowbridge.",
+      "region.mistral-basin.name": "Mistral Basin",
+      "card.territory.mistral-basin.text": "This banner card represents the region of Mistral Basin.",
+      "region.kestrel-down.name": "Kestrel Down",
+      "card.territory.kestrel-down.text": "This banner card represents the region of Kestrel Down.",
+      "region.sundergate.name": "Sundergate",
+      "card.territory.sundergate.text": "This banner card represents the region of Sundergate.",
+      "region.emberwatch.name": "Emberwatch",
+      "card.territory.emberwatch.text": "This banner card represents the region of Emberwatch.",
+      "region.loamfield.name": "Loamfield",
+      "card.territory.loamfield.text": "This banner card represents the region of Loamfield.",
+      "region.reedmarsh.name": "Reedmarsh",
+      "card.territory.reedmarsh.text": "This banner card represents the region of Reedmarsh.",
+      "region.larkspur.name": "Larkspur",
+      "card.territory.larkspur.text": "This banner card represents the region of Larkspur.",
+      "region.glassholt.name": "Glassholt",
+      "card.territory.glassholt.text": "This banner card represents the region of Glassholt.",
+      "region.tidewick.name": "Tidewick",
+      "card.territory.tidewick.text": "This banner card represents the region of Tidewick.",
+      "region.fernmarsh.name": "Fernmarsh",
+      "card.territory.fernmarsh.text": "This banner card represents the region of Fernmarsh.",
+      "region.sunspire.name": "Sunspire",
+      "card.territory.sunspire.text": "This banner card represents the region of Sunspire.",
+      "region.amber-steppe.name": "Amber Steppe",
+      "card.territory.amber-steppe.text": "This banner card represents the region of Amber Steppe.",
+      "region.dunehollow.name": "Dunehollow",
+      "card.territory.dunehollow.text": "This banner card represents the region of Dunehollow.",
+      "region.cinderfall.name": "Cinderfall",
+      "card.territory.cinderfall.text": "This banner card represents the region of Cinderfall.",
+      "region.myrravale.name": "Myrravale",
+      "card.territory.myrravale.text": "This banner card represents the region of Myrravale.",
+      "region.olivane.name": "Olivane",
+      "card.territory.olivane.text": "This banner card represents the region of Olivane.",
+      "region.ashen-quay.name": "Ashen Quay",
+      "card.territory.ashen-quay.text": "This banner card represents the region of Ashen Quay.",
+      "region.pyre-key.name": "Pyre Key",
+      "card.territory.pyre-key.text": "This banner card represents the region of Pyre Key.",
+      "region.coral-reach.name": "Coral Reach",
+      "card.territory.coral-reach.text": "This banner card represents the region of Coral Reach.",
+      "region.saltmerrow.name": "Saltmerrow",
+      "card.territory.saltmerrow.text": "This banner card represents the region of Saltmerrow.",
+      "region.stormcay.name": "Stormcay",
+      "card.territory.stormcay.text": "This banner card represents the region of Stormcay.",
+      "card.joker.title": "Banner of Aetheris",
+      "card.joker.text": "Stands in for any territory card and completes a trade set.",
+      "deck.territory.name": "Territory Banners",
+      "deck.legions.name": "Legion Writs",
+      "legion.spearwatch.name": "Spearwatch Legion",
+      "legion.spearwatch.text": "When defending, add +1 to your first die (max 6).",
+      "legion.stormwing.name": "Stormwing Legion",
+      "legion.stormwing.text": "In an attack, reroll your first die once if it shows 1.",
+      "legion.ironbull.name": "Ironbull Legion",
+      "legion.ironbull.text": "After a conquest, push at least 2 armies into the taken region.",
+      "rule.setup": "Claim regions in turn order; garrison 1 army each and keep the rest at your capital.",
+      "rule.reinforce": "At your turn start take reinforcements: one third of your regions, minimum 3.",
+      "rule.bonus": "Hold every region of a continent for its bonus; your capital adds +2.",
+      "rule.attack": "Attack a neighbour: roll up to 3 dice from a region holding 2+ armies.",
+      "rule.defend": "The defender rolls up to 2 dice.",
+      "rule.pairing": "Dice pair largest to smallest; every pair costs the loser one army.",
+      "rule.ties": "Ties go to the defender; fortress regions add +1 to its first die.",
+      "rule.conquest": "After a conquest move at least as many armies as dice you committed.",
+      "rule.trade": "Bank 3 banners after reinforcing; the longer the streak the bigger the reward.",
+      "rule.legion": "Draw 1 legion writ after reinforcing; one legion may be played per turn.",
+      "rule.elimination": "Losing your last region eliminates you; your banners pass to the conqueror.",
+      "rule.end": "The last commander standing rules Aetheris; ties go to the shorter campaign.",
+      "token.token-scarlet.name": "Scarlet Commander",
+      "token.token-indigo.name": "Indigo Commander",
+      "token.token-jade.name": "Jade Commander",
+      "token.token-umber.name": "Umber Commander",
+      "token.token-silver.name": "Silver Commander",
+      "token.token-amber.name": "Amber Commander",
+      "token.army-disc.name": "Army Disc",
+      "army.per-region": "Every region garrisons at least 1 army."
+    }
+  }
+}

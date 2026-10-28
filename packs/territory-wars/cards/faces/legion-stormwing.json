@@ -1,0 +1,13 @@
+{
+  "id": "legion-stormwing",
+  "deckId": "legions",
+  "titleKey": "legion.stormwing.name",
+  "textKey": "legion.stormwing.text",
+  "legionId": "stormwing",
+  "effect": {
+    "type": "attack-reroll",
+    "dieValue": 1,
+    "rerolls": 1,
+    "when": "attack"
+  }
+}

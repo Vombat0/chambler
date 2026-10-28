@@ -1,0 +1,9 @@
+{
+  "id": "territory-coral-reach",
+  "deckId": "territory",
+  "titleKey": "region.coral-reach.name",
+  "textKey": "card.territory.coral-reach.text",
+  "regionId": "coral-reach",
+  "continentId": "emberisle",
+  "value": 1
+}

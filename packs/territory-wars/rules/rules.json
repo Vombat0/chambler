@@ -1,0 +1,71 @@
+{
+  "formatVersion": 1,
+  "note": "Territory Wars rules as data. Conflict pairing: dice are sorted descending and matched largest-to-largest; every pair costs the loser one army; ties are won by the defender (fortress regions add a defence pip first).",
+  "world": "aetheris",
+  "setup": {
+    "startArmies": { "2": 38, "3": 32, "4": 27, "5": 22, "6": 18 },
+    "claim": "round-robin",
+    "garrisonPerRegion": 1,
+    "capitalChoice": "any-owned-region",
+    "firstPlayer": "dice-off"
+  },
+  "reinforce": {
+    "regionsDivisor": 3,
+    "minimum": 3,
+    "roundDown": true,
+    "continentBonusFrom": "board/continents.json",
+    "capitalBonus": 2,
+    "cardTradeBonus": true
+  },
+  "conflict": {
+    "diceSides": 6,
+    "attacker": { "minArmies": 2, "maxDice": 3, "diceChoice": "up-to-max" },
+    "defender": { "minArmies": 1, "maxDice": 2, "diceChoice": "up-to-max" },
+    "pairing": "descending",
+    "tieWins": "defender",
+    "lossesPerPair": { "attacker": 1, "defender": 1 },
+    "fortressRegions": ["mistral-basin", "sundergate", "glassholt"],
+    "fortressDefenseBonus": 1,
+    "fortressBonusCap": 6
+  },
+  "conquest": {
+    "required": true,
+    "minMoved": "attackers-committed-dice",
+    "capitalFall": "relocate-capital",
+    "eliminationOnCapitalFall": false
+  },
+  "cards": {
+    "territoryDeck": { "regions": 28, "jokers": 2, "jokerId": "banner-of-aetheris", "jokerUse": "wild" },
+    "tradeTrigger": 3,
+    "tradeTiers": [
+      { "cards": 3, "armies": 4 },
+      { "cards": 6, "armies": 6 },
+      { "cards": 9, "armies": 8 },
+      { "cards": 12, "armies": 11 },
+      { "cards": 15, "armies": 14 },
+      { "cards": 18, "armies": 18 },
+      { "cards": 21, "armies": 22 }
+    ],
+    "tradeRepeatStep": 3,
+    "tradeRepeatBonus": 4,
+    "tradeTiming": "after-reinforce",
+    "keepCardsOnDefense": true
+  },
+  "legions": {
+    "deck": "legions",
+    "draw": "after-reinforce",
+    "handLimit": 3,
+    "playPerTurn": 1,
+    "types": ["spearwatch", "stormwing", "ironbull"]
+  },
+  "elimination": {
+    "trigger": "lost-last-region",
+    "transferTerritoryCards": true,
+    "capitalBonusToConqueror": false,
+    "rankSurvivorsBy": "regions-then-reserve"
+  },
+  "end": {
+    "condition": "last-standing",
+    "tiebreak": "fewest-turns"
+  }
+}

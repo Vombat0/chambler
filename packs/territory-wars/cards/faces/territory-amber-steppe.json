@@ -1,0 +1,9 @@
+{
+  "id": "territory-amber-steppe",
+  "deckId": "territory",
+  "titleKey": "region.amber-steppe.name",
+  "textKey": "card.territory.amber-steppe.text",
+  "regionId": "amber-steppe",
+  "continentId": "sundar",
+  "value": 1
+}

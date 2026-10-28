@@ -1,0 +1,9 @@
+{
+  "id": "territory-fangreach",
+  "deckId": "territory",
+  "titleKey": "region.fangreach.name",
+  "textKey": "card.territory.fangreach.text",
+  "regionId": "fangreach",
+  "continentId": "drakemoor",
+  "value": 1
+}

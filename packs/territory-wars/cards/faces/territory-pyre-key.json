@@ -1,0 +1,9 @@
+{
+  "id": "territory-pyre-key",
+  "deckId": "territory",
+  "titleKey": "region.pyre-key.name",
+  "textKey": "card.territory.pyre-key.text",
+  "regionId": "pyre-key",
+  "continentId": "emberisle",
+  "value": 1
+}
