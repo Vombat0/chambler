@@ -502,6 +502,11 @@ body {
   color: var(--text-muted);
 }
 
+.status-pill.error {
+  color: #ff9d9d;
+  border-color: #8f3b3b;
+}
+
 .hud-players {
   display: flex;
   gap: 10px;

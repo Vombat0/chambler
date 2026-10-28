@@ -33,7 +33,9 @@ export interface HudProps {
 export function Hud(props: HudProps) {
   const { t } = useT();
   const [chatOpen, setChatOpen] = useState(true);
-  const status = props.localMode || props.connectionStatus === 'idle'
+  // Yerel masa bilinçli seçimdir: yeşil "çevrimdışı" göster. Ağ durumları
+  // (offline/resyncing dahil) statusPresentation'a düşer.
+  const status = props.localMode
     ? { key: 'status.offline' as const, priority: 'polite' as const, tone: 'ok' as const }
     : statusPresentation(props.connectionStatus);
   const self = props.players.find((player) => player.id === props.selfId);

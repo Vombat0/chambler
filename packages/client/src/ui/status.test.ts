@@ -23,4 +23,20 @@ describe('connection status presentation (D1)', () => {
     expect(statusPresentation('idle').tone).toBe('muted');
     expect(statusPresentation('idle').key).toBe('status.idle');
   });
+
+  it(' offline (B4) → kırmızı/error ve assertive duyuru', () => {
+    expect(statusPresentation('offline')).toEqual({
+      key: 'status.offline',
+      priority: 'assertive',
+      tone: 'error',
+    });
+  });
+
+  it(' resyncing (B4) → sarı/warn, eşitleme bekleniyor', () => {
+    expect(statusPresentation('resyncing')).toEqual({
+      key: 'status.resyncing',
+      priority: 'polite',
+      tone: 'warn',
+    });
+  });
 });

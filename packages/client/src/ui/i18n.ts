@@ -62,6 +62,7 @@ const tr: Dictionary = {
   'status.reconnecting': 'Yeniden bağlanıyor…',
   'status.disconnected': 'Bağlantı yok',
   'status.offline': 'Çevrimdışı (yerel)',
+  'status.resyncing': 'Eşitleniyor…',
   'region.status': 'Bağlantı durumu',
   'region.errors': 'Hata bildirimleri',
 
@@ -228,6 +229,7 @@ const en: Dictionary = {
   'status.reconnecting': 'Reconnecting…',
   'status.disconnected': 'Disconnected',
   'status.offline': 'Offline (local)',
+  'status.resyncing': 'Resyncing…',
   'region.status': 'Connection status',
   'region.errors': 'Error notifications',
 

@@ -278,7 +278,6 @@ ${body}
 `;
 
 const FONT = 'DejaVu Sans, Helvetica, Arial, sans-serif';
-const polyPts = (pts: readonly Pt[]): string => pts.map((p) => `${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' ');
 
 /* ------------------------------------------------------------------ tiles */
 const TILE = 176;
