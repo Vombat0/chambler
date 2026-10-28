@@ -43,7 +43,13 @@
       "router_status": "DIRECT",
       "assignable": true,
       "exclusion_reason": null,
-      "status": "active"
+      "status": "active",
+      "provider_endpoint": {
+        "context_limit": 200000,
+        "output_limit": 32000,
+        "quota": "UNKNOWN",
+        "note": "Provider-enforced limits; may differ from (be lower than) base model official limits"
+      }
     },
     {
       "endpoint_id": "evren/gemma-4-31b",
@@ -71,7 +77,13 @@
       "router_status": "DIRECT",
       "assignable": true,
       "exclusion_reason": null,
-      "status": "active"
+      "status": "active",
+      "provider_endpoint": {
+        "context_limit": 200000,
+        "output_limit": 32000,
+        "quota": "UNKNOWN",
+        "note": "Provider-enforced limits; may differ from (be lower than) base model official limits"
+      }
     },
     {
       "endpoint_id": "evren/glm-5.3",
@@ -88,18 +100,22 @@
       ],
       "capability_classes": [
         "text/code",
-        "reasoning",
-        "multimodal"
+        "reasoning"
       ],
-      "multimodal_inputs": [
-        "vision"
-      ],
+      "multimodal_inputs": [],
       "tools_supported": true,
       "is_router": false,
       "router_status": "DIRECT",
       "assignable": true,
       "exclusion_reason": null,
-      "status": "active"
+      "status": "active",
+      "provider_endpoint": {
+        "context_limit": 200000,
+        "output_limit": 32000,
+        "quota": "UNKNOWN",
+        "note": "Provider-enforced limits; may differ from (be lower than) base model official limits"
+      },
+      "multimodal": false
     },
     {
       "endpoint_id": "evren/mimo-v2.6-pro",
@@ -127,7 +143,13 @@
       "router_status": "DIRECT",
       "assignable": true,
       "exclusion_reason": null,
-      "status": "active"
+      "status": "active",
+      "provider_endpoint": {
+        "context_limit": 200000,
+        "output_limit": 32000,
+        "quota": "UNKNOWN",
+        "note": "Provider-enforced limits; may differ from (be lower than) base model official limits"
+      }
     },
     {
       "endpoint_id": "evren/qwen3-vl-30b",
@@ -155,7 +177,13 @@
       "router_status": "DIRECT",
       "assignable": true,
       "exclusion_reason": null,
-      "status": "active"
+      "status": "active",
+      "provider_endpoint": {
+        "context_limit": 200000,
+        "output_limit": 32000,
+        "quota": "UNKNOWN",
+        "note": "Provider-enforced limits; may differ from (be lower than) base model official limits"
+      }
     },
     {
       "endpoint_id": "evren/qwen3.8-flash-next",
@@ -183,7 +211,13 @@
       "router_status": "DIRECT",
       "assignable": true,
       "exclusion_reason": null,
-      "status": "active"
+      "status": "active",
+      "provider_endpoint": {
+        "context_limit": 200000,
+        "output_limit": 32000,
+        "quota": "UNKNOWN",
+        "note": "Provider-enforced limits; may differ from (be lower than) base model official limits"
+      }
     },
     {
       "endpoint_id": "google/antigravity-claude-opus-5-5-high",

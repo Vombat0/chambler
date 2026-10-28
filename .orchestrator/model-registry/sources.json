@@ -47,6 +47,13 @@
       "type": "config_file",
       "path": "/Users/ahmetoktay/.config/opencode/opencode.jsonc",
       "description": "Active local provider configuration for Google and Evren"
+    },
+    {
+      "id": "zai_glm53_model_card",
+      "type": "official_documentation",
+      "url": "https://docs.z.ai/guides/llm/glm-5.3",
+      "date": "2026-10-28",
+      "description": "Official Z.ai model card: GLM-5.3 accepts TEXT INPUT ONLY; the multimodal sibling is the separate GLM-5.3-Flash model. Justification for correcting evren/glm-5.3 multimodal/vision fields to false in endpoints.json and capabilities.json (registry previously conflated GLM-5.3 with GLM-5.3-Flash)."
     }
   ]
 }

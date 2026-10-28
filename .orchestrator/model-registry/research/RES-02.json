@@ -1,0 +1,384 @@
+{
+  "task_id": "RES-02",
+  "wbs_id": "0.2",
+  "phase_id": "PRE",
+  "research_date": "2026-10-28",
+  "assigned_endpoint": "evren/glm-5.3",
+  "target_workload": ["TypeScript", "Three.js", "Rapier (WASM fizik)", "Colyseus (Node.js ağ)", "React/Svelte arayüz", "WebSocket state senkronu", "test yazma", "kod inceleme"],
+  "evren_provider": {
+    "quota_and_rate_limits": "UNKNOWN — 'evren' sağlayıcısına ait kamuya açık kota/oran limiti belgesi bulunamadı (yerel/özel OpenCode sağlayıcı yapılandırması gibi görünüyor)",
+    "pricing": "UNKNOWN",
+    "local_observation_from_registry": "Altı evren endpoint'inin tamamı 200.000 token context / 32.000 token output sınırı ve low/medium/high reasoning varyantları sunuyor. Bu, hiçbir temel modelin resmi maksimumunun altında. 200K üzerinde context veya 32K üzerinde çıktı gerektiren görevler temel model yeteneğinden bağımsız olarak evren sınırına takılır.",
+    "sources": [
+      "/Users/ahmetoktay/Documents/Chambler/.orchestrator/model-registry/endpoints.json",
+      "/Users/ahmetoktay/Documents/Chambler/.orchestrator/model-registry/base-models.json"
+    ]
+  },
+  "models": [
+    {
+      "endpoint_id": "evren/deepseek-v4.1-flash",
+      "base_model_id": "deepseek-v4.1-flash",
+      "identity": {
+        "developer": "DeepSeek-AI",
+        "release_date": "2026-09-10",
+        "revision_note": "Güncellenmiş DeepSeek-V4.1-Flash-1017 kontrol noktası 2026-10-17'de yayımlandı; evren endpoint'inin hangi kontrol noktasını sunduğu UNKNOWN",
+        "architecture": "552B parametreli MoE, yeni Causal Encoder-Decoder (CED): 40 katman (20 kodlayıcı + 20 kod çözücü), girdi başına ~8B / çıktı başına ~16B aktif parametre; paylaşımlı 1 + 384 yönlendirilmiş uzman, token başına 6 aktif",
+        "license": "MIT, açık ağırlıklar"
+      },
+      "limits": {
+        "official_context": 1048576,
+        "official_max_output": 384000,
+        "evren_observed_context": 200000,
+        "evren_observed_output": 32000
+      },
+      "capabilities": {
+        "reasoning": "Sürekli kontrollü reasoning effort 1-100 (resmi)",
+        "tool_calling": "Destekleniyor (ajanıl değerlendirmeler araç iskeletleriyle koşuldu; evren low/medium/high varyantları)",
+        "multimodal": "Girdi: metin + görüntü. Video girdisi desteklenmiyor (Vals AI)"
+      },
+      "benchmarks": [
+        {"benchmark": "Terminal-Bench 2.1", "version": "2.1", "score": "90.6 Pass@1", "date": "2026-09-10", "methodology": "Resmi; reasoning_effort=100, temp=1.0, top_p=0.95, DeepSeek Harness Minimal modu, 1M context, görev başına N=3", "source_type": "official", "source_url": "https://build.nvidia.com/deepseek/deepseek-v4.1-flash/modelcard"},
+        {"benchmark": "Terminal-Bench 3.0 / 4.0", "version": "3.0 / 4.0", "score": "30.0 / 31.2 Pass@1", "date": "2026-09-10", "methodology": "Resmi; aynı kurulum (Claude Code iskeleti TB 4.0 için). Kıyas: Opus-5.0 43.3 / 51.8", "source_type": "official", "source_url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash"},
+        {"benchmark": "DeepSWE v1.1 (SWE-bench Verified tabanlı ajan benchmark'ı)", "version": "v1.1", "score": "74.2 resolved", "date": "2026-09-10", "methodology": "Resmi; mini-SWE iskeleti. DİKKAT: HF karşılaştırma tablosunda sütun sırası belirsiz (70.5/67.6 değerleri de V4.1-Flash varyantlarına ait olabilir); 74.2 NVIDIA model kartında V4.1-Flash instruct için raporlanıyor", "source_type": "official", "source_url": "https://build.nvidia.com/deepseek/deepseek-v4.1-flash/modelcard"},
+        {"benchmark": "GPQA Diamond", "version": "Diamond", "score": "90.9 Pass@1", "date": "2026-09-10", "methodology": "Resmi; reasoning_effort=100", "source_type": "official", "source_url": "https://build.nvidia.com/deepseek/deepseek-v4.1-flash/modelcard"},
+        {"benchmark": "CyberGym", "version": "-", "score": "88.1 Pass@1", "date": "2026-09-10", "methodology": "Resmi", "source_type": "official", "source_url": "https://build.nvidia.com/deepseek/deepseek-v4.1-flash/modelcard"},
+        {"benchmark": "Agents' Last Exam", "version": "-", "score": "31.8 Pass@1 (1017 revizyonu: 35.4)", "date": "2026-09-10 / 2026-10-17", "methodology": "Resmi", "source_type": "official", "source_url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017"},
+        {"benchmark": "Codeforces", "version": "-", "score": "3471 reyting", "date": "2026-09", "methodology": "Üçüncü taraf raporu (eesel), resmi kart referansı", "source_type": "third_party", "source_url": "https://www.eesel.ai/blog/deepseek-v4-1-flash"},
+        {"benchmark": "Vals Index (Vals AI)", "version": "-", "score": "Flash: %50.60; Flash-1017: %61.26 ±1.05 (28 model arasında 9.)", "date": "2026-10", "methodology": "Bağımsız; temp=1, yüksek reasoning effort", "source_type": "independent", "source_url": "https://www.vals.ai/models/deepseek_deepseek-v4.1-flash-1017"},
+        {"benchmark": "SWE-bench Verified", "version": "Verified", "score": "UNKNOWN — yayımlanmış skor bulunamadı (DeepSWE v1.1 hariç)", "date": "-", "methodology": "-", "source_type": "none", "source_url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash"}
+      ],
+      "pricing": {
+        "official_deepseek_api_per_1m_tokens": "Yoğun olmayan saat: girdi (önbellek isabetsiz) $0.15, önbellek isabetli $0.003, çıktı $0.60. Yoğun saat: girdi $0.30, önbellek isabetli $0.006, çıktı $1.20",
+        "third_party_note": "Vals AI $0.30/$1.20 (in/out) listeliyor (yoğun saat tarifesiyle uyumlu)",
+        "evren_pricing": "UNKNOWN",
+        "sources": ["https://www.eesel.ai/blog/deepseek-v4-1-flash", "https://www.vals.ai/models/deepseek_deepseek-v4.1-flash"]
+      },
+      "quota_and_rate_limits": {
+        "official": "DeepSeek API eş zamanlılık 2.500 (eesel raporu, resmi fiyat kartından)",
+        "evren": "UNKNOWN"
+      },
+      "known_weaknesses": [
+        "Terminal-Bench 3.0/4.0'da Opus-5.0'ın belirgin gerisinde (30.0/31.2 vs 43.3/51.8) — zor ajanıl terminal işlerinde üst düzey modellerin altında",
+        "Vals AI bağımsız doğruluk ölçümü orta seviye (%50.6; 1017 revizyonu %61.3) — resmi ajan benchmark'larının gösterdiği üst düzeyin tamamını bağımsız doğrulama yok",
+        "1017 revizyonu çıktıktan sonra eski kontrol noktası ile yeni olanın karıştırılması riski; evren endpoint'inin kontrol noktası belirsiz"
+      ],
+      "registry_discrepancies": [
+        "endpoints.json 200K/32K sınırı resmi 1M/384K limitinin altında"
+      ],
+      "task_suitability": {
+        "network_architecture_colyseus_websocket": {"score": 5, "rationale": "TB 2.1 90.6 (sınıf lideri) + DeepSWE 74.2 + 1M resmi context; ajanıl Node.js/ağ kodu için üst düzey, token maliyeti düşük"},
+        "physics_3d_threejs_rapier": {"score": 4, "rationale": "Güçlü genel kod + akıl yürütme (GPQA-D 90.9); görüntü girdisi sahne/SS incelemesine yardım eder; 3D'ye özgü bağımsız doğrulama yok"},
+        "ui_react_svelte": {"score": 4, "rationale": "Üst düzey kod üretimi + görüntü girdisi ile görsel QA; arayüze özgü benchmark yok"},
+        "test_qa": {"score": 5, "rationale": "Ajanıl/test döngüleri TB'de kanıtlanmış; düşük maliyet ölçeklenebilir test üretimi sağlar"},
+        "documentation": {"score": 5, "rationale": "1M resmi context (evren 200K'ya kısıtlı), ucuz, çok dilli"},
+        "code_review": {"score": 4, "rationale": "Güçlü akıl yürütme; flash kademesi derin incelemede Pro/Opus kademesine göre ara sıra derinlik eksikte kalabilir"}
+      }
+    },
+    {
+      "endpoint_id": "evren/gemma-4-31b",
+      "base_model_id": "gemma-4-31b",
+      "identity": {
+        "developer": "Google DeepMind",
+        "release_date": "2026-04-02 (yaklaşık; llm-stats)",
+        "architecture": "Yoğun (dense) 30.7B parametre, 60 katman, hibrit dikkat (1024 token kayan pencere + global dikkat, birleşik K/V), 262K kelime dağarcığı",
+        "license": "llm-stats Apache-2.0 raporluyor; HF model kartı birincil kaynak olarak doğrulanmalı"
+      },
+      "limits": {
+        "official_context": 262144,
+        "official_max_output": "UNKNOWN — resmi çıktı limiti toplanan kaynaklarda yayımlanmadı",
+        "evren_observed_context": 200000,
+        "evren_observed_output": 32000
+      },
+      "capabilities": {
+        "reasoning": "Yerleşik Thinking (adım adım akıl yürütme) modu",
+        "tool_calling": "Yerel fonksiyon çağırma (tüm IT varyantlarında; resmi model kartı)",
+        "multimodal": "Girdi: metin + görüntü (serbest karışık); video kare dizileri olarak (NVIDIA NGC); ses yalnızca E2B/E4B/12B'de"
+      },
+      "benchmarks": [
+        {"benchmark": "LiveCodeBench", "version": "v6", "score": "%80.0 (IT thinking)", "date": "2026-04", "methodology": "Resmi Google model kartı (instruction-tuned thinking)", "source_type": "official", "source_url": "https://ai.google.dev/gemma/docs/core/model_card_4"},
+        {"benchmark": "MMLU Pro / AIME 2026 / GPQA Diamond", "version": "-", "score": "%85.2 / %89.2 (araçsız) / %84.3", "date": "2026-04", "methodology": "Resmi model kartı, IT thinking", "source_type": "official", "source_url": "https://ai.google.dev/gemma/docs/core/model_card_4"},
+        {"benchmark": "Codeforces", "version": "-", "score": "2150 ELO", "date": "2026-04", "methodology": "Resmi model kartı (ollama'dan alıntılanan tablo)", "source_type": "official", "source_url": "https://ollama.com/library/gemma4:31b"},
+        {"benchmark": "τ2-bench (ajanıl araç kullanımı)", "version": "tau-2", "score": "3 alan ortalaması %76.9 (Retail %86.4)", "date": "2026-04", "methodology": "Resmi model kartı; Retail skoru üçüncü taraf analizi (verdent)", "source_type": "official", "source_url": "https://ai.google.dev/gemma/docs/core/model_card_4"},
+        {"benchmark": "MRCR v2 (uzun context)", "version": "v2, 8 iğne 128k", "score": "%66.4", "date": "2026-04", "methodology": "Resmi model kartı", "source_type": "official", "source_url": "https://ai.google.dev/gemma/docs/core/model_card_4"},
+        {"benchmark": "SWE-Rebench", "version": "-", "score": "%41.6", "date": "2026-10 itibarıyla", "methodology": "Bağımsız leaderboard (benchlm'in aktardığı swe-rebench.com)", "source_type": "independent", "source_url": "https://benchlm.ai/models/gemma-4-31b"},
+        {"benchmark": "AA ITBench / AA Agentic Index (Artificial Analysis)", "version": "-", "score": "%37.3 / %6.7", "date": "2026-10", "methodology": "Bağımsız (Artificial Analysis, benchlm üzerinden)", "source_type": "independent", "source_url": "https://benchlm.ai/models/gemma-4-31b"},
+        {"benchmark": "NVFP4 nicelemeli bağımsız değerlendirme (RedHatAI)", "version": "LCB v6, GPQA-D, BFCLv4", "score": "LCB v6 %71.4-74.3; GPQA-D %77.4; BFCLv4 %70.8", "date": "2026", "methodology": "Bağımsız; lm-evaluation-harness/lighteval, vLLM — BF16'e göre %98.9-104.9 tutarlılık", "source_type": "independent", "source_url": "https://huggingface.co/RedHatAI/gemma-4-31B-it-NVFP4"},
+        {"benchmark": "Terminal-Bench / SWE-bench Verified", "version": "-", "score": "UNKNOWN — bulunamadı", "date": "-", "methodology": "-", "source_type": "none", "source_url": "https://ai.google.dev/gemma/docs/core/model_card_4"}
+      ],
+      "pricing": {
+        "third_party_api_per_1m_tokens": "$0.09 girdi / $0.05 önbellekli girdi / $0.34 çıktı (llm-stats; Google'ın kendi API fiyatı ayrıca doğrulanmalı)",
+        "evren_pricing": "UNKNOWN",
+        "sources": ["https://llm-stats.com/models/gemma-4-31b-it"]
+      },
+      "quota_and_rate_limits": {
+        "official": "UNKNOWN",
+        "evren": "UNKNOWN"
+      },
+      "known_weaknesses": [
+        "Gerçek dünya SWE/ajanıl işleri zayıf: SWE-Rebench %41.6, AA Agentic Index %6.7 — yarışma tarzı kod (LCB %80) ile gerçek depo işi arasında büyük fark",
+        "HLE (araçsız) %19.5 — çok zor akıl yürütmede üst düzey değil",
+        "31B yoğun model: karmaşık çok dosyalı mimari işlerde daha büyük modellerin altında",
+        "31B varyantında ses girdisi yok; resmi çıktı limiti yayımlanmamış"
+      ],
+      "registry_discrepancies": [
+        "endpoints.json 200K/32K sınırı resmi 256K context'in altında"
+      ],
+      "task_suitability": {
+        "network_architecture_colyseus_websocket": {"score": 3, "rationale": "LCB v6 %80 ve τ2 %76.9 umut verici ama AA agentic %6.7 / SWE-Rebench %41.6 karmaşık Node.js ağ mimarisi için yetersiz güvence"},
+        "physics_3d_threejs_rapier": {"score": 3, "rationale": "Matematik güçlü (AIME26 %89.2) fizik hesaplarına yardım eder; ancak derin TS kod üretimi orta seviye"},
+        "ui_react_svelte": {"score": 4, "rationale": "Görüntü girdisi + tek atımlık arayüz üretim raporları; görsel QA döngüsüne uygun"},
+        "test_qa": {"score": 3, "rationale": "Yerel fonksiyon çağırma iyi; ajanıl terminal işleri (ITBench %37.3) test koşutma döngülerini sınırlar"},
+        "documentation": {"score": 4, "rationale": "256K resmi context, 140+ dil, güçlü çokluortam dokümantasyon"},
+        "code_review": {"score": 3, "rationale": "GPQA-D %84.3 akıl yürütme fena değil ama gerçek SWE inceleme kanıtı (SWE-Rebench) zayıf"}
+      }
+    },
+    {
+      "endpoint_id": "evren/glm-5.3",
+      "base_model_id": "glm-5.3",
+      "identity": {
+        "developer": "Z.ai (Zhipu AI)",
+        "release_date": "2026-08-14",
+        "architecture": "MoE 753B toplam (~744B MTP hariç) / token başına ~40B aktif; GLM-5.2 ile aynı temel model, ölçekli son-işleme (post-training)",
+        "license": "Açık ağırlıklar (HF zai-org/GLM-5.3; lansmandan ~2 hafta sonra yayımlandı)"
+      },
+      "limits": {
+        "official_context": 1048576,
+        "official_max_output": 131072,
+        "evren_observed_context": 200000,
+        "evren_observed_output": 32000
+      },
+      "capabilities": {
+        "reasoning": "Her zaman açık; low/high/max effort düzeyleri; kapatılamıyor (resmi)",
+        "tool_calling": "Fonksiyon çağırma + yapılandırılmış JSON çıktı + akış (akıl yürütme içeriği dahil) destekleniyor (AWS Bedrock / Alibaba docs)",
+        "multimodal": "RESMİ OLARAK YALNIZCA METİN girdisi. Çokluortam kardeşi ayrı bir model: GLM-5.3-Flash (320B/18B aktif, yerel çokluortam)"
+      },
+      "benchmarks": [
+        {"benchmark": "SWE-bench Verified", "version": "Verified", "score": "%95.4 (30 model arasında 5.; Opus 5'in 1.6 puan gerisinde)", "date": "2026-08-20", "methodology": "BAĞIMSIZ — vals.ai taraması, mini-swe-agent yalnızca-bash iskeleti (genztech.blog aktarımı)", "source_type": "independent", "source_url": "https://genztech.blog/models/glm-5-3"},
+        {"benchmark": "Terminal-Bench", "version": "2.1", "score": "88.2 (benchmarklist alan lideri listesi: 88.3)", "date": "2026-08-14", "methodology": "Resmi Z.ai model kartı", "source_type": "official", "source_url": "https://docs.z.ai/guides/llm/glm-5.3"},
+        {"benchmark": "Terminal-Bench", "version": "3.0", "score": "28.3 (açık kaynak SOTA iddiası)", "date": "2026-08-14", "methodology": "Resmi Z.ai; GLM-5.2'den 4.6'dan yükseldi", "source_type": "official", "source_url": "https://z.ai/blog/glm-5.3"},
+        {"benchmark": "DeepSWE", "version": "v1.1", "score": "66.9 (GLM-5.2: 46.2)", "date": "2026-08-14", "methodology": "Resmi Z.ai", "source_type": "official", "source_url": "https://docs.z.ai/guides/llm/glm-5.3"},
+        {"benchmark": "Agents' Last Exam (CLI)", "version": "-", "score": "28.5", "date": "2026-08-14", "methodology": "Resmi Z.ai; resmi değerlendirme protokolü, Claude Code iskeleti, effort=max, 1M context", "source_type": "official", "source_url": "https://z.ai/blog/glm-5.3"},
+        {"benchmark": "SWE-Marathon", "version": "v1.1", "score": "%42.5", "date": "2026-08", "methodology": "Resmi Z.ai vurgusu (codingfleet aktarımı)", "source_type": "official", "source_url": "https://codingfleet.com/blog/swe-bench-pro-leaderboard-2026"},
+        {"benchmark": "CyberGym (güvenlik açığı keşfi)", "version": "-", "score": "SOTA (en iyi sonuç — sayısal değer toplanmadı)", "date": "2026-08-14", "methodology": "Resmi Z.ai iddiası", "source_type": "official", "source_url": "https://z.ai/blog/glm-5.3"},
+        {"benchmark": "BenchLM toplam skor", "version": "-", "score": "68.32/100, 1001 model arasında 25.", "date": "2026-10-28", "methodology": "Bağımsız toplama (benchlm)", "source_type": "independent", "source_url": "https://benchlm.ai/models/glm-5-3"},
+        {"benchmark": "SWE-bench Pro", "version": "Pro", "score": "YAYIMLANMADI (GLM-5.2: %62.1)", "date": "-", "methodology": "-", "source_type": "none", "source_url": "https://codingfleet.com/blog/swe-bench-pro-leaderboard-2026"}
+      ],
+      "pricing": {
+        "official_zai_api_per_1m_tokens": "$1.40 girdi / $4.40 çıktı (OpenRouter/Kilo üzerinden doğrulandı)",
+        "alibaba_model_studio": "¥8 girdi / ¥28 çıktı (1M token başına)",
+        "evren_pricing": "UNKNOWN",
+        "sources": ["https://kilo.ai/models/z-ai-glm-5-3", "https://www.alibabacloud.com/help/en/model-studio/glm-5-3-by-zhipu"]
+      },
+      "quota_and_rate_limits": {
+        "official": "UNKNOWN — Z.ai/Alibaba dokümanlarında bu görev için toplanmadı",
+        "evren": "UNKNOWN"
+      },
+      "known_weaknesses": [
+        "Yalnızca metin — ekran görüntüsü/3B sahne çıktısını görsel olarak inceleyemez (görsel yetenek GLM-5.3-Flash'ta)",
+        "Akıl yürütme kapatılamıyor — basit görevlerde gereksiz gecikme/maliyet",
+        "Hız orta: ~67 tok/s, ilk tokena 3.11s (swfte ölçümü)",
+        "Resmi SWE-bench Pro skoru yayımlanmadı"
+      ],
+      "registry_discrepancies": [
+        "endpoints.json glm-5.3 için 'multimodal / vision' claim ediyor; resmi Z.ai dokümantasyonu GLM-5.3'ün yalnızca metin girdisi aldığını belirtiyor. Registry'deki çokluortam etiketi muhtemelen GLM-5.3-Flash ile karışmış — atamalarda DÜZELTME gerekli",
+        "endpoints.json 200K/32K sınırı resmi 1M/128K limitinin altında"
+      ],
+      "task_suitability": {
+        "network_architecture_colyseus_websocket": {"score": 5, "rationale": "SWE-bench Verified %95.4 (bağımsız) + TB2.1 88.2 + 1M resmi context + fonksiyon çağırma; Colyseus/WebSocket mimarisi için en güçlü adaylardan biri"},
+        "physics_3d_threejs_rapier": {"score": 4, "rationale": "Üst düzey kod+akıl yürütme; ancak görsel girdi olmadığından oluşturulan sahneyi görsel doğrulayamaz"},
+        "ui_react_svelte": {"score": 4, "rationale": "Güçlü kod üretimi; metin_odaklı yineleme, görsel QA yok"},
+        "test_qa": {"score": 5, "rationale": "Uzun ufuklu ajanıl görevlere göre tasarlanmış; DeepSWE/TB kanıtı güçlü"},
+        "documentation": {"score": 4, "rationale": "1M resmi context, güçlü uzun-ufuk analizi; yalnızca metin kısıtı küçük etki"},
+        "code_review": {"score": 5, "rationale": "SWE-bench Verified %95.4 + CyberGym SOTA (güvenlik açığı keşfi) — kod incelemesi/güvenlik taraması için en iyi kanıt seti"}
+      }
+    },
+    {
+      "endpoint_id": "evren/mimo-v2.6-pro",
+      "base_model_id": "mimo-v2.6",
+      "identity": {
+        "developer": "Xiaomi (MiMo ekibi)",
+        "release_date": "2026-09-21/22",
+        "architecture": "1.02T seyrek MoE / token başına ~42B aktif; hibrit dikkat (SWA pencere 128 + global dikkat), 384 yönlendirilmiş uzman / 8 aktif; 5 SWA katmanlı MTP spekülatif kod çözücü",
+        "license": "MIT, açık ağırlıklar (MiMo-V2.6-Pro-RL)"
+      },
+      "limits": {
+        "official_context": 1048576,
+        "official_max_output": 131072,
+        "evren_observed_context": 200000,
+        "evren_observed_output": 32000
+      },
+      "capabilities": {
+        "reasoning": "Derin düşünme (RL eğitimli akıl yürütme); 'Deep Thinking' resmi olarak listeli",
+        "tool_calling": "Araç çağırma, akış, web araması, yapılandırılmış çıktı, bağlam önbelleği (resmi Xiaomi sayfası)",
+        "multimodal": "Omni-modal girdi: metin + görüntü + video + ses → metin çıktı"
+      },
+      "benchmarks": [
+        {"benchmark": "DeepSWE", "version": "v1.1", "score": "71.9 (Pro) — kıyas: Opus 5: 74.0, GPT-5.6 Sol: 73.0, Fable 5: 70.0; Flash: 67.9; önceki V2.5 Pro: 19.0", "date": "2026-09-22", "methodology": "Resmi Xiaomi HF model kartı", "source_type": "official", "source_url": "https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Pro-RL"},
+        {"benchmark": "ProgramBench", "version": "-", "score": "26.5 (Opus 5: 37.0; Fable 5: 33.0)", "date": "2026-09-22", "methodology": "Resmi Xiaomi HF model kartı", "source_type": "official", "source_url": "https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Pro-RL"},
+        {"benchmark": "Terminal-Bench", "version": "4.0", "score": "34.9 (V2.5 Pro'dan 1.5'ten yükseldi)", "date": "2026-09-23", "methodology": "Üçüncü taraf analiz (eesel), resmi veriye atıf", "source_type": "third_party", "source_url": "https://www.eesel.ai/blog/xiaomi-mimo-v2-6"},
+        {"benchmark": "MiMo Visual Coding", "version": "-", "score": "72.3", "date": "2026-09-22", "methodology": "Resmi Xiaomi (görsel kodlama değerlendirmesi)", "source_type": "official", "source_url": "https://www.eesel.ai/blog/xiaomi-mimo-v2-6"},
+        {"benchmark": "BenchLM toplam skor", "version": "-", "score": "73.85/100, 1000 model arasında 13.", "date": "2026-10-27", "methodology": "Bağımsız toplama (benchlm)", "source_type": "independent", "source_url": "https://benchlm.ai/models/mimo-v2-6-pro"},
+        {"benchmark": "Artificial Analysis kategori endeksleri (benchleader)", "version": "-", "score": "Toplam 64; akıl yürütme 79; kodlama 62; ajanlar 59; çokluortam 60; uzun context 68. Çıktı hızı 54 tok/s; ilk tam yanıt 40s (medyan); ilk token 2.50s", "date": "2026-09-21 sonrası", "methodology": "Bağımsız (Artificial Analysis ölçümleri)", "source_type": "independent", "source_url": "https://www.benchleader.com/models/mimo-v2-6-pro"},
+        {"benchmark": "Vals Index + bileşenler (Vals AI)", "version": "-", "score": "Vals Index %55.20 ±1.18; Code Migration %43.01 (Kimi K3: %16.10); Vibe Code Bench %85.22", "date": "2026-10", "methodology": "Bağımsız", "source_type": "independent", "source_url": "https://www.vals.ai/comparisons/kimi_kimi-k3-vs-xiaomi_mimo-v2.6-pro"},
+        {"benchmark": "AA-LCR (uzun context, Artificial Analysis)", "version": "-", "score": "%86.3 — 408 model arasında 3. sırada", "date": "2026-10", "methodology": "Bağımsız (benchmarklist toplaması)", "source_type": "independent", "source_url": "https://benchmarklist.com/models/xiaomi-mimo-v2.6-pro"},
+        {"benchmark": "SWE-bench Verified / Terminal-Bench 2.1 (Pro)", "version": "-", "score": "UNKNOWN — Pro için bulunamadı (MiMo-V2-Flash için SWE-bench Verified %73.4 raporlanıyor; farklı model)", "date": "-", "methodology": "-", "source_type": "none", "source_url": "https://anotherwrapper.com/tools/llm-pricing/mimo-v2-flash/qwen3-vl-30b-a3b-thinking"}
+      ],
+      "pricing": {
+        "conflicting_reports": "ÇELİŞKİLİ — Novita AI: $4.35 girdi / $8.70 çıktı / $0.036 önbellekli (1M token başına, 2026-09-30). BenchmarkList: $0.435 girdi / $0.87 çıktı / $0.0036 önbellek (mimo.mi.com resmi fiyat sayfasına atıfla). Xiaomi resmi sayfası CNY cinsinden listeliyor. Kesinleştirme için resmi sayfa kontrol edilmeli",
+        "evren_pricing": "UNKNOWN",
+        "sources": ["https://blogs.novita.ai/mimo-v2-6-pro-on-novita-ai", "https://benchmarklist.com/models/xiaomi-mimo-v2.6-pro", "https://mimo.mi.com/models/en-US/mimo-v2-6-pro"]
+      },
+      "quota_and_rate_limits": {
+        "official_xiaomi_platform": "RPM 100, TPM 10M (resmi model sayfası); Pro-UltraSpeed varyantı ayrı kota (rezerve)",
+        "evren": "UNKNOWN"
+      },
+      "known_weaknesses": [
+        "Gecikme: medyan ilk tam yanıt ~40s, ~54 tok/s çıktı — hız gerektiren yinelemeli döngülerde darboğaz (Artificial Analysis)",
+        "ProgramBench 26.5 — program sentezinde Opus/Fable'ın gerisinde",
+        "Fiyat verisi çelişkili (10x fark); bütçe planlaması için doğrulanmalı",
+        "1T parametre — kendi kendine barındırma pratik değil"
+      ],
+      "registry_discrepancies": [
+        "Registry multimodal girdiyi yalnızca 'vision' olarak listeliyor; resmi yetenek tam omni-modal (video + ses dahil)",
+        "endpoints.json 200K/32K sınırı resmi 1M/128K limitinin altında"
+      ],
+      "task_suitability": {
+        "network_architecture_colyseus_websocket": {"score": 4, "rationale": "DeepSWE 71.9 güçlü; ancak ProgramBench 26.5 ve yavaş yanıt süresi mimari işlerde karma performansa işaret ediyor"},
+        "physics_3d_threejs_rapier": {"score": 4, "rationale": "Omni-modal (video dahil) — kaydedilmiş 3B sahne oturumlarını inceleyebilir; akıl yürütme 79 AA; kodlama 62 AA orta"},
+        "ui_react_svelte": {"score": 4, "rationale": "MiMo Visual Coding 72.3 + omni-modal girdi arayüz görsel QA'sına uygun"},
+        "test_qa": {"score": 4, "rationale": "Güçlü akıl yürütme; ancak ~40s medyan yanıt yinelemeli test koşutmayı yavaşlatır"},
+        "documentation": {"score": 4, "rationale": "1M resmi context, AA-LCR %86.3 (uzun context 3.sı) — büyük doküman kümeleri için güçlü"},
+        "code_review": {"score": 4, "rationale": "DeepSWE 71.9 + siber güvenlik odaklı eğitim; yavaşlık hariç dengeli"}
+      }
+    },
+    {
+      "endpoint_id": "evren/qwen3-vl-30b",
+      "base_model_id": "qwen3-vl-30b",
+      "identity": {
+        "developer": "Qwen (Alibaba Cloud)",
+        "release_date": "2025-10-04 (Qwen3-VL-30B-A3B Instruct + Thinking; GitHub duyurusu)",
+        "architecture": "MoE ~31B toplam (29.9B gömme hariç) / token başına ~3.3B aktif; 48 katman, GQA 32/4; 128 uzman / 8 aktif",
+        "license": "Apache-2.0"
+      },
+      "limits": {
+        "official_context": 262144,
+        "official_max_output": "UNKNOWN — toplanan kaynaklarda kesin değer yok (Thinking varyantı için sağlayıcıya bağlı)",
+        "context_expansion": "YaRN ile 1M'e kadar genişletilebilir (resmi)",
+        "evren_observed_context": 200000,
+        "evren_observed_output": 32000
+      },
+      "capabilities": {
+        "reasoning": "Thinking varyantı (düşünme modu); Instruct varyantı düşünmesiz",
+        "tool_calling": "Destekleniyor (ajan etkileşimi, araç kullanımı — resmi GitHub/ollama)",
+        "multimodal": "Girdi: metin + görüntü + video. Güçlü uzamsal algı: 2D/3D grounding, embodied AI (resmi)"
+      },
+      "benchmarks": [
+        {"benchmark": "GPQA Diamond / LiveCodeBench / AIME 2025 (Thinking)", "version": "LCB (güncel)", "score": "%72.0 / %69.7 / %82.3", "date": "2026-10-08'e kadar AA verisi", "methodology": "Bağımsız (Artificial Analysis, Puter üzerinden); AA Intelligence Index 9.5", "source_type": "independent", "source_url": "https://developer.puter.com/ai/qwen/qwen3-vl-30b-a3b-thinking"},
+        {"benchmark": "Terminal-Bench Hard / τ²-Bench (Thinking)", "version": "-", "score": "%5.3 / %19.9", "date": "2026-10-08'e kadar AA verisi", "methodology": "Bağımsız (Artificial Analysis, Puter üzerinden)", "source_type": "independent", "source_url": "https://developer.puter.com/ai/qwen/qwen3-vl-30b-a3b-thinking"},
+        {"benchmark": "LiveCodeBench", "version": "v6", "score": "%64.2 (Thinking)", "date": "2026", "methodology": "Bağımsız karşılaştırma (anotherwrapper; MiMo-V2-Flash %80.6 karşıtı)", "source_type": "independent", "source_url": "https://anotherwrapper.com/tools/llm-pricing/mimo-v2-flash/qwen3-vl-30b-a3b-thinking"},
+        {"benchmark": "LiveCodeBench / MMLU-Pro / GPQA (Instruct)", "version": "güncel", "score": "LCB %47.6 (116 model arasında 63.); MMLU-Pro %76.4; GPQA %69.5", "date": "2026-10-21", "methodology": "Bağımsız (lmspeed, metodoloji v3.0)", "source_type": "independent", "source_url": "https://lmspeed.net/model/qwen3-vl-30b-a3b-instruct"},
+        {"benchmark": "OS World (bilgisayar kullanımı)", "version": "-", "score": "Resmi iddia: küresel en üst performans (sayısal değer toplanmadı)", "date": "2025-10", "methodology": "Resmi Qwen duyurusu", "source_type": "official", "source_url": "https://github.com/qwenlm/qwen3-vl"},
+        {"benchmark": "SWE-bench Verified", "version": "Verified", "score": "BELİRSİZ — Puter sayfasında %77.2 geçiyor ancak aynı metin 'Qwen3.5-397B-A17B'yi geçti' diyor; muhtemelen farklı bir modeli tanımlıyor. Güvenilir sayılmaz, UNKNOWN olarak ele al", "date": "-", "methodology": "-", "source_type": "uncertain", "source_url": "https://developer.puter.com/ai/qwen/qwen3-vl-30b-a3b-thinking"}
+      ],
+      "pricing": {
+        "third_party_per_1m_tokens": "Instruct: ~$0.15-0.35 girdi / $0.60 çıktı (llm-stats, lmspeed); Thinking: ~$0.20 girdi / $2.40 çıktı (designforonline) — sağlayıcıya göre değişiyor",
+        "evren_pricing": "UNKNOWN",
+        "sources": ["https://llm-stats.com/models/qwen3-vl-30b-a3b-instruct", "https://designforonline.com/ai-models/qwen-qwen3-vl-30b-a3b-thinking"]
+      },
+      "quota_and_rate_limits": {
+        "official": "UNKNOWN",
+        "evren": "UNKNOWN"
+      },
+      "known_weaknesses": [
+        "Ajanıl terminal işlerinde çok zayıf: Terminal-Bench Hard %5.3, τ²-Bench %19.9 — Colyseus/sunucu tarafı ajan döngüleri için elverişsiz",
+        "Yalnızca 3.3B aktif parametre — karmaşık çok dosyalı TypeScript mimarisinde derinlik sınırı",
+        "AA Intelligence Index 9.5 (izlenen modellerin yalnızca %40'ını geçiyor)",
+        "2025 modeli — bu havuzdaki diğer modellere kıyasla bir nesil eski"
+      ],
+      "registry_discrepancies": [
+        "Registry 200K/32K sınırı resmi 256K yerel context'in altında"
+      ],
+      "task_suitability": {
+        "network_architecture_colyseus_websocket": {"score": 2, "rationale": "Terminal-Bench Hard %5.3 + τ² %19.9 + düşük aktif parametre — karmaşık ağ/mimari işi için önerilmez"},
+        "physics_3d_threejs_rapier": {"score": 3, "rationale": "3D grounding/uzamsal algı bu altı model arasında benzersiz (sahne mantığı doğrulama, render QA); ancak kod yazma derinliği orta (LCB %47-70)"},
+        "ui_react_svelte": {"score": 4, "rationale": "Görüntü/video girdisi + bilgisayar kullanımı (OS World) arayüz görsel incelemesi için güçlü; kod üretimi orta"},
+        "test_qa": {"score": 3, "rationale": "Görsel test çıktısı/ekran görüntüsü okuma iyi; ajanıl test koşutma zayıf"},
+        "documentation": {"score": 4, "rationale": "Ucuz, hızlı (121 tok/s, dataconomy), görsel ağırlıklı dokümantasyon işleme"},
+        "code_review": {"score": 3, "rationale": "Görsel fark incelemesi iyi; derin kod incelemesi için kodlama benchmark'ları orta seviye"}
+      }
+    },
+    {
+      "endpoint_id": "evren/qwen3.8-flash-next",
+      "base_model_id": "qwen3.8-flash-next",
+      "identity": {
+        "developer": "Qwen (Alibaba Cloud)",
+        "release_date": "2026-08-25/26",
+        "architecture": "MoE 125B ana model + 51B N-gram gömme; token başına 6B aktif; Gated DeltaNet (4 katmanın 3'ü) + Qwen Sparse Attention (kalan katman); 1 katman MTP. Yeni nesil mimari (Qwen4'nin erken önizlemesi)",
+        "license": "qwen-community-1.0 (açık ağırlıklar, HF Qwen/Qwen3.8-Flash-Next)",
+        "hosted_twin_note": "Barındırılan 'qwen3.8-flash' API ayrı, daha provizyonlu bir üründür: varsayılan 1M context, resmi yerleşik araçlar. Açık ağırlıklı Flash-Next: yerel 262.144 context. evren endpoint'inin hangisini sunduğu UNKNOWN"
+      },
+      "limits": {
+        "official_context_open_weights": 262144,
+        "official_context_hosted_flash": 1000000,
+        "official_max_output_hosted_flash": 131072,
+        "max_cot_hosted": 262144,
+        "evren_observed_context": 200000,
+        "evren_observed_output": 32000
+      },
+      "capabilities": {
+        "reasoning": "Düşünme modu (barındırılan varyantta maksimum zincir 262.144 token); OpenAI + Anthropic API protokolleriyle uyumlu (Claude Code/Codex ile çalışır)",
+        "tool_calling": "Destekleniyor: web araması, bağlam önbelleği, yerleşik araçlar (barındırılan)",
+        "multimodal": "Girdi: metin + görüntü + video"
+      },
+      "benchmarks": [
+        {"benchmark": "LiveCodeBench", "version": "v6", "score": "91.9 (karşılaştırma satırı: diğer modeller 90.3/89.6/90.6/88.8)", "date": "2026-08-26", "methodology": "Resmi Qwen model kartı (satıcı tarafından koşulan) — bağımsız doğrulama yok", "source_type": "official", "source_url": "https://huggingface.co/Qwen/Qwen3.8-Flash-Next"},
+        {"benchmark": "SWE-bench Pro", "version": "Pro", "score": "62.5 (Qwen3.8-27B: 61.7; üçüncü model: 56.0)", "date": "2026-08-25", "methodology": "Resmi Qwen kartından (digitalapplied aktarımı); satıcı tarafından koşulan", "source_type": "official", "source_url": "https://www.digitalapplied.com/blog/qwen3-8-flash-next-open-weights-vs-hosted-api-split"},
+        {"benchmark": "DeepSWE", "version": "1.1", "score": "Sayısal değer toplanamadı (UNKNOWN); Claude Code + mini-SWE-agent iskeletlerinde, 256K context ile değerlendirildi; mini-SWE-agent'ta en iyi performans (resmi not)", "date": "2026-08-26", "methodology": "Resmi Qwen kartı dipnotu", "source_type": "official", "source_url": "https://huggingface.co/Qwen/Qwen3.8-Flash-Next"},
+        {"benchmark": "Verimlilik (QSA)", "version": "-", "score": "1M token iş yüklerinde tam dikkate göre 7.6x prefill / 4.9x kod çözme hızlanması; Qwen3.7-Plus'ın 8.6 katı prefill iş hacmi (%90 önek-önbellek isabetli)", "date": "2026-08-26", "methodology": "Alibaba ölçümleri (NVIDIA geliştirici blogu aktarımı)", "source_type": "official", "source_url": "https://developer.nvidia.com/blog/experiment-with-qwen3-8-flash-next-on-nvidia-gb300-nvl72-for-agentic-coding/"},
+        {"benchmark": "LiveBench Coding", "version": "-", "score": "0.87 (4. sıra)", "date": "2026", "methodology": "apxml toplaması — GÜVENİLİRLİK DÜŞÜK (apxml 176B aktif parametre listeliyor; resmi 6B ile çelişiyor)", "source_type": "independent", "source_url": "https://apxml.com/models/qwen-38-flash"},
+        {"benchmark": "SWE-bench Verified / Terminal-Bench", "version": "-", "score": "UNKNOWN — bulunamadı", "date": "-", "methodology": "-", "source_type": "none", "source_url": "https://huggingface.co/Qwen/Qwen3.8-Flash-Next"}
+      ],
+      "pricing": {
+        "hosted_qwen38_flash_per_1m_tokens": "$0.15 girdi / $0.47 çıktı / $0.016 önbellek okuma / $0.20 önbellek yazma (Alibaba/OrcaRouter; open-weight barındırma kendi donanımınızda)",
+        "rate_limits_hosted": "2M TPM / 15K RPM (digitalapplied raporu)",
+        "evren_pricing": "UNKNOWN",
+        "sources": ["https://www.digitalapplied.com/blog/qwen3-8-flash-next-open-weights-vs-hosted-api-split", "https://www.orcarouter.ai/models/qwen/qwen3.8-flash"]
+      },
+      "quota_and_rate_limits": {
+        "official": "Barındırılan flash: 2M TPM / 15K RPM; OrcaRouter canlı: p50 TTFT 4.28s, 95 tok/s, %3.0 hata oranı",
+        "evren": "UNKNOWN"
+      },
+      "known_weaknesses": [
+        "Benchmark'ların tamamı satıcı tarafından koşulan — bağımsız SWE-bench Verified/Terminal-Bench doğrulaması yok",
+        "Açık ağırlıklı Flash-Next ile barındırılan flash API aynı model değil (lisans, varsayılan context, yerleşik araçlar farklı) — evren'in hangisini sunduğu belirsiz",
+        "Yeni mimari (GDN+QSA, Qwen4 önizlemesi) — araç ekosistemi olgunluğu doğrulanmadı",
+        "Kendi kendine barındırma pratik değil (~346GB VRAM FP16, apxml — güvenilirlik orta)",
+        "OrcaRouter %3 hata oranı gözlemlenmiş"
+      ],
+      "registry_discrepancies": [
+        "endpoints.json 200K/32K sınırı açık ağırlıklı Flash-Next'in yerel 262K'sının ve barındırılan flash'ın 1M'ının altında"
+      ],
+      "task_suitability": {
+        "network_architecture_colyseus_websocket": {"score": 5, "rationale": "LCB v6 91.9 + SWE-bench Pro 62.5 + ajanıl kodlama odağı + Claude Code uyumluluğu; maliyet çok düşük — ancak skorlar satıcı kaynaklı (risk notu)"},
+        "physics_3d_threejs_rapier": {"score": 4, "rationale": "Güçlü kod üretimi + çokluortam; 3B'ye özgü doğrulama yok"},
+        "ui_react_svelte": {"score": 4, "rationale": "Görüntü/video girdisi + masaüstü/ofis otomasyonu yetenekleri arayüz işlerine uygun"},
+        "test_qa": {"score": 5, "rationale": "Ajanıl kodlama gücü + düşük maliyet + yüksek hız (95 tok/s) — ölçeklenebilir test üretimi"},
+        "documentation": {"score": 5, "rationale": "1M (barındırılan) / 262K (açık ağırlık) context, çok düşük token maliyeti, çokluortam"},
+        "code_review": {"score": 4, "rationale": "Güçlü kodlama benchmark'ları ancak hepsi satıcı kaynaklı; bağımsız inceleme doğrulaması beklenmeli"}
+      }
+    }
+  ],
+  "cross_model_summary": {
+    "best_evidence_coding": "glm-5.3 (SWE-bench Verified %95.4 bağımsız) > deepseek-v4.1-flash (TB2.1 90.6 resmi, Vals bağımsız orta) ≈ qwen3.8-flash-next (LCB v6 91.9, yalnızca satıcı) > mimo-v2.6-pro (DeepSWE 71.9 resmi + AA bağımsız) > gemma-4-31b (LCB %80 resmi ama SWE-Rebench %41.6) > qwen3-vl-30b (LCB %47-70, ajanıl çok zayıf)",
+    "cheapest": "qwen3.8-flash-next ($0.15/$0.47) ≈ deepseek-v4.1-flash ($0.15-0.30/$0.60-1.20) < gemma-4-31b ($0.09/$0.34) < glm-5.3 ($1.40/$4.40) < mimo-v2.6-pro (çelişkili: $0.435/$0.87 veya $4.35/$8.70)",
+    "only_text_models": "glm-5.3 (resmi olarak yalnızca metin)",
+    "slowest": "mimo-v2.6-pro (~40s medyan ilk tam yanıt, 54 tok/s)",
+    "action_items_for_orchestrator": [
+      "glm-5.3 registry kaydındaki 'vision/multimodal' etiketi resmi dokümanla çelişiyor — atama yapılmadan önce düzeltilmeli",
+      "Bütün evren endpoint'leri 200K/32K ile sınırlı; 200K+ context gerektiren görevler varsa google/opencode uçları değerlendirilmeli",
+      "mimo-v2.6-pro fiyat verisi 10x çelişkili — bütçe kararından önce resmi mimo.mi.com fiyat sayfası doğrulanmalı",
+      "qwen3.8-flash-next skorlarının tamamı satıcı kaynaklı; kritik görevlerde ilk görevde mini doğrulama önerilir"
+    ],
+    "skipped_models": []
+  }
+}

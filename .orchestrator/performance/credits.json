@@ -1,3 +1,56 @@
 {
-  "credits_consumed": 0.05
+  "last_updated": "2026-10-28",
+  "credits_consumed_total": 0.05,
+  "models_used_to_date": [
+    {
+      "endpoint_id": "google/gemini-3.8-flash-high",
+      "used_for": "subagent task execution",
+      "quota_status": "rate_limited",
+      "note": "Gemini quota exhausted; off for ~3 hours as of 2026-10-28"
+    },
+    {
+      "endpoint_id": "google/gemini-4-argon-medium",
+      "used_for": "subagent task execution attempt",
+      "quota_status": "quota_error",
+      "note": "attempt failed due to quota"
+    },
+    {
+      "endpoint_id": "google/antigravity-claude-opus-5-5-medium",
+      "used_for": "subagent task execution attempt",
+      "quota_status": "quota_error",
+      "note": "attempt failed due to quota"
+    },
+    {
+      "endpoint_id": "opencode/glm-5.3-flash-free",
+      "quota_status": "active"
+    },
+    {
+      "endpoint_id": "opencode/deepseek-v4.1-flash-free",
+      "quota_status": "active"
+    },
+    {
+      "endpoint_id": "opencode/beam-free",
+      "quota_status": "active"
+    },
+    {
+      "endpoint_id": "evren/glm-5.3",
+      "quota_status": "active"
+    },
+    {
+      "endpoint_id": "evren/qwen3-vl-30b",
+      "quota_status": "active"
+    }
+  ],
+  "provider_quota_status": {
+    "google_claude_antigravity": {
+      "status": "exhausted",
+      "note": "Claude quota off for 143 hours as of 2026-10-28"
+    },
+    "google_gemini": {
+      "status": "exhausted",
+      "note": "Gemini quota off for ~3 hours as of 2026-10-28"
+    },
+    "opencode": "active",
+    "evren": "UNKNOWN"
+  }
 }

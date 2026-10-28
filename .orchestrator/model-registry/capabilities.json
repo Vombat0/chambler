@@ -67,7 +67,6 @@
     "multimodal_vision": [
       "evren/deepseek-v4.1-flash",
       "evren/gemma-4-31b",
-      "evren/glm-5.3",
       "evren/mimo-v2.6-pro",
       "evren/qwen3-vl-30b",
       "evren/qwen3.8-flash-next",
@@ -132,9 +131,7 @@
     ],
     "evren/glm-5.3": [
       "text/code",
-      "reasoning",
-      "multimodal",
-      "input_vision"
+      "reasoning"
     ],
     "evren/mimo-v2.6-pro": [
       "text/code",

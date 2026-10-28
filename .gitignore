@@ -2,10 +2,29 @@ node_modules/
 dist/
 coverage/
 
+# build outputs (TypeScript incremental compilation cache)
+*.tsbuildinfo
+**/*.tsbuildinfo
+
 # env
 .env
 .env.*
+!.env.example
+!**/.env.example
 *.local
+
+# assets/ — downloaded binaries are never committed (no Git LFS in this repo).
+# Rule: files larger than 5 MB are not tracked without Git LFS; manifests and
+# license files are always tracked. Binary assets are fetched at setup time via
+# assets/manifest.json (see assets/README.md); only manifests, licenses and the
+# README describing the download flow are tracked here.
+assets/**
+!assets/**/
+!assets/manifest.json
+!assets/**/manifest.json
+!assets/README.md
+!assets/LICENSES.md
+!assets/**/LICENSES.md
 
 # pre-existing unrelated root files (legacy harness calculator, not part of repo)
 /index.html

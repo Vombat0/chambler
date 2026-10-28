@@ -43,12 +43,54 @@
       "billing_note": "Catalog does not specify per-token pricing; requires evren credit balance"
     },
     "evren/mimo-v2.6-pro": {
-      "input_cost_per_1m": "UNKNOWN",
-      "output_cost_per_1m": "UNKNOWN",
-      "cache_read_per_1m": "UNKNOWN",
+      "input_cost_per_1m": "CONFLICTING",
+      "output_cost_per_1m": "CONFLICTING",
+      "cache_read_per_1m": "CONFLICTING",
       "cache_write_per_1m": "UNKNOWN",
       "tier": "api_key_credits",
-      "billing_note": "Catalog does not specify per-token pricing; requires evren credit balance"
+      "conflicting_values": {
+        "input_cost_per_1m_usd": [
+          {
+            "value": 4.35,
+            "source": "Novita AI",
+            "date": "2026-09-30",
+            "source_url": "https://blogs.novita.ai/mimo-v2-6-pro-on-novita-ai"
+          },
+          {
+            "value": 0.435,
+            "source": "BenchmarkList (attributing mimo.mi.com official pricing page)",
+            "source_url": "https://benchmarklist.com/models/xiaomi-mimo-v2.6-pro"
+          }
+        ],
+        "output_cost_per_1m_usd": [
+          {
+            "value": 8.7,
+            "source": "Novita AI",
+            "date": "2026-09-30",
+            "source_url": "https://blogs.novita.ai/mimo-v2-6-pro-on-novita-ai"
+          },
+          {
+            "value": 0.87,
+            "source": "BenchmarkList (attributing mimo.mi.com official pricing page)",
+            "source_url": "https://benchmarklist.com/models/xiaomi-mimo-v2.6-pro"
+          }
+        ],
+        "cache_read_per_1m_usd": [
+          {
+            "value": 0.036,
+            "source": "Novita AI",
+            "date": "2026-09-30",
+            "source_url": "https://blogs.novita.ai/mimo-v2-6-pro-on-novita-ai"
+          },
+          {
+            "value": 0.0036,
+            "source": "BenchmarkList (attributing mimo.mi.com official pricing page)",
+            "source_url": "https://benchmarklist.com/models/xiaomi-mimo-v2.6-pro"
+          }
+        ]
+      },
+      "billing_note": "Two independent sources disagree by exactly 10x; both values retained as CONFLICTING. Do not use for budget decisions until the official mimo.mi.com pricing page (listed in CNY) is verified.",
+      "conflict_status": "conflicting"
     },
     "evren/qwen3-vl-30b": {
       "input_cost_per_1m": "UNKNOWN",

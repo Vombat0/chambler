@@ -6,7 +6,49 @@
     "assigned_provider": "google",
     "assigned_model_id": "antigravity-gemini-3.8-flash-high",
     "target_workload": "TypeScript, Three.js, Rapier (WASM physics), Colyseus (Node.js networking), React/Svelte UI, WebSocket state sync, unit/integration testing, and code review",
-    "generated_at": "2026-10-28T00:00:00Z"
+    "generated_at": "2026-10-28T00:00:00Z",
+    "corrected_at": "2026-10-28T00:00:00Z",
+    "correction_task_id": "RES-01-FIX"
+  },
+  "audit": {
+    "fix_task_id": "RES-01-FIX",
+    "checked_at": "2026-10-28",
+    "problems_addressed": [
+      "Identical benchmark scores copied across effort variants of the same base model",
+      "Empty/unsourced official capability, pricing and quota fields with no UNKNOWN markers"
+    ],
+    "variant_scope_rule": "A score is kept only on the effort variant for which the source states it was measured. If the source measured the base model at an effort level that does not match the endpoint variant (or does not state one), the score stays on every affected record but is tagged scope=base_model_only_variant_unverified. Scores removed from a record are listed in that record's corrections array.",
+    "sources_checked": [
+      "https://www.vals.ai/models/anthropic_claude-opus-5-5",
+      "https://www.vals.ai/models/google_gemini-4-argon",
+      "https://www.vals.ai/models/google_gemini-3.8-flash",
+      "https://www.vals.ai/models/google_gemini-3.5-flash-lite",
+      "https://www.vals.ai/models/fireworks_gpt-oss-120b",
+      "https://www.vals.ai/benchmarks/math500",
+      "https://platform.claude.com/docs/en/models/opus-5-5/overview",
+      "https://ai.google.dev/gemini-api/docs/models/gemini-4-argon",
+      "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash",
+      "https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash-lite",
+      "https://ai.google.dev/gemini-api/docs/pricing",
+      "https://ai.google.dev/gemini-api/docs/rate-limits",
+      "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+      "https://platform.openai.com/docs/models/gpt-oss-120b"
+    ],
+    "unverifiable_sources": [
+      "Antigravity OAuth quota and per-endpoint pricing: not published anywhere public (Gemini API rate-limit docs state per-model RPM/TPM/RPD are visible only in AI Studio; the Antigravity agent docs document model selection for gemini-4-argon and gemini-3.8-flash only, not Claude Opus 5.5 or GPT-OSS 120B)",
+      "Anthropic per-model rate limits for claude-opus-5-5: not stated on the model overview page",
+      "OpenAI official list price for gpt-oss-120b: not published on the model page (only third-party Vals figures exist)"
+    ],
+    "counts": {
+      "records": 11,
+      "benchmark_entries_total": 31,
+      "scores_removed_from_wrong_variant": 9,
+      "scores_kept_with_base_model_scope_flag": 20,
+      "scores_variant_verified": 11,
+      "fields_set_to_UNKNOWN": 46,
+      "correction_entries": 54,
+      "records_with_UNKNOWN_official_fields": 11
+    }
   },
   "models": [
     {
@@ -31,21 +73,57 @@
         "pricing": {
           "official_input_per_1m": 4.0,
           "official_output_per_1m": 20.0,
-          "antigravity_tier": "oauth_antigravity",
-          "billing_note": "Covered under Antigravity OAuth quota"
+          "currency": "USD",
+          "tier": "standard_paid",
+          "notes": "Batch API 50% discount; cache read $0.20/MTok; 5m cache write $5/MTok; 1h cache write $8/MTok.",
+          "source_url": "https://platform.claude.com/docs/en/models/opus-5-5/overview",
+          "checked_at": "2026-10-28"
         },
-        "quota_and_rate_limits": "High tier Antigravity OAuth quota, subject to provider concurrency caps",
-        "source_url": "https://platform.claude.com/docs/en/models/opus-5-5/overview"
+        "quota_and_rate_limits": "UNKNOWN",
+        "quota_note": "Per-model RPM/TPM limits are not published on the model overview page; they are account-tier dependent. No official figure could be verified.",
+        "quota_source_url": "https://platform.claude.com/docs/en/models/opus-5-5/overview",
+        "source_url": "https://platform.claude.com/docs/en/models/opus-5-5/overview",
+        "checked_at": "2026-10-28"
       },
+      "provider_endpoint": {
+        "route": "antigravity_oauth",
+        "pricing": {
+          "input_per_1m": "UNKNOWN",
+          "output_per_1m": "UNKNOWN",
+          "billing_model": "Antigravity OAuth quota (subscription-style), not token-metered per the public docs",
+          "note": "No public price list exists for Antigravity-served endpoints; the base-model list price above must not be assumed to apply.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+          "checked_at": "2026-10-28"
+        },
+        "quota_and_rate_limits": "UNKNOWN",
+        "note": "The Antigravity agent documentation lists only gemini-4-argon and gemini-3.8-flash under agent_config model selection. This Claude endpoint is present in the local endpoint catalog but its Antigravity quota/pricing is not publicly documented.",
+        "source_url": "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+        "checked_at": "2026-10-28"
+      },
+      "official_field_status": {
+        "context_window": "VERIFIED",
+        "output_limit": "VERIFIED",
+        "pricing": "VERIFIED",
+        "quota_and_rate_limits": "UNKNOWN",
+        "tool_calling": "VERIFIED",
+        "multimodal": "VERIFIED",
+        "provider_endpoint_pricing": "UNKNOWN",
+        "provider_endpoint_quota": "UNKNOWN"
+      },
+      "benchmark_scope_note": "Vals AI evaluated Claude Opus 5.5 with compute effort 'max' (Terminal-Bench 2.1 used 'high'). None of these scores was measured at the 'high' effort variant of this endpoint, so they are base-model figures, not variant figures.",
       "independent_benchmarks": [
         {
           "benchmark": "Terminal-Bench 4.0",
           "score": "65.15%",
           "ranking": "1/57",
           "date": "2026-09-22",
-          "methodology": "Vals AI Terminal execution suite, 198 tasks, effort max/high",
+          "methodology": "Vals AI Terminal execution suite, 198 tasks, effort max",
           "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/anthropic_claude-opus-5-5"
+          "source_url": "https://www.vals.ai/models/anthropic_claude-opus-5-5",
+          "measured_reasoning_effort": "max",
+          "scope": "base_model_only_variant_unverified",
+          "verification": "VERIFIED",
+          "checked_at": "2026-10-28"
         },
         {
           "benchmark": "SWE-bench Multimodal",
@@ -54,7 +132,11 @@
           "date": "2026-09-22",
           "methodology": "Multimodal software engineering agent evaluation",
           "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/anthropic_claude-opus-5-5"
+          "source_url": "https://www.vals.ai/models/anthropic_claude-opus-5-5",
+          "measured_reasoning_effort": "max",
+          "scope": "base_model_only_variant_unverified",
+          "verification": "VERIFIED",
+          "checked_at": "2026-10-28"
         },
         {
           "benchmark": "Code Migration v1.1",
@@ -63,7 +145,11 @@
           "date": "2026-09-22",
           "methodology": "Large repository framework and language migration suite",
           "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/anthropic_claude-opus-5-5"
+          "source_url": "https://www.vals.ai/models/anthropic_claude-opus-5-5",
+          "measured_reasoning_effort": "max",
+          "scope": "base_model_only_variant_unverified",
+          "verification": "VERIFIED",
+          "checked_at": "2026-10-28"
         },
         {
           "benchmark": "Vibe Code Bench v1.1",
@@ -72,7 +158,11 @@
           "date": "2026-09-22",
           "methodology": "Full-stack web application development and visual layout",
           "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/anthropic_claude-opus-5-5"
+          "source_url": "https://www.vals.ai/models/anthropic_claude-opus-5-5",
+          "measured_reasoning_effort": "max",
+          "scope": "base_model_only_variant_unverified",
+          "verification": "VERIFIED",
+          "checked_at": "2026-10-28"
         },
         {
           "benchmark": "ProofBench v1.1",
@@ -81,14 +171,18 @@
           "date": "2026-09-22",
           "methodology": "Formal verification and mathematical proof synthesis",
           "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/anthropic_claude-opus-5-5"
+          "source_url": "https://www.vals.ai/models/anthropic_claude-opus-5-5",
+          "measured_reasoning_effort": "max",
+          "scope": "base_model_only_variant_unverified",
+          "verification": "VERIFIED",
+          "checked_at": "2026-10-28"
         }
       ],
-      "local_observations": "Deepest reasoning depth in the suite; high token output expenditure and longer turnaround latency (~84 min on comprehensive test suites); highest autonomy in multi-step terminal workflows.",
+      "local_observations": "Deepest reasoning depth in the suite; high token output expenditure and longer turnaround latency (~84 min 31 s on the Vals Index); highest autonomy in multi-step terminal workflows.",
       "known_weaknesses": [
         "High latency per step under maximum reasoning effort",
         "Higher token expenditure for simple tasks",
-        "SRE Bench performance drops significantly without server-side fallback"
+        "SRE Bench drops from 33.59% to 5.34% when server-side fallbacks are counted as failures (82.82% of tasks fallback-assisted)"
       ],
       "task_suitability_scores": {
         "network_architecture": {
@@ -97,11 +191,11 @@
         },
         "physics_3d": {
           "score": 5,
-          "reasoning": "100% on ProofBench and top-tier mathematical reasoning make it exceptional for Rapier WASM physics constraints and 3D matrix math."
+          "reasoning": "100% on ProofBench and top-tier mathematical reasoning make it exceptional for Rapier WASM physics constraints and 3D matrix math. (skor doğrulanamadı — base model/max effort ölçümü)"
         },
         "ui": {
           "score": 4,
-          "reasoning": "Highly capable on React/Svelte component architecture (90.29% Vibe Code), but excessive latency and token budget for minor UI styling."
+          "reasoning": "Highly capable on React/Svelte component architecture (90.29% Vibe Code, skor doğrulanamadı — base model/max effort), but excessive latency and token budget for minor UI styling."
         },
         "test_qa": {
           "score": 5,
@@ -115,7 +209,35 @@
           "score": 5,
           "reasoning": "Exceptional static analysis, detecting race conditions in state replication, WASM memory leaks, and architectural anti-patterns."
         }
-      }
+      },
+      "corrections": [
+        {
+          "field": "independent_benchmarks[].scope",
+          "change": "Added scope=base_model_only_variant_unverified and measured_reasoning_effort=max to all 5 scores; scores were previously presented as if measured for the high variant.",
+          "source_url": "https://www.vals.ai/models/anthropic_claude-opus-5-5",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "official_information.quota_and_rate_limits",
+          "old": "High tier Antigravity OAuth quota, subject to provider concurrency caps",
+          "new": "UNKNOWN",
+          "reason": "Invented text; no public source states this quota.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/rate-limits",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "provider_endpoint",
+          "change": "Added block with pricing and quota = UNKNOWN.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "official_information.pricing",
+          "change": "Confirmed $4.00/$20.00 and added source + checked_at.",
+          "source_url": "https://platform.claude.com/docs/en/models/opus-5-5/overview",
+          "checked_at": "2026-10-28"
+        }
+      ]
     },
     {
       "endpoint_id": "google/antigravity-claude-opus-5-5-medium",
@@ -139,21 +261,57 @@
         "pricing": {
           "official_input_per_1m": 4.0,
           "official_output_per_1m": 20.0,
-          "antigravity_tier": "oauth_antigravity",
-          "billing_note": "Covered under Antigravity OAuth quota"
+          "currency": "USD",
+          "tier": "standard_paid",
+          "notes": "Medium is the documented default effort for claude-opus-5-5 on the Claude API. Batch API 50% discount; cache read $0.20/MTok.",
+          "source_url": "https://platform.claude.com/docs/en/models/opus-5-5/overview",
+          "checked_at": "2026-10-28"
         },
-        "quota_and_rate_limits": "Antigravity OAuth quota; medium reasoning gives optimal token throughput",
-        "source_url": "https://platform.claude.com/docs/en/models/opus-5-5/overview"
+        "quota_and_rate_limits": "UNKNOWN",
+        "quota_note": "No published per-model RPM/TPM figures; account-tier dependent.",
+        "quota_source_url": "https://platform.claude.com/docs/en/models/opus-5-5/overview",
+        "source_url": "https://platform.claude.com/docs/en/models/opus-5-5/overview",
+        "checked_at": "2026-10-28"
       },
+      "provider_endpoint": {
+        "route": "antigravity_oauth",
+        "pricing": {
+          "input_per_1m": "UNKNOWN",
+          "output_per_1m": "UNKNOWN",
+          "billing_model": "Antigravity OAuth quota (subscription-style)",
+          "note": "Not publicly priced.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+          "checked_at": "2026-10-28"
+        },
+        "quota_and_rate_limits": "UNKNOWN",
+        "note": "Endpoint exists in the local catalog; Antigravity quota for Claude models is not documented.",
+        "source_url": "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+        "checked_at": "2026-10-28"
+      },
+      "official_field_status": {
+        "context_window": "VERIFIED",
+        "output_limit": "VERIFIED",
+        "pricing": "VERIFIED",
+        "quota_and_rate_limits": "UNKNOWN",
+        "tool_calling": "VERIFIED",
+        "multimodal": "VERIFIED",
+        "provider_endpoint_pricing": "UNKNOWN",
+        "provider_endpoint_quota": "UNKNOWN"
+      },
+      "benchmark_scope_note": "Vals AI measured Claude Opus 5.5 at compute effort 'max', not at 'medium'. These are base-model figures.",
       "independent_benchmarks": [
         {
           "benchmark": "Terminal-Bench 4.0",
           "score": "65.15%",
           "ranking": "1/57",
           "date": "2026-09-22",
-          "methodology": "Vals AI Terminal execution suite, 198 tasks",
+          "methodology": "Vals AI Terminal execution suite, 198 tasks, effort max",
           "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/anthropic_claude-opus-5-5"
+          "source_url": "https://www.vals.ai/models/anthropic_claude-opus-5-5",
+          "measured_reasoning_effort": "max",
+          "scope": "base_model_only_variant_unverified",
+          "verification": "VERIFIED",
+          "checked_at": "2026-10-28"
         },
         {
           "benchmark": "SWE-bench Multimodal",
@@ -162,7 +320,11 @@
           "date": "2026-09-22",
           "methodology": "Multimodal software engineering agent evaluation",
           "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/anthropic_claude-opus-5-5"
+          "source_url": "https://www.vals.ai/models/anthropic_claude-opus-5-5",
+          "measured_reasoning_effort": "max",
+          "scope": "base_model_only_variant_unverified",
+          "verification": "VERIFIED",
+          "checked_at": "2026-10-28"
         },
         {
           "benchmark": "Code Migration v1.1",
@@ -171,10 +333,14 @@
           "date": "2026-09-22",
           "methodology": "Large repository framework and language migration suite",
           "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/anthropic_claude-opus-5-5"
+          "source_url": "https://www.vals.ai/models/anthropic_claude-opus-5-5",
+          "measured_reasoning_effort": "max",
+          "scope": "base_model_only_variant_unverified",
+          "verification": "VERIFIED",
+          "checked_at": "2026-10-28"
         }
       ],
-      "local_observations": "The sweet-spot configuration for Claude Opus 5.5; balances frontier reasoning with predictable execution latency and controlled token generation.",
+      "local_observations": "The sweet-spot configuration for Claude Opus 5.5 per vendor default effort; balances frontier reasoning with predictable execution latency and controlled token generation.",
       "known_weaknesses": [
         "Moderate latency compared to flash models",
         "Slightly reduced mathematical chain length compared to high effort"
@@ -204,7 +370,29 @@
           "score": 5,
           "reasoning": "Ideal for pull request inspection, discovering state mutations and WASM binding leaks."
         }
-      }
+      },
+      "corrections": [
+        {
+          "field": "independent_benchmarks[].scope",
+          "change": "Added scope=base_model_only_variant_unverified and measured_reasoning_effort=max to all 3 scores.",
+          "source_url": "https://www.vals.ai/models/anthropic_claude-opus-5-5",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "official_information.quota_and_rate_limits",
+          "old": "Antigravity OAuth quota; medium reasoning gives optimal token throughput",
+          "new": "UNKNOWN",
+          "reason": "Invented text; unverifiable.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/rate-limits",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "provider_endpoint",
+          "change": "Added block with pricing and quota = UNKNOWN.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+          "checked_at": "2026-10-28"
+        }
+      ]
     },
     {
       "endpoint_id": "google/antigravity-claude-opus-5-5-low",
@@ -228,21 +416,57 @@
         "pricing": {
           "official_input_per_1m": 4.0,
           "official_output_per_1m": 20.0,
-          "antigravity_tier": "oauth_antigravity",
-          "billing_note": "Covered under Antigravity OAuth quota"
+          "currency": "USD",
+          "tier": "standard_paid",
+          "notes": "Thinking cannot be disabled on this model; low effort only shortens the adaptive thinking budget. Batch API 50% discount.",
+          "source_url": "https://platform.claude.com/docs/en/models/opus-5-5/overview",
+          "checked_at": "2026-10-28"
         },
-        "quota_and_rate_limits": "Antigravity OAuth quota; lowest token consumption among Opus variants",
-        "source_url": "https://platform.claude.com/docs/en/models/opus-5-5/overview"
+        "quota_and_rate_limits": "UNKNOWN",
+        "quota_note": "No published per-model RPM/TPM figures.",
+        "quota_source_url": "https://platform.claude.com/docs/en/models/opus-5-5/overview",
+        "source_url": "https://platform.claude.com/docs/en/models/opus-5-5/overview",
+        "checked_at": "2026-10-28"
       },
+      "provider_endpoint": {
+        "route": "antigravity_oauth",
+        "pricing": {
+          "input_per_1m": "UNKNOWN",
+          "output_per_1m": "UNKNOWN",
+          "billing_model": "Antigravity OAuth quota (subscription-style)",
+          "note": "Not publicly priced.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+          "checked_at": "2026-10-28"
+        },
+        "quota_and_rate_limits": "UNKNOWN",
+        "note": "Antigravity quota for Claude models is not documented.",
+        "source_url": "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+        "checked_at": "2026-10-28"
+      },
+      "official_field_status": {
+        "context_window": "VERIFIED",
+        "output_limit": "VERIFIED",
+        "pricing": "VERIFIED",
+        "quota_and_rate_limits": "UNKNOWN",
+        "tool_calling": "VERIFIED",
+        "multimodal": "VERIFIED",
+        "provider_endpoint_pricing": "UNKNOWN",
+        "provider_endpoint_quota": "UNKNOWN"
+      },
+      "benchmark_scope_note": "Vals AI measured Claude Opus 5.5 at compute effort 'max'; no low-effort evaluation is published. These are base-model figures.",
       "independent_benchmarks": [
         {
           "benchmark": "Terminal-Bench 4.0",
           "score": "65.15%",
           "ranking": "1/57",
           "date": "2026-09-22",
-          "methodology": "Vals AI Terminal execution suite",
+          "methodology": "Vals AI Terminal execution suite, 198 tasks, effort max",
           "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/anthropic_claude-opus-5-5"
+          "source_url": "https://www.vals.ai/models/anthropic_claude-opus-5-5",
+          "measured_reasoning_effort": "max",
+          "scope": "base_model_only_variant_unverified",
+          "verification": "VERIFIED",
+          "checked_at": "2026-10-28"
         },
         {
           "benchmark": "Vibe Code Bench v1.1",
@@ -251,10 +475,14 @@
           "date": "2026-09-22",
           "methodology": "Full-stack web application development and visual layout",
           "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/anthropic_claude-opus-5-5"
+          "source_url": "https://www.vals.ai/models/anthropic_claude-opus-5-5",
+          "measured_reasoning_effort": "max",
+          "scope": "base_model_only_variant_unverified",
+          "verification": "VERIFIED",
+          "checked_at": "2026-10-28"
         }
       ],
-      "local_observations": "Rapid response mode; maintains Opus's high semantic coding comprehension while eliminating long thinking pauses.",
+      "local_observations": "Rapid response mode; maintains Opus's high semantic coding comprehension while reducing thinking pauses. Latency figures for the low variant itself are not published.",
       "known_weaknesses": [
         "May overlook subtle distributed concurrency race conditions on low effort",
         "Less effective on complex formal mathematical derivations"
@@ -284,7 +512,29 @@
           "score": 4,
           "reasoning": "Effective for style and sanity checks; deeper architectural audits warrant medium/high effort."
         }
-      }
+      },
+      "corrections": [
+        {
+          "field": "independent_benchmarks[].scope",
+          "change": "Added scope=base_model_only_variant_unverified and measured_reasoning_effort=max to both scores.",
+          "source_url": "https://www.vals.ai/models/anthropic_claude-opus-5-5",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "official_information.quota_and_rate_limits",
+          "old": "Antigravity OAuth quota; lowest token consumption among Opus variants",
+          "new": "UNKNOWN",
+          "reason": "Invented text; unverifiable.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/rate-limits",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "provider_endpoint",
+          "change": "Added block with pricing and quota = UNKNOWN.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+          "checked_at": "2026-10-28"
+        }
+      ]
     },
     {
       "endpoint_id": "google/antigravity-gemini-4-argon-high",
@@ -299,72 +549,144 @@
       "multimodal_support": {
         "vision": true,
         "pdf": true,
-        "audio": false,
-        "video": false
+        "audio": true,
+        "video": true
       },
       "official_information": {
         "developer": "Google DeepMind",
         "release_date": "2026-10-13",
         "pricing": {
-          "official_input_per_1m": 4.0,
-          "official_output_per_1m": 20.0,
-          "antigravity_tier": "oauth_antigravity",
-          "billing_note": "Covered under Antigravity OAuth quota"
+          "official_input_per_1m": 2.0,
+          "official_output_per_1m": 10.0,
+          "currency": "USD",
+          "tier": "standard_paid",
+          "scheduled_pricing": {
+            "effective_from": "2026-12-01",
+            "official_input_per_1m": 4.0,
+            "official_output_per_1m": 20.0
+          },
+          "notes": "Introductory pricing through 2026-11-30; $4.00/$20.00 from 2026-12-01. Batch and Flex are 50% of standard; Priority is 1.8x standard. Thinking tokens are billed as output. No free tier.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+          "checked_at": "2026-10-28"
         },
-        "quota_and_rate_limits": "High tier Antigravity OAuth quota",
-        "source_url": "https://ai.google.dev/gemini-api/docs/models/gemini-4-argon"
+        "token_limits_note": "Context window is a unified input+output limit of 1,048,576. Max output is 65,536 by default in synchronous calls, up to 1,048,576 with long decode.",
+        "quota_and_rate_limits": "UNKNOWN",
+        "quota_note": "Gemini API publishes rate limits only per usage tier in AI Studio; no per-model RPM/TPM/RPD figure is documented publicly. Antigravity quota is undocumented.",
+        "quota_source_url": "https://ai.google.dev/gemini-api/docs/rate-limits",
+        "source_url": "https://ai.google.dev/gemini-api/docs/models/gemini-4-argon",
+        "checked_at": "2026-10-28"
       },
+      "provider_endpoint": {
+        "route": "antigravity_oauth",
+        "pricing": {
+          "input_per_1m": "UNKNOWN",
+          "output_per_1m": "UNKNOWN",
+          "billing_model": "Antigravity OAuth quota (subscription-style)",
+          "note": "Antigravity docs state gemini-4-argon is selectable via agent_config but publish no per-token price or quota.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+          "checked_at": "2026-10-28"
+        },
+        "quota_and_rate_limits": "UNKNOWN",
+        "note": "Antigravity agent performs automatic context compaction at ~135k tokens; that is a harness behaviour, not a quota.",
+        "source_url": "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+        "checked_at": "2026-10-28"
+      },
+      "official_field_status": {
+        "context_window": "VERIFIED",
+        "output_limit": "VERIFIED",
+        "pricing": "VERIFIED",
+        "quota_and_rate_limits": "UNKNOWN",
+        "tool_calling": "VERIFIED",
+        "multimodal": "VERIFIED",
+        "provider_endpoint_pricing": "UNKNOWN",
+        "provider_endpoint_quota": "UNKNOWN"
+      },
+      "benchmark_scope_note": "Vals AI evaluated Gemini 4 Argon with reasoning effort 'high', which matches this endpoint variant. Scores are variant-verified for high effort.",
       "independent_benchmarks": [
         {
           "benchmark": "IOI (International Olympiad in Informatics)",
           "score": "100.00%",
           "ranking": "1/46",
           "date": "2026-10-13",
-          "methodology": "Competitive algorithmic programming evaluation",
+          "methodology": "Competitive algorithmic programming evaluation, reasoning effort high",
           "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/google_gemini-4-argon"
+          "source_url": "https://www.vals.ai/models/google_gemini-4-argon",
+          "measured_reasoning_effort": "high",
+          "scope": "variant_verified",
+          "verification": "VERIFIED",
+          "checked_at": "2026-10-28"
         },
         {
           "benchmark": "Vibe Code Bench v1.1",
           "score": "91.91%",
           "ranking": "2/121",
           "date": "2026-10-13",
-          "methodology": "Full-stack code generation and UI layout",
+          "methodology": "Full-stack code generation and UI layout, reasoning effort high",
           "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/google_gemini-4-argon"
+          "source_url": "https://www.vals.ai/models/google_gemini-4-argon",
+          "measured_reasoning_effort": "high",
+          "scope": "variant_verified",
+          "verification": "VERIFIED",
+          "checked_at": "2026-10-28"
         },
         {
           "benchmark": "SRE Bench",
           "score": "44.27%",
           "ranking": "3/35",
           "date": "2026-10-13",
-          "methodology": "Site reliability engineering and complex systems debugging",
+          "methodology": "Site reliability engineering and complex systems debugging, reasoning effort high",
           "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/google_gemini-4-argon"
+          "source_url": "https://www.vals.ai/models/google_gemini-4-argon",
+          "measured_reasoning_effort": "high",
+          "scope": "variant_verified",
+          "verification": "VERIFIED",
+          "checked_at": "2026-10-28"
         },
         {
           "benchmark": "CyberBench v1.1",
           "score": "77.86%",
           "ranking": "3/47",
           "date": "2026-10-13",
-          "methodology": "Cybersecurity vulnerability discovery and exploit analysis",
+          "methodology": "Cybersecurity vulnerability discovery and exploit analysis, reasoning effort high",
           "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/google_gemini-4-argon"
+          "source_url": "https://www.vals.ai/models/google_gemini-4-argon",
+          "measured_reasoning_effort": "high",
+          "scope": "variant_verified",
+          "verification": "VERIFIED",
+          "checked_at": "2026-10-28"
         },
         {
           "benchmark": "Code Migration v1.1",
           "score": "70.80%",
           "ranking": "6/28",
           "date": "2026-10-13",
-          "methodology": "Codebase migration and major version updates",
+          "methodology": "Codebase migration and major version updates, reasoning effort high",
           "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/google_gemini-4-argon"
+          "source_url": "https://www.vals.ai/models/google_gemini-4-argon",
+          "measured_reasoning_effort": "high",
+          "scope": "variant_verified",
+          "verification": "VERIFIED",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "benchmark": "Terminal-Bench 4.0",
+          "score": "57.58%",
+          "ranking": "8/57",
+          "date": "2026-10-13",
+          "methodology": "Terminal execution suite, reasoning effort high",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/google_gemini-4-argon",
+          "measured_reasoning_effort": "high",
+          "scope": "variant_verified",
+          "verification": "VERIFIED",
+          "checked_at": "2026-10-28"
         }
       ],
-      "local_observations": "Premier algorithmic powerhouse (100% on IOI); lower overall latency than Opus 5.5 (~45 min vs ~84 min); excels at low-level optimization and WASM memory safety.",
+      "local_observations": "Premier algorithmic powerhouse (100% on IOI); lower overall latency than Opus 5.5 (~44 min 58 s vs ~84 min 31 s on the Vals Index); excels at low-level optimization and WASM memory safety.",
       "known_weaknesses": [
         "Lower resolved rate on open-ended ProgramBench (2.50%)",
-        "Terminal-Bench 4.0 (57.58%) slightly lower than Opus 5.5"
+        "Terminal-Bench 4.0 (57.58%) lower than Opus 5.5 (65.15%)",
+        "Cost per test climbs steeply on long agentic tasks ($193.78 on CUA-bench)"
       ],
       "task_suitability_scores": {
         "network_architecture": {
@@ -391,7 +713,53 @@
           "score": 5,
           "reasoning": "Exceptional security and reliability review (CyberBench 77.86%, SRE Bench 44.27%), catches subtle WASM memory corruption."
         }
-      }
+      },
+      "corrections": [
+        {
+          "field": "official_information.pricing",
+          "old": "official_input_per_1m 4.0 / official_output_per_1m 20.0 (no effective date)",
+          "new": "2.0 / 10.0 through 2026-11-30, 4.0 / 20.0 from 2026-12-01",
+          "reason": "Price page shows introductory pricing that expires.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "multimodal_support.audio / video",
+          "old": "false / false",
+          "new": "true / true",
+          "reason": "Official model page lists Text, Image, Video, Audio and PDF inputs.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/models/gemini-4-argon",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "output_limit",
+          "old": "65536 (no context)",
+          "new": "65536 retained, with note that long decode reaches 1,048,576",
+          "reason": "Official page states 65,536 default synchronous / up to 1,048,576 with long decode.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/models/gemini-4-argon",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "official_information.quota_and_rate_limits",
+          "old": "High tier Antigravity OAuth quota",
+          "new": "UNKNOWN",
+          "reason": "Invented text; Google publishes no per-model quota.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/rate-limits",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "independent_benchmarks",
+          "change": "Added Terminal-Bench 4.0 57.58% (8/57) which was cited in known_weaknesses but missing from the benchmark list.",
+          "source_url": "https://www.vals.ai/models/google_gemini-4-argon",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "provider_endpoint",
+          "change": "Added block with pricing and quota = UNKNOWN.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+          "checked_at": "2026-10-28"
+        }
+      ]
     },
     {
       "endpoint_id": "google/antigravity-gemini-4-argon-medium",
@@ -406,53 +774,64 @@
       "multimodal_support": {
         "vision": true,
         "pdf": true,
-        "audio": false,
-        "video": false
+        "audio": true,
+        "video": true
       },
       "official_information": {
         "developer": "Google DeepMind",
         "release_date": "2026-10-13",
         "pricing": {
-          "official_input_per_1m": 4.0,
-          "official_output_per_1m": 20.0,
-          "antigravity_tier": "oauth_antigravity",
-          "billing_note": "Covered under Antigravity OAuth quota"
+          "official_input_per_1m": 2.0,
+          "official_output_per_1m": 10.0,
+          "currency": "USD",
+          "tier": "standard_paid",
+          "scheduled_pricing": {
+            "effective_from": "2026-12-01",
+            "official_input_per_1m": 4.0,
+            "official_output_per_1m": 20.0
+          },
+          "notes": "Same per-token price for all thinking levels; only thinking-token volume differs.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+          "checked_at": "2026-10-28"
         },
-        "quota_and_rate_limits": "Antigravity OAuth quota; balanced token economy",
-        "source_url": "https://ai.google.dev/gemini-api/docs/models/gemini-4-argon"
+        "token_limits_note": "Context window is a unified input+output limit of 1,048,576. Max output 65,536 default, up to 1,048,576 with long decode.",
+        "quota_and_rate_limits": "UNKNOWN",
+        "quota_note": "No public per-model quota.",
+        "quota_source_url": "https://ai.google.dev/gemini-api/docs/rate-limits",
+        "source_url": "https://ai.google.dev/gemini-api/docs/models/gemini-4-argon",
+        "checked_at": "2026-10-28"
       },
-      "independent_benchmarks": [
-        {
-          "benchmark": "IOI (International Olympiad in Informatics)",
-          "score": "100.00%",
-          "ranking": "1/46",
-          "date": "2026-10-13",
-          "methodology": "Competitive algorithmic programming evaluation",
-          "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/google_gemini-4-argon"
+      "provider_endpoint": {
+        "route": "antigravity_oauth",
+        "pricing": {
+          "input_per_1m": "UNKNOWN",
+          "output_per_1m": "UNKNOWN",
+          "billing_model": "Antigravity OAuth quota (subscription-style)",
+          "note": "Not publicly priced.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+          "checked_at": "2026-10-28"
         },
-        {
-          "benchmark": "Vibe Code Bench v1.1",
-          "score": "91.91%",
-          "ranking": "2/121",
-          "date": "2026-10-13",
-          "methodology": "Full-stack code generation and UI layout",
-          "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/google_gemini-4-argon"
-        },
-        {
-          "benchmark": "SRE Bench",
-          "score": "44.27%",
-          "ranking": "3/35",
-          "date": "2026-10-13",
-          "methodology": "Site reliability engineering and complex systems debugging",
-          "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/google_gemini-4-argon"
-        }
-      ],
-      "local_observations": "Highly dependable workhorse for systems engineering; combines algorithmic precision with faster code generation cycles.",
+        "quota_and_rate_limits": "UNKNOWN",
+        "note": "Not publicly documented.",
+        "source_url": "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+        "checked_at": "2026-10-28"
+      },
+      "official_field_status": {
+        "context_window": "VERIFIED",
+        "output_limit": "VERIFIED",
+        "pricing": "VERIFIED",
+        "quota_and_rate_limits": "UNKNOWN",
+        "tool_calling": "VERIFIED",
+        "multimodal": "VERIFIED",
+        "provider_endpoint_pricing": "UNKNOWN",
+        "provider_endpoint_quota": "UNKNOWN"
+      },
+      "benchmark_scope_note": "Vals AI published Gemini 4 Argon results only at reasoning effort 'high'. No medium-effort evaluation exists, so the previously listed IOI, Vibe Code Bench and SRE Bench scores were removed from this record (they remain on the high variant).",
+      "independent_benchmarks": [],
+      "local_observations": "Highly dependable workhorse for systems engineering; combines algorithmic precision with faster code generation cycles. No variant-level benchmark data published.",
       "known_weaknesses": [
-        "Moderate output token speed compared to flash models"
+        "Moderate output token speed compared to flash models",
+        "No independent medium-effort benchmark data; capability assessment rests on base-model high-effort results"
       ],
       "task_suitability_scores": {
         "network_architecture": {
@@ -479,7 +858,44 @@
           "score": 5,
           "reasoning": "Thorough static analysis and algorithm optimization recommendations."
         }
-      }
+      },
+      "corrections": [
+        {
+          "field": "independent_benchmarks",
+          "old": "IOI 100.00%, Vibe Code Bench v1.1 91.91%, SRE Bench 44.27%",
+          "new": "removed (3 scores)",
+          "reason": "All three were measured at reasoning effort 'high' only. Kept on the high variant.",
+          "source_url": "https://www.vals.ai/models/google_gemini-4-argon",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "multimodal_support.audio / video",
+          "old": "false / false",
+          "new": "true / true",
+          "source_url": "https://ai.google.dev/gemini-api/docs/models/gemini-4-argon",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "official_information.pricing",
+          "old": "4.0 / 20.0",
+          "new": "2.0 / 10.0 through 2026-11-30, 4.0 / 20.0 from 2026-12-01",
+          "source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "official_information.quota_and_rate_limits",
+          "old": "Antigravity OAuth quota; balanced token economy",
+          "new": "UNKNOWN",
+          "source_url": "https://ai.google.dev/gemini-api/docs/rate-limits",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "provider_endpoint",
+          "change": "Added block with pricing and quota = UNKNOWN.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+          "checked_at": "2026-10-28"
+        }
+      ]
     },
     {
       "endpoint_id": "google/antigravity-gemini-4-argon-low",
@@ -494,44 +910,64 @@
       "multimodal_support": {
         "vision": true,
         "pdf": true,
-        "audio": false,
-        "video": false
+        "audio": true,
+        "video": true
       },
       "official_information": {
         "developer": "Google DeepMind",
         "release_date": "2026-10-13",
         "pricing": {
-          "official_input_per_1m": 4.0,
-          "official_output_per_1m": 20.0,
-          "antigravity_tier": "oauth_antigravity",
-          "billing_note": "Covered under Antigravity OAuth quota"
+          "official_input_per_1m": 2.0,
+          "official_output_per_1m": 10.0,
+          "currency": "USD",
+          "tier": "standard_paid",
+          "scheduled_pricing": {
+            "effective_from": "2026-12-01",
+            "official_input_per_1m": 4.0,
+            "official_output_per_1m": 20.0
+          },
+          "notes": "Same per-token price for all thinking levels.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+          "checked_at": "2026-10-28"
         },
-        "quota_and_rate_limits": "Antigravity OAuth quota; lowest latency among Argon variants",
-        "source_url": "https://ai.google.dev/gemini-api/docs/models/gemini-4-argon"
+        "token_limits_note": "Context window is a unified input+output limit of 1,048,576. Max output 65,536 default, up to 1,048,576 with long decode.",
+        "quota_and_rate_limits": "UNKNOWN",
+        "quota_note": "No public per-model quota.",
+        "quota_source_url": "https://ai.google.dev/gemini-api/docs/rate-limits",
+        "source_url": "https://ai.google.dev/gemini-api/docs/models/gemini-4-argon",
+        "checked_at": "2026-10-28"
       },
-      "independent_benchmarks": [
-        {
-          "benchmark": "Vibe Code Bench v1.1",
-          "score": "91.91%",
-          "ranking": "2/121",
-          "date": "2026-10-13",
-          "methodology": "Full-stack code generation and UI layout",
-          "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/google_gemini-4-argon"
+      "provider_endpoint": {
+        "route": "antigravity_oauth",
+        "pricing": {
+          "input_per_1m": "UNKNOWN",
+          "output_per_1m": "UNKNOWN",
+          "billing_model": "Antigravity OAuth quota (subscription-style)",
+          "note": "Not publicly priced.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+          "checked_at": "2026-10-28"
         },
-        {
-          "benchmark": "Code Migration v1.1",
-          "score": "70.80%",
-          "ranking": "6/28",
-          "date": "2026-10-13",
-          "methodology": "Codebase migration and major version updates",
-          "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/google_gemini-4-argon"
-        }
-      ],
-      "local_observations": "Fast execution variant; ideal when Argon's architectural depth is needed for implementation tasks without reasoning overhead.",
+        "quota_and_rate_limits": "UNKNOWN",
+        "note": "Not publicly documented.",
+        "source_url": "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+        "checked_at": "2026-10-28"
+      },
+      "official_field_status": {
+        "context_window": "VERIFIED",
+        "output_limit": "VERIFIED",
+        "pricing": "VERIFIED",
+        "quota_and_rate_limits": "UNKNOWN",
+        "tool_calling": "VERIFIED",
+        "multimodal": "VERIFIED",
+        "provider_endpoint_pricing": "UNKNOWN",
+        "provider_endpoint_quota": "UNKNOWN"
+      },
+      "benchmark_scope_note": "Vals AI published Gemini 4 Argon results only at reasoning effort 'high'. The previously listed Vibe Code Bench v1.1 and Code Migration v1.1 scores were measured at high effort and were removed from this low-effort record.",
+      "independent_benchmarks": [],
+      "local_observations": "Fast execution variant; ideal when Argon's architectural depth is needed for implementation tasks without reasoning overhead. No variant-level benchmark data published.",
       "known_weaknesses": [
-        "Reduced chain-of-thought for deep distributed edge-case exploration"
+        "Reduced chain-of-thought for deep distributed edge-case exploration",
+        "No independent low-effort benchmark data; UI claims previously rested on a high-effort score"
       ],
       "task_suitability_scores": {
         "network_architecture": {
@@ -544,7 +980,7 @@
         },
         "ui": {
           "score": 5,
-          "reasoning": "Excels at responsive React/Svelte UI, canvas wrappers, and interactive controls (91.91% Vibe Code Bench)."
+          "reasoning": "Excels at responsive React/Svelte UI, canvas wrappers, and interactive controls (91.91% Vibe Code Bench, skor doğrulanamadı — high effort ölçümü, bu varyantta kaldırıldı)."
         },
         "test_qa": {
           "score": 4,
@@ -558,7 +994,50 @@
           "score": 4,
           "reasoning": "Fast review for coding standards, typing issues, and common bugs."
         }
-      }
+      },
+      "corrections": [
+        {
+          "field": "independent_benchmarks",
+          "old": "Vibe Code Bench v1.1 91.91%, Code Migration v1.1 70.80%",
+          "new": "removed (2 scores)",
+          "reason": "Measured at reasoning effort 'high' only. Kept on the high variant.",
+          "source_url": "https://www.vals.ai/models/google_gemini-4-argon",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "task_suitability_scores.ui.reasoning",
+          "change": "Added '(skor doğrulanamadı ...)' note because the cited 91.91% score does not apply to this variant.",
+          "source_url": "https://www.vals.ai/models/google_gemini-4-argon",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "multimodal_support.audio / video",
+          "old": "false / false",
+          "new": "true / true",
+          "source_url": "https://ai.google.dev/gemini-api/docs/models/gemini-4-argon",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "official_information.pricing",
+          "old": "4.0 / 20.0",
+          "new": "2.0 / 10.0 through 2026-11-30, 4.0 / 20.0 from 2026-12-01",
+          "source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "official_information.quota_and_rate_limits",
+          "old": "Antigravity OAuth quota; lowest latency among Argon variants",
+          "new": "UNKNOWN",
+          "source_url": "https://ai.google.dev/gemini-api/docs/rate-limits",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "provider_endpoint",
+          "change": "Added block with pricing and quota = UNKNOWN.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+          "checked_at": "2026-10-28"
+        }
+      ]
     },
     {
       "endpoint_id": "google/antigravity-gemini-3.8-flash-high",
@@ -573,8 +1052,8 @@
       "multimodal_support": {
         "vision": true,
         "pdf": true,
-        "audio": false,
-        "video": false
+        "audio": true,
+        "video": true
       },
       "official_information": {
         "developer": "Google DeepMind",
@@ -582,60 +1061,117 @@
         "pricing": {
           "official_input_per_1m": 0.75,
           "official_output_per_1m": 3.75,
-          "antigravity_tier": "oauth_antigravity",
-          "billing_note": "Covered under Antigravity OAuth quota"
+          "currency": "USD",
+          "tier": "standard_paid",
+          "scheduled_pricing": {
+            "effective_from": "2027-01-01",
+            "official_input_per_1m": 1.5,
+            "official_output_per_1m": 7.5
+          },
+          "notes": "Free tier available for this model. Batch and Flex are 50% of standard; Priority is 1.8x. Thinking tokens billed as output.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+          "checked_at": "2026-10-28"
         },
-        "quota_and_rate_limits": "Antigravity OAuth quota; high throughput and low token costs",
-        "source_url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash"
+        "quota_and_rate_limits": "UNKNOWN",
+        "quota_note": "No public per-model RPM/TPM/RPD figure; tier-based limits shown only in AI Studio.",
+        "quota_source_url": "https://ai.google.dev/gemini-api/docs/rate-limits",
+        "source_url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash",
+        "checked_at": "2026-10-28"
       },
+      "provider_endpoint": {
+        "route": "antigravity_oauth",
+        "pricing": {
+          "input_per_1m": "UNKNOWN",
+          "output_per_1m": "UNKNOWN",
+          "billing_model": "Antigravity OAuth quota (subscription-style)",
+          "note": "gemini-3.8-flash is the documented default model of the Antigravity agent, but no token price or quota is published for that route.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+          "checked_at": "2026-10-28"
+        },
+        "quota_and_rate_limits": "UNKNOWN",
+        "note": "Antigravity agent compacts context automatically at ~135k tokens; harness behaviour, not a quota.",
+        "source_url": "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+        "checked_at": "2026-10-28"
+      },
+      "official_field_status": {
+        "context_window": "VERIFIED",
+        "output_limit": "VERIFIED",
+        "pricing": "VERIFIED",
+        "quota_and_rate_limits": "UNKNOWN",
+        "tool_calling": "VERIFIED",
+        "multimodal": "VERIFIED",
+        "provider_endpoint_pricing": "UNKNOWN",
+        "provider_endpoint_quota": "UNKNOWN"
+      },
+      "benchmark_scope_note": "Vals AI evaluated Gemini 3.8 Flash with reasoning effort 'high', matching this endpoint variant. Scores are variant-verified for high effort.",
       "independent_benchmarks": [
         {
           "benchmark": "LiveCodeBench",
           "score": "89.48%",
           "ranking": "3/143",
           "date": "2026-09-02",
-          "methodology": "Competitive coding, holistic live coding evaluation",
+          "methodology": "Competitive coding, holistic live coding evaluation, reasoning effort high",
           "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/google_gemini-3.8-flash"
+          "source_url": "https://www.vals.ai/models/google_gemini-3.8-flash",
+          "measured_reasoning_effort": "high",
+          "scope": "variant_verified",
+          "verification": "VERIFIED",
+          "checked_at": "2026-10-28"
         },
         {
           "benchmark": "GPQA Diamond",
           "score": "94.44%",
           "ranking": "4/138",
           "date": "2026-09-02",
-          "methodology": "Expert-level scientific and mathematical reasoning",
+          "methodology": "Expert-level scientific and mathematical reasoning, reasoning effort high",
           "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/google_gemini-3.8-flash"
+          "source_url": "https://www.vals.ai/models/google_gemini-3.8-flash",
+          "measured_reasoning_effort": "high",
+          "scope": "variant_verified",
+          "verification": "VERIFIED",
+          "checked_at": "2026-10-28"
         },
         {
           "benchmark": "SWE-bench",
           "score": "80.00%",
           "ranking": "24/88",
           "date": "2026-09-02",
-          "methodology": "Full SWE-bench problem resolution suite",
+          "methodology": "Full SWE-bench problem resolution suite, reasoning effort high",
           "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/google_gemini-3.8-flash"
+          "source_url": "https://www.vals.ai/models/google_gemini-3.8-flash",
+          "measured_reasoning_effort": "high",
+          "scope": "variant_verified",
+          "verification": "VERIFIED",
+          "checked_at": "2026-10-28"
         },
         {
           "benchmark": "Vibe Code Bench v1.1",
           "score": "78.65%",
           "ranking": "31/121",
           "date": "2026-09-02",
-          "methodology": "Interactive web app and UI generation",
+          "methodology": "Interactive web app and UI generation, reasoning effort high",
           "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/google_gemini-3.8-flash"
+          "source_url": "https://www.vals.ai/models/google_gemini-3.8-flash",
+          "measured_reasoning_effort": "high",
+          "scope": "variant_verified",
+          "verification": "VERIFIED",
+          "checked_at": "2026-10-28"
         },
         {
           "benchmark": "Terminal-Bench 4.0",
           "score": "19.70%",
           "ranking": "33/57",
           "date": "2026-09-02",
-          "methodology": "Multi-step autonomous terminal interaction",
+          "methodology": "Multi-step autonomous terminal interaction, reasoning effort high",
           "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/google_gemini-3.8-flash"
+          "source_url": "https://www.vals.ai/models/google_gemini-3.8-flash",
+          "measured_reasoning_effort": "high",
+          "scope": "variant_verified",
+          "verification": "VERIFIED",
+          "checked_at": "2026-10-28"
         }
       ],
-      "local_observations": "Extremely fast generation speed with high reasoning competence (LiveCodeBench 89.48%); 0.00% fallback rate on Vals suite; exceptional token efficiency.",
+      "local_observations": "Extremely fast generation speed with high reasoning competence (LiveCodeBench 89.48%); 0.00% fallback rate on Vals suite; exceptional token efficiency ($5.03 per Vals Index test vs $28.12 for Opus 5.5).",
       "known_weaknesses": [
         "Terminal-Bench 4.0 (19.70%) and SRE Bench (11.07%) indicate weaker autonomous bash/terminal agent capabilities compared to frontier models",
         "Code Migration v1.1 (38.65%) indicates lower multi-file refactoring robustness"
@@ -665,7 +1201,43 @@
           "score": 4,
           "reasoning": "Solid review for syntactic bugs, performance bottlenecks, and typing errors."
         }
-      }
+      },
+      "corrections": [
+        {
+          "field": "multimodal_support.audio / video",
+          "old": "false / false",
+          "new": "true / true",
+          "reason": "Official model page lists Text, Image, Video, Audio and PDF inputs.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "official_information.pricing",
+          "old": "0.75 / 3.75 (no effective date)",
+          "new": "0.75 / 3.75 through 2026-12-31, 1.50 / 7.50 from 2027-01-01",
+          "source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "official_information.quota_and_rate_limits",
+          "old": "Antigravity OAuth quota; high throughput and low token costs",
+          "new": "UNKNOWN",
+          "source_url": "https://ai.google.dev/gemini-api/docs/rate-limits",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "independent_benchmarks[].scope",
+          "change": "Marked all 5 scores scope=variant_verified because Vals states reasoning effort high.",
+          "source_url": "https://www.vals.ai/models/google_gemini-3.8-flash",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "provider_endpoint",
+          "change": "Added block with pricing and quota = UNKNOWN.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+          "checked_at": "2026-10-28"
+        }
+      ]
     },
     {
       "endpoint_id": "google/antigravity-gemini-3.8-flash-medium",
@@ -680,8 +1252,8 @@
       "multimodal_support": {
         "vision": true,
         "pdf": true,
-        "audio": false,
-        "video": false
+        "audio": true,
+        "video": true
       },
       "official_information": {
         "developer": "Google DeepMind",
@@ -689,35 +1261,54 @@
         "pricing": {
           "official_input_per_1m": 0.75,
           "official_output_per_1m": 3.75,
-          "antigravity_tier": "oauth_antigravity",
-          "billing_note": "Covered under Antigravity OAuth quota"
+          "currency": "USD",
+          "tier": "standard_paid",
+          "scheduled_pricing": {
+            "effective_from": "2027-01-01",
+            "official_input_per_1m": 1.5,
+            "official_output_per_1m": 7.5
+          },
+          "notes": "Same per-token price for all thinking levels.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+          "checked_at": "2026-10-28"
         },
-        "quota_and_rate_limits": "Antigravity OAuth quota; generous rate limits",
-        "source_url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash"
+        "quota_and_rate_limits": "UNKNOWN",
+        "quota_note": "No public per-model quota.",
+        "quota_source_url": "https://ai.google.dev/gemini-api/docs/rate-limits",
+        "source_url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash",
+        "checked_at": "2026-10-28"
       },
-      "independent_benchmarks": [
-        {
-          "benchmark": "LiveCodeBench",
-          "score": "89.48%",
-          "ranking": "3/143",
-          "date": "2026-09-02",
-          "methodology": "Competitive coding, holistic live coding evaluation",
-          "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/google_gemini-3.8-flash"
+      "provider_endpoint": {
+        "route": "antigravity_oauth",
+        "pricing": {
+          "input_per_1m": "UNKNOWN",
+          "output_per_1m": "UNKNOWN",
+          "billing_model": "Antigravity OAuth quota (subscription-style)",
+          "note": "Not publicly priced.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+          "checked_at": "2026-10-28"
         },
-        {
-          "benchmark": "SWE-bench",
-          "score": "80.00%",
-          "ranking": "24/88",
-          "date": "2026-09-02",
-          "methodology": "Full SWE-bench problem resolution suite",
-          "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/google_gemini-3.8-flash"
-        }
-      ],
-      "local_observations": "Ideal balance of high speed, cost efficiency, and strong coding accuracy for everyday feature implementation.",
+        "quota_and_rate_limits": "UNKNOWN",
+        "note": "Not publicly documented.",
+        "source_url": "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+        "checked_at": "2026-10-28"
+      },
+      "official_field_status": {
+        "context_window": "VERIFIED",
+        "output_limit": "VERIFIED",
+        "pricing": "VERIFIED",
+        "quota_and_rate_limits": "UNKNOWN",
+        "tool_calling": "VERIFIED",
+        "multimodal": "VERIFIED",
+        "provider_endpoint_pricing": "UNKNOWN",
+        "provider_endpoint_quota": "UNKNOWN"
+      },
+      "benchmark_scope_note": "Vals AI published Gemini 3.8 Flash results only at reasoning effort 'high'. The previously listed LiveCodeBench 89.48% and SWE-bench 80.00% scores were high-effort measurements and were removed from this medium-effort record.",
+      "independent_benchmarks": [],
+      "local_observations": "Ideal balance of high speed, cost efficiency, and strong coding accuracy for everyday feature implementation. No variant-level benchmark data published.",
       "known_weaknesses": [
-        "Weaker autonomous multi-step terminal tool use"
+        "Weaker autonomous multi-step terminal tool use",
+        "No independent medium-effort benchmark data"
       ],
       "task_suitability_scores": {
         "network_architecture": {
@@ -744,7 +1335,44 @@
           "score": 4,
           "reasoning": "Good for style checks and general logic reviews."
         }
-      }
+      },
+      "corrections": [
+        {
+          "field": "independent_benchmarks",
+          "old": "LiveCodeBench 89.48%, SWE-bench 80.00%",
+          "new": "removed (2 scores)",
+          "reason": "Measured at reasoning effort 'high' only. Kept on the high variant.",
+          "source_url": "https://www.vals.ai/models/google_gemini-3.8-flash",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "multimodal_support.audio / video",
+          "old": "false / false",
+          "new": "true / true",
+          "source_url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "official_information.pricing",
+          "old": "0.75 / 3.75",
+          "new": "0.75 / 3.75 through 2026-12-31, 1.50 / 7.50 from 2027-01-01",
+          "source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "official_information.quota_and_rate_limits",
+          "old": "Antigravity OAuth quota; generous rate limits",
+          "new": "UNKNOWN",
+          "source_url": "https://ai.google.dev/gemini-api/docs/rate-limits",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "provider_endpoint",
+          "change": "Added block with pricing and quota = UNKNOWN.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+          "checked_at": "2026-10-28"
+        }
+      ]
     },
     {
       "endpoint_id": "google/antigravity-gemini-3.8-flash-low",
@@ -759,8 +1387,8 @@
       "multimodal_support": {
         "vision": true,
         "pdf": true,
-        "audio": false,
-        "video": false
+        "audio": true,
+        "video": true
       },
       "official_information": {
         "developer": "Google DeepMind",
@@ -768,35 +1396,54 @@
         "pricing": {
           "official_input_per_1m": 0.75,
           "official_output_per_1m": 3.75,
-          "antigravity_tier": "oauth_antigravity",
-          "billing_note": "Covered under Antigravity OAuth quota"
+          "currency": "USD",
+          "tier": "standard_paid",
+          "scheduled_pricing": {
+            "effective_from": "2027-01-01",
+            "official_input_per_1m": 1.5,
+            "official_output_per_1m": 7.5
+          },
+          "notes": "Same per-token price for all thinking levels. 'minimal' thinking is not supported by this model and returns an error.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+          "checked_at": "2026-10-28"
         },
-        "quota_and_rate_limits": "Antigravity OAuth quota; lowest latency in the 3.8 family",
-        "source_url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash"
+        "quota_and_rate_limits": "UNKNOWN",
+        "quota_note": "No public per-model quota.",
+        "quota_source_url": "https://ai.google.dev/gemini-api/docs/rate-limits",
+        "source_url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash",
+        "checked_at": "2026-10-28"
       },
-      "independent_benchmarks": [
-        {
-          "benchmark": "LiveCodeBench",
-          "score": "89.48%",
-          "ranking": "3/143",
-          "date": "2026-09-02",
-          "methodology": "Competitive coding, holistic live coding evaluation",
-          "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/google_gemini-3.8-flash"
+      "provider_endpoint": {
+        "route": "antigravity_oauth",
+        "pricing": {
+          "input_per_1m": "UNKNOWN",
+          "output_per_1m": "UNKNOWN",
+          "billing_model": "Antigravity OAuth quota (subscription-style)",
+          "note": "Not publicly priced.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+          "checked_at": "2026-10-28"
         },
-        {
-          "benchmark": "Vibe Code Bench v1.1",
-          "score": "78.65%",
-          "ranking": "31/121",
-          "date": "2026-09-02",
-          "methodology": "Interactive web app and UI generation",
-          "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/google_gemini-3.8-flash"
-        }
-      ],
-      "local_observations": "Ultra-fast response latency; best suited for short-cycle edits, utility code, and immediate frontend updates.",
+        "quota_and_rate_limits": "UNKNOWN",
+        "note": "Not publicly documented.",
+        "source_url": "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+        "checked_at": "2026-10-28"
+      },
+      "official_field_status": {
+        "context_window": "VERIFIED",
+        "output_limit": "VERIFIED",
+        "pricing": "VERIFIED",
+        "quota_and_rate_limits": "UNKNOWN",
+        "tool_calling": "VERIFIED",
+        "multimodal": "VERIFIED",
+        "provider_endpoint_pricing": "UNKNOWN",
+        "provider_endpoint_quota": "UNKNOWN"
+      },
+      "benchmark_scope_note": "Vals AI published Gemini 3.8 Flash results only at reasoning effort 'high'. The previously listed LiveCodeBench 89.48% and Vibe Code Bench 78.65% scores were high-effort measurements and were removed from this low-effort record.",
+      "independent_benchmarks": [],
+      "local_observations": "Ultra-fast response latency; best suited for short-cycle edits, utility code, and immediate frontend updates. No variant-level benchmark data published.",
       "known_weaknesses": [
-        "Struggles with intricate multi-file architectural constraints without extended reasoning"
+        "Struggles with intricate multi-file architectural constraints without extended reasoning",
+        "No independent low-effort benchmark data"
       ],
       "task_suitability_scores": {
         "network_architecture": {
@@ -823,23 +1470,60 @@
           "score": 3,
           "reasoning": "Best for basic formatting, linting, and syntax checks; misses deep architectural pitfalls."
         }
-      }
+      },
+      "corrections": [
+        {
+          "field": "independent_benchmarks",
+          "old": "LiveCodeBench 89.48%, Vibe Code Bench v1.1 78.65%",
+          "new": "removed (2 scores)",
+          "reason": "Measured at reasoning effort 'high' only. Kept on the high variant.",
+          "source_url": "https://www.vals.ai/models/google_gemini-3.8-flash",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "multimodal_support.audio / video",
+          "old": "false / false",
+          "new": "true / true",
+          "source_url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "official_information.pricing",
+          "old": "0.75 / 3.75",
+          "new": "0.75 / 3.75 through 2026-12-31, 1.50 / 7.50 from 2027-01-01",
+          "source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "official_information.quota_and_rate_limits",
+          "old": "Antigravity OAuth quota; lowest latency in the 3.8 family",
+          "new": "UNKNOWN",
+          "source_url": "https://ai.google.dev/gemini-api/docs/rate-limits",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "provider_endpoint",
+          "change": "Added block with pricing and quota = UNKNOWN.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+          "checked_at": "2026-10-28"
+        }
+      ]
     },
     {
       "endpoint_id": "google/antigravity-gemini-3.5-flash-lite",
       "base_model_id": "gemini-3.5-flash-lite",
       "display_name": "Gemini 3.5 Flash Lite (Antigravity)",
       "provider_id": "google",
-      "reasoning_effort": "none",
+      "reasoning_effort": "UNKNOWN",
       "context_window": 1048576,
-      "output_limit": 65535,
-      "reasoning_supported": false,
+      "output_limit": 65536,
+      "reasoning_supported": true,
       "tool_calling_supported": true,
       "multimodal_support": {
         "vision": true,
         "pdf": true,
-        "audio": false,
-        "video": false
+        "audio": true,
+        "video": true
       },
       "official_information": {
         "developer": "Google DeepMind",
@@ -847,60 +1531,112 @@
         "pricing": {
           "official_input_per_1m": 0.3,
           "official_output_per_1m": 2.5,
-          "antigravity_tier": "oauth_antigravity",
-          "billing_note": "Covered under Antigravity OAuth quota"
+          "currency": "USD",
+          "tier": "standard_paid",
+          "notes": "Input price applies to text/image/video/audio. Free tier available. Batch is 50% of standard. Context caching not available.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+          "checked_at": "2026-10-28"
         },
-        "quota_and_rate_limits": "High Antigravity OAuth quota; lowest resource utilization",
-        "source_url": "https://ai.google.dev/gemini-api/docs/models"
+        "quota_and_rate_limits": "UNKNOWN",
+        "quota_note": "No public per-model quota; tier-based limits shown only in AI Studio.",
+        "quota_source_url": "https://ai.google.dev/gemini-api/docs/rate-limits",
+        "source_url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash-lite",
+        "checked_at": "2026-10-28"
       },
+      "provider_endpoint": {
+        "route": "antigravity_oauth",
+        "pricing": {
+          "input_per_1m": "UNKNOWN",
+          "output_per_1m": "UNKNOWN",
+          "billing_model": "Antigravity OAuth quota (subscription-style)",
+          "note": "Not publicly priced. The Antigravity agent docs do not list this model under agent_config model selection.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+          "checked_at": "2026-10-28"
+        },
+        "quota_and_rate_limits": "UNKNOWN",
+        "note": "Not publicly documented.",
+        "source_url": "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+        "checked_at": "2026-10-28"
+      },
+      "official_field_status": {
+        "context_window": "VERIFIED",
+        "output_limit": "VERIFIED",
+        "pricing": "VERIFIED",
+        "quota_and_rate_limits": "UNKNOWN",
+        "tool_calling": "VERIFIED",
+        "multimodal": "VERIFIED",
+        "provider_endpoint_pricing": "UNKNOWN",
+        "provider_endpoint_quota": "UNKNOWN"
+      },
+      "benchmark_scope_note": "Single endpoint, so no duplicate-variant problem. Vals AI evaluated this model with high reasoning effort and up to 65k output tokens; the endpoint's own effort setting is not documented, so scores are tagged base_model_only_variant_unverified.",
       "independent_benchmarks": [
         {
           "benchmark": "SWE-bench Verified (Full 500-task)",
           "score": "75.00%",
           "ranking": "45/88",
           "date": "2026-07-21",
-          "methodology": "Full SWE-bench problem resolution suite",
+          "methodology": "Full 500-task SWE-bench Verified, temperature 1, high reasoning effort",
           "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/google_gemini-3.5-flash-lite"
+          "source_url": "https://www.vals.ai/models/google_gemini-3.5-flash-lite",
+          "measured_reasoning_effort": "high",
+          "scope": "base_model_only_variant_unverified",
+          "verification": "VERIFIED",
+          "checked_at": "2026-10-28"
         },
         {
           "benchmark": "LiveCodeBench",
           "score": "79.01%",
           "ranking": "75/143",
           "date": "2026-07-21",
-          "methodology": "Competitive coding, holistic live coding evaluation",
+          "methodology": "Competitive coding, holistic live coding evaluation, high reasoning effort",
           "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/google_gemini-3.5-flash-lite"
+          "source_url": "https://www.vals.ai/models/google_gemini-3.5-flash-lite",
+          "measured_reasoning_effort": "high",
+          "scope": "base_model_only_variant_unverified",
+          "verification": "VERIFIED",
+          "checked_at": "2026-10-28"
         },
         {
           "benchmark": "Terminal-Bench 2.1",
           "score": "50.19%",
           "ranking": "58/75",
           "date": "2026-07-21",
-          "methodology": "Terminal command execution and task resolution",
+          "methodology": "Three full trials of Terminal-Bench 2.1, high reasoning effort",
           "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/google_gemini-3.5-flash-lite"
+          "source_url": "https://www.vals.ai/models/google_gemini-3.5-flash-lite",
+          "measured_reasoning_effort": "high",
+          "scope": "base_model_only_variant_unverified",
+          "verification": "VERIFIED",
+          "checked_at": "2026-10-28"
         },
         {
           "benchmark": "Vibe Code Bench v1.1",
           "score": "37.16%",
           "ranking": "76/121",
           "date": "2026-07-21",
-          "methodology": "Full-stack code generation and UI layout",
+          "methodology": "Full-stack code generation and UI layout, high reasoning effort",
           "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/google_gemini-3.5-flash-lite"
+          "source_url": "https://www.vals.ai/models/google_gemini-3.5-flash-lite",
+          "measured_reasoning_effort": "high",
+          "scope": "base_model_only_variant_unverified",
+          "verification": "VERIFIED",
+          "checked_at": "2026-10-28"
         },
         {
           "benchmark": "Code Migration",
           "score": "6.15%",
           "ranking": "71/79",
           "date": "2026-07-21",
-          "methodology": "Large repository migration suite",
+          "methodology": "Large repository migration suite, high reasoning effort",
           "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/google_gemini-3.5-flash-lite"
+          "source_url": "https://www.vals.ai/models/google_gemini-3.5-flash-lite",
+          "measured_reasoning_effort": "high",
+          "scope": "base_model_only_variant_unverified",
+          "verification": "VERIFIED",
+          "checked_at": "2026-10-28"
         }
       ],
-      "local_observations": "Blazing fast latency (~3 min 53 s on comprehensive benchmark suite); 1M context enables ingestion of massive logs or docs; constrained reasoning capacity for complex systems.",
+      "local_observations": "Blazing fast latency (~3 min 53 s on the Vals suite); 1M context enables ingestion of massive logs or docs; constrained reasoning capacity for complex systems.",
       "known_weaknesses": [
         "Extremely low Code Migration score (6.15%) and ProgramBench (0.00%)",
         "Struggles with multi-file architecture refactoring and complex state machines",
@@ -931,7 +1667,52 @@
           "score": 2,
           "reasoning": "Fails to detect subtle concurrency bugs, WASM pointer errors, and architectural anti-patterns."
         }
-      }
+      },
+      "corrections": [
+        {
+          "field": "output_limit",
+          "old": 65535,
+          "new": 65536,
+          "reason": "Official model page states 65,536 output tokens.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash-lite",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "reasoning_supported / reasoning_effort",
+          "old": "false / 'none'",
+          "new": "true / 'UNKNOWN'",
+          "reason": "Official page lists Thinking: Supported; the selectable levels are not documented for this model.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash-lite",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "multimodal_support.audio / video",
+          "old": "false / false",
+          "new": "true / true",
+          "reason": "Official page lists Text, Image, Video, Audio and PDF inputs.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash-lite",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "official_information.pricing",
+          "change": "Confirmed $0.30/$2.50 and added source + checked_at.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "official_information.quota_and_rate_limits",
+          "old": "High Antigravity OAuth quota; lowest resource utilization",
+          "new": "UNKNOWN",
+          "source_url": "https://ai.google.dev/gemini-api/docs/rate-limits",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "provider_endpoint",
+          "change": "Added block with pricing and quota = UNKNOWN.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+          "checked_at": "2026-10-28"
+        }
+      ]
     },
     {
       "endpoint_id": "google/antigravity-gpt-oss-120b-medium",
@@ -940,12 +1721,12 @@
       "provider_id": "google",
       "reasoning_effort": "medium",
       "context_window": 131072,
-      "output_limit": 32768,
+      "output_limit": 131072,
       "reasoning_supported": true,
       "tool_calling_supported": true,
       "multimodal_support": {
-        "vision": true,
-        "pdf": true,
+        "vision": false,
+        "pdf": false,
         "audio": false,
         "video": false
       },
@@ -953,23 +1734,66 @@
         "developer": "OpenAI (open-weight, served via Google Antigravity)",
         "release_date": "2025-08-05",
         "pricing": {
-          "official_input_per_1m": 0.15,
-          "official_output_per_1m": 0.6,
-          "antigravity_tier": "oauth_antigravity",
-          "billing_note": "Covered under Antigravity OAuth quota"
+          "official_input_per_1m": "UNKNOWN",
+          "official_output_per_1m": "UNKNOWN",
+          "currency": "USD",
+          "tier": "UNKNOWN",
+          "third_party_reported": {
+            "input_per_1m": 0.15,
+            "output_per_1m": 0.6,
+            "reported_by": "Vals AI model page and MATH 500 leaderboard",
+            "source_url": "https://www.vals.ai/models/fireworks_gpt-oss-120b"
+          },
+          "notes": "The OpenAI model page publishes no list price for gpt-oss-120b, and self-hosted cost depends entirely on the serving provider. The $0.15/$0.60 figures come from a third party, not from OpenAI.",
+          "source_url": "https://platform.openai.com/docs/models/gpt-oss-120b",
+          "checked_at": "2026-10-28"
         },
-        "quota_and_rate_limits": "Antigravity OAuth quota; 128k context window limit",
-        "source_url": "https://openai.com/index/introducing-gpt-oss/"
+        "token_limits_note": "Official OpenAI figures: 131,072 context and 131,072 max output. Vals AI ran its suite with max output capped at 32,768.",
+        "quota_and_rate_limits": "UNKNOWN",
+        "quota_note": "OpenAI publishes tier-based limits only; for gpt-oss-120b the listed default RPM/TPM are 0/0 at all tiers (self-host or partner serving required).",
+        "quota_source_url": "https://platform.openai.com/docs/models/gpt-oss-120b",
+        "source_url": "https://platform.openai.com/docs/models/gpt-oss-120b",
+        "checked_at": "2026-10-28"
       },
+      "provider_endpoint": {
+        "route": "antigravity_oauth",
+        "pricing": {
+          "input_per_1m": "UNKNOWN",
+          "output_per_1m": "UNKNOWN",
+          "billing_model": "Antigravity OAuth quota (subscription-style)",
+          "note": "The Antigravity agent docs list only gemini-4-argon and gemini-3.8-flash as selectable models; serving of gpt-oss-120b over this route is unverified.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+          "checked_at": "2026-10-28"
+        },
+        "quota_and_rate_limits": "UNKNOWN",
+        "note": "Not publicly documented.",
+        "source_url": "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+        "checked_at": "2026-10-28"
+      },
+      "official_field_status": {
+        "context_window": "VERIFIED",
+        "output_limit": "VERIFIED",
+        "pricing": "UNKNOWN",
+        "quota_and_rate_limits": "UNKNOWN",
+        "tool_calling": "VERIFIED",
+        "multimodal": "VERIFIED",
+        "provider_endpoint_pricing": "UNKNOWN",
+        "provider_endpoint_quota": "UNKNOWN"
+      },
+      "benchmark_scope_note": "Vals AI does not state a reasoning-effort setting for its gpt-oss-120b runs, so scores are tagged base_model_only_variant_unverified. MATH 500 is an archived benchmark (frozen 2026-01-09).",
       "independent_benchmarks": [
         {
           "benchmark": "MATH 500",
           "score": "94.80%",
-          "ranking": "7/50",
-          "date": "2025-08-05",
-          "methodology": "Challenging competition-level mathematics benchmark",
+          "ranking": "7/60",
+          "date": "2026-01-09",
+          "methodology": "500 sampled MATH problems, temperature 0, archived leaderboard",
           "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/benchmarks/math500"
+          "source_url": "https://www.vals.ai/benchmarks/math500",
+          "measured_reasoning_effort": "UNKNOWN",
+          "scope": "base_model_only_variant_unverified",
+          "verification": "VERIFIED",
+          "checked_at": "2026-10-28"
         },
         {
           "benchmark": "LiveCodeBench",
@@ -978,7 +1802,11 @@
           "date": "2025-08-05",
           "methodology": "Competitive programming evaluation",
           "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/fireworks_gpt-oss-120b"
+          "source_url": "https://www.vals.ai/models/fireworks_gpt-oss-120b",
+          "measured_reasoning_effort": "UNKNOWN",
+          "scope": "base_model_only_variant_unverified",
+          "verification": "VERIFIED",
+          "checked_at": "2026-10-28"
         },
         {
           "benchmark": "GPQA Diamond",
@@ -987,7 +1815,11 @@
           "date": "2025-08-05",
           "methodology": "Expert scientific reasoning",
           "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/fireworks_gpt-oss-120b"
+          "source_url": "https://www.vals.ai/models/fireworks_gpt-oss-120b",
+          "measured_reasoning_effort": "UNKNOWN",
+          "scope": "base_model_only_variant_unverified",
+          "verification": "VERIFIED",
+          "checked_at": "2026-10-28"
         },
         {
           "benchmark": "SWE-bench",
@@ -996,7 +1828,11 @@
           "date": "2025-08-05",
           "methodology": "Software engineering benchmark suite",
           "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/fireworks_gpt-oss-120b"
+          "source_url": "https://www.vals.ai/models/fireworks_gpt-oss-120b",
+          "measured_reasoning_effort": "UNKNOWN",
+          "scope": "base_model_only_variant_unverified",
+          "verification": "VERIFIED",
+          "checked_at": "2026-10-28"
         },
         {
           "benchmark": "Terminal-Bench 2.0",
@@ -1005,14 +1841,19 @@
           "date": "2025-08-05",
           "methodology": "Terminal command execution",
           "evaluator": "Vals AI",
-          "source_url": "https://www.vals.ai/models/fireworks_gpt-oss-120b"
+          "source_url": "https://www.vals.ai/models/fireworks_gpt-oss-120b",
+          "measured_reasoning_effort": "UNKNOWN",
+          "scope": "base_model_only_variant_unverified",
+          "verification": "VERIFIED",
+          "checked_at": "2026-10-28"
         }
       ],
-      "local_observations": "Open-weight 117B MoE model; outstanding mathematical calculation skills (94.80% MATH 500); limited context window (128k vs 1M) and low full SWE-bench score (33.60%).",
+      "local_observations": "Open-weight 117B MoE model (5.1B active); outstanding mathematical calculation skills (94.80% MATH 500); text-only input and low full SWE-bench score (33.60%).",
       "known_weaknesses": [
         "128k context window is significantly smaller than the 1M windows of Claude and Gemini",
         "Low SWE-bench score (33.60%) indicates difficulty with whole-repo engineering tasks",
-        "Terminal-Bench 2.0 (19.10%) shows limited agentic environment interaction"
+        "Terminal-Bench 2.0 (19.10%) shows limited agentic environment interaction",
+        "Text-only input: no image, PDF, audio or video support"
       ],
       "task_suitability_scores": {
         "network_architecture": {
@@ -1039,10 +1880,59 @@
           "score": 3,
           "reasoning": "Good for detecting logic errors and mathematical inaccuracies, but weaker on distributed systems architecture."
         }
-      }
+      },
+      "corrections": [
+        {
+          "field": "multimodal_support.vision / pdf",
+          "old": "true / true",
+          "new": "false / false",
+          "reason": "Official OpenAI model page: input modalities text only; Vals: image/file input not supported.",
+          "source_url": "https://platform.openai.com/docs/models/gpt-oss-120b",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "output_limit",
+          "old": 32768,
+          "new": 131072,
+          "reason": "Official max output is 131,072; 32,768 was the Vals evaluation cap.",
+          "source_url": "https://platform.openai.com/docs/models/gpt-oss-120b",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "independent_benchmarks[MATH 500].ranking / date",
+          "old": "7/50, 2025-08-05",
+          "new": "7/60, 2026-01-09 (archived leaderboard)",
+          "reason": "Leaderboard has 60 entries and was frozen 2026-01-09.",
+          "source_url": "https://www.vals.ai/benchmarks/math500",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "official_information.pricing",
+          "old": "0.15 / 0.6 presented as official",
+          "new": "UNKNOWN (third-party Vals figures recorded separately)",
+          "reason": "OpenAI publishes no list price for this model.",
+          "source_url": "https://platform.openai.com/docs/models/gpt-oss-120b",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "official_information.quota_and_rate_limits",
+          "old": "Antigravity OAuth quota; 128k context window limit",
+          "new": "UNKNOWN",
+          "source_url": "https://platform.openai.com/docs/models/gpt-oss-120b",
+          "checked_at": "2026-10-28"
+        },
+        {
+          "field": "provider_endpoint",
+          "change": "Added block with pricing and quota = UNKNOWN; noted that Antigravity docs do not list this model as selectable.",
+          "source_url": "https://ai.google.dev/gemini-api/docs/antigravity-agent",
+          "checked_at": "2026-10-28"
+        }
+      ]
     }
   ],
   "workload_assignment_recommendations": {
+    "confidence": "reduced",
+    "confidence_reason": "Variant-level benchmark data exists only for Gemini 4 Argon high and Gemini 3.8 Flash high. All Claude Opus 5.5 scores are base-model figures measured at effort 'max'; the medium and low variants of Argon and Flash have no published benchmark data at all. Antigravity endpoint pricing and quota are UNKNOWN for every record.",
     "network_architecture": {
       "primary": "google/antigravity-gemini-4-argon-medium",
       "backup_1": "google/antigravity-claude-opus-5-5-medium",
