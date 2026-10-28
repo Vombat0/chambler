@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "packId": "example-minimal",
+  "name": "Minimal Example Pack",
+  "description": "A tiny example game pack used by modkit tests and the CLI. Not a real game.",
+  "version": "0.1.0",
+  "author": "Chambler",
+  "license": "MIT",
+  "minEngineVersion": "0.1.0",
+  "players": {
+    "min": 1,
+    "max": 4
+  },
+  "tags": ["example", "tutorial"],
+  "assets": {
+    "die-d6": "assets/die-d6.json",
+    "pawn-red": "assets/pawn-red.json",
+    "board-8x8": "assets/board-8x8.json"
+  },
+  "components": [
+    {
+      "id": "die-d6",
+      "kind": "die",
+      "assetRef": "die-d6",
+      "defaultMeta": { "sides": 6 }
+    },
+    {
+      "id": "pawn-red",
+      "kind": "pawn",
+      "assetRef": "pawn-red",
+      "count": 4,
+      "defaultMeta": { "color": "red" }
+    }
+  ],
+  "board": {
+    "grid": { "cols": 8, "rows": 8 },
+    "cellSize": { "width": 1.0, "depth": 1.0 },
+    "snapPoints": [
+      { "id": "sp-0-0", "position": [0, 0, 0] },
+      { "id": "sp-0-1", "position": [0, 0, 1] }
+    ]
+  },
+  "decks": [
+    { "id": "evidence", "faces": ["pawn-red"], "shuffle": "auto" }
+  ],
+  "helpers": [
+    { "type": "dice", "config": { "sides": 6 } }
+  ],
+  "localization": {
+    "en": { "game.title": "Minimal Example" },
+    "tr": { "game.title": "Minimal Ornek" }
+  }
+}

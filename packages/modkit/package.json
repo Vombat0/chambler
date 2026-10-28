@@ -1,0 +1,32 @@
+{
+  "name": "@chambler/modkit",
+  "version": "0.1.0",
+  "description": "Game pack (mod) format schema and validator for Chambler content packages.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "modkit": "./dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "cli": "node dist/cli.js"
+  },
+  "dependencies": {
+    "@chambler/shared": "workspace:*",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "typescript": "~5.9.3",
+    "vitest": "^3.2.7"
+  }
+}
