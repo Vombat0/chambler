@@ -22,6 +22,18 @@ export interface SceneManagerOptions {
   onFps?: (fps: number) => void;
 }
 
+export interface SceneManagerLike {
+  scene: {
+    add(...objects: THREE.Object3D[]): unknown;
+    remove(...objects: THREE.Object3D[]): unknown;
+  };
+  registerBody(id: string, mesh: THREE.Object3D, rigidBody: unknown): void;
+  physics: {
+    createBody(id: string, opts: unknown): unknown;
+    removeBody(id: string): void;
+  };
+}
+
 export class SceneManager {
   readonly scene: THREE.Scene;
   readonly camera: THREE.PerspectiveCamera;

@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import type { ObjectDef } from '@chambler/shared';
 import { cloneTransform } from '@chambler/shared';
-import type { SceneManager } from '../sim/SceneManager.js';
+import type { SceneManagerLike } from '../sim/SceneManager.js';
 import type { PhysicsBody } from '../sim/PhysicsWorld.js';
 import { createMesh, createBodyOptions } from './ObjectFactory.js';
 import { ObjectEventEmitter } from './ObjectEvents.js';
@@ -16,13 +16,13 @@ export interface ManagedObject {
 
 export interface ObjectManagerOptions {
   localPlayerId?: string;
-  sceneManager: SceneManager;
+  sceneManager: SceneManagerLike;
   emitter?: ObjectEventEmitter;
   ownership?: OwnershipTable;
 }
 
 export class ObjectManager {
-  readonly sceneManager: SceneManager;
+  readonly sceneManager: SceneManagerLike;
   readonly emitter: ObjectEventEmitter;
   readonly ownership: OwnershipTable;
   readonly localPlayerId: string;
@@ -38,7 +38,7 @@ export class ObjectManager {
   spawn(def: ObjectDef): ManagedObject {
     const mesh = createMesh(def);
     const bodyOpts = createBodyOptions(def);
-    const body = this.sceneManager.physics.createBody(def.id, bodyOpts);
+    const body = this.sceneManager.physics.createBody(def.id, bodyOpts) as PhysicsBody;
     this.sceneManager.registerBody(def.id, mesh, body.rigidBody);
     const mo: ManagedObject = { def: { ...def, transform: cloneTransform(def.transform) }, mesh, body, held: false };
     this.objects.set(def.id, mo);

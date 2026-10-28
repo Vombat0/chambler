@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { OwnershipTable } from './Ownership.js';
+import { ObjectEventEmitter } from './ObjectEvents.js';
 
 describe('OwnershipTable', () => {
   it('claim free object succeeds', () => {
@@ -33,7 +34,9 @@ describe('OwnershipTable', () => {
   });
   it('emits claim/release events', () => {
     const events: string[] = [];
-    const emitter = { emit: (e: string) => events.push(e) } as unknown as { emit: (e: string) => void };
+    const emitter = new ObjectEventEmitter();
+    emitter.on('objectClaim', () => events.push('objectClaim'));
+    emitter.on('objectRelease', () => events.push('objectRelease'));
     const o = new OwnershipTable(emitter);
     o.init('o1', null);
     o.claim('o1', 'p1');

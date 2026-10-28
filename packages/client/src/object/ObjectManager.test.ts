@@ -39,7 +39,7 @@ function mockScene() {
       removeBody: (id: string) => bodies.delete(id),
       readTransform: () => ({ position: { x: 0, y: 0, z: 0 }, rotation: { w: 1, x: 0, y: 0, z: 0 }, scale: { x: 1, y: 1, z: 1 } }),
     },
-  } as unknown as Record<string, unknown>;
+  };
 }
 
 describe('ObjectManager', () => {
