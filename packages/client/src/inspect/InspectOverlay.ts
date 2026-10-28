@@ -143,6 +143,8 @@ export class InspectOverlay {
 
     // viewport (canvas container)
     const viewport = document.createElement('div');
+    viewport.id = 'inspect-viewport';
+    viewport.setAttribute('aria-label', 'Yakın görünüm çizimi: tekerlek yakınlaştırma, sürükleme gezinme');
     viewport.style.cssText =
       'position:relative;overflow:hidden;background:#241a10;border-radius:10px;width:min(62vw,760px);height:min(56vh,640px);touch-action:none;user-select:none;-webkit-user-select:none;';
     const canvasEl = args.content;
