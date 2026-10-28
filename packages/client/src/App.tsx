@@ -16,6 +16,35 @@ import type { ChatMessage } from './ui/ChatPanel';
 import { joinFailureCode } from './ui/errors';
 import { sanitizeChatText } from './ui/chat';
 import { applySettingsToScene } from './ui/settingsApply';
+import { PLAYER_COLORS } from './ui/lobby';
+import { PALETTE_ITEMS, pawnItem, type PaletteItemDef } from './palette/paletteItems';
+import { PalettePanel } from './palette/PalettePanel';
+import { TableTools } from './palette/TableTools';
+import { occupiedFrom, planPaletteSpawn } from './palette/paletteSpawn';
+import { createSpawnQueue } from './palette/spawnQueue';
+import { OptimisticSpawns, SPAWN_REJECT_CODES } from './palette/optimistic';
+import {
+  buildPackTable,
+  initialProgress,
+  stepProgress,
+  PACK_STEPS,
+  type PackLoadProgress,
+  type PackStepId,
+} from './palette/packLoader';
+import { fetchPropertyTycoonManifest } from './palette/packSource';
+
+const delay = (ms: number) => new Promise<void>((resolve) => { window.setTimeout(resolve, ms); });
+
+/** Masa tarafındaki nesneleri placer girdisine çevirir. */
+function tableOccupied(controller: InteractionController) {
+  return occupiedFrom(
+    controller.objects.list().map((object) => ({
+      kind: object.def.kind,
+      x: object.mesh.position.x,
+      z: object.mesh.position.z,
+    })),
+  );
+}
 
 /* A6 demo seti — yalnızca yerel/çevrimdışı masada spawn edilir. */
 const DEMO_DEFS: ObjectDef[] = [
@@ -100,14 +129,32 @@ export function App() {
   const [maxPlayers, setMaxPlayers] = useState(8);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>('idle');
+  const [paletteOpen, setPaletteOpen] = useState(false);
+  const [packProgress, setPackProgress] = useState<PackLoadProgress | null>(null);
+  const [packBusy, setPackBusy] = useState(false);
   const errorSeq = useRef(0);
   const playersRef = useRef<PlayerInfo[]>([]);
   const settingsRef = useRef<Settings>(settings);
   const selfIdRef = useRef<string>('');
+  const stateRef = useRef(state);
+  const isHostRef = useRef(true);
+  const optimisticRef = useRef(new OptimisticSpawns());
+  const spawnPumpRef = useRef<number | null>(null);
+  const applySpawnRef = useRef<(def: ObjectDef) => void>(() => undefined);
+  const spawnQueueRef = useRef(createSpawnQueue<ObjectDef>((def) => applySpawnRef.current(def)));
+  const paletteApiRef = useRef<{
+    spawn: (item: PaletteItemDef, count: number, color: string) => number;
+    loadPack: () => Promise<void>;
+    clearTable: () => void;
+  } | null>(null);
 
   playersRef.current = players;
   settingsRef.current = settings;
   selfIdRef.current = selfId;
+  stateRef.current = state;
+  const localMode = !state.online;
+  const isHost = localMode || players.some((player) => player.id === selfId && player.isHost);
+  isHostRef.current = isHost;
 
   const patchSettings = useCallback((patch: Partial<Settings>) => {
     setSettings((previous) => {
@@ -170,7 +217,18 @@ export function App() {
       });
       room.onMessage('error', (raw) => {
         const message = raw as { code: string; message: string };
+        // Optimistik spawn: sunucu reddi → yerel nesneyi geri al.
+        if (SPAWN_REJECT_CODES.includes(message.code)) {
+          const notice = optimisticRef.current.rejectOldest(performance.now());
+          if (notice) controllerRef.current?.objects.remove(notice.id);
+        }
         pushError(message.code, message.message);
+      });
+      // Kendi spawn'ımızın onayı: aynı id ile yayın geldiğinde bekleme biter.
+      room.onMessage('objectSpawn', (raw) => {
+        const message = raw as { object?: { id?: unknown } };
+        const id = message?.object?.id;
+        if (typeof id === 'string') optimisticRef.current.confirm(id);
       });
       nc.onStatus((status) => setConnectionStatus(status));
     },
@@ -230,6 +288,153 @@ export function App() {
     bridge?.reset?.();
   }, []);
 
+  /* ----------------------------- palet / araçlar ---------------------------- */
+
+  // Yerel spawn: her zaman sahnede; online ise ağa da iletilir + optimistik izlenir.
+  const applySpawn = useCallback((def: ObjectDef) => {
+    const controller = controllerRef.current;
+    if (!controller) return;
+    controller.spawn(def);
+    if (stateRef.current.online) {
+      optimisticRef.current.track(def.id, performance.now());
+      ncRef.current?.getRoom()?.send('objectSpawn', { object: def });
+    }
+  }, []);
+  applySpawnRef.current = applySpawn;
+
+  const pumpSpawnQueue = useCallback(() => {
+    if (spawnPumpRef.current !== null) return;
+    const step = () => {
+      spawnQueueRef.current.drainFrame();
+      if (spawnQueueRef.current.pending() > 0) {
+        spawnPumpRef.current = window.requestAnimationFrame(step);
+      } else {
+        spawnPumpRef.current = null;
+      }
+    };
+    spawnPumpRef.current = window.requestAnimationFrame(step);
+  }, []);
+
+  // Ekran değişiminde bekleyen kareleri iptal et.
+  useEffect(() => () => {
+    if (spawnPumpRef.current !== null) window.cancelAnimationFrame(spawnPumpRef.current);
+    spawnPumpRef.current = null;
+  }, []);
+
+  const addFromPalette = useCallback(
+    (item: PaletteItemDef, count: number, color: string): number => {
+      const controller = controllerRef.current;
+      if (!controller) return 0;
+      const plan = planPaletteSpawn({
+        item,
+        count,
+        color,
+        occupied: tableOccupied(controller),
+      });
+      spawnQueueRef.current.push(plan.defs);
+      pumpSpawnQueue();
+      if (plan.defs.length === 0) pushError('TABLE_FULL');
+      return plan.defs.length;
+    },
+    [pumpSpawnQueue, pushError],
+  );
+
+  const clearTable = useCallback(() => {
+    const controller = controllerRef.current;
+    if (!controller) return;
+    if (stateRef.current.online && !isHostRef.current) {
+      pushError('HOST_ONLY');
+      return;
+    }
+    const room = ncRef.current?.getRoom();
+    for (const object of controller.objects.list()) {
+      controller.objects.remove(object.def.id);
+      if (stateRef.current.online) room?.send('objectRemove', { objectId: object.def.id });
+    }
+    spawnQueueRef.current.clear();
+    optimisticRef.current.reset();
+  }, [pushError]);
+
+  const loadPack = useCallback(async () => {
+    if (packBusy) return;
+    const controller = controllerRef.current;
+    setPackBusy(true);
+    let progress = initialProgress();
+    setPackProgress(progress);
+    let currentStep: PackStepId = 'validate';
+
+    const mark = (id: PackStepId, status: 'running' | 'ok' | 'failed', message?: string) => {
+      progress = stepProgress(progress, id, status, message);
+      setPackProgress(progress);
+    };
+
+    try {
+      if (!controller) throw new Error('Table is not ready');
+      mark('validate', 'running');
+      await delay(60);
+      const manifest = await fetchPropertyTycoonManifest();
+      mark('validate', 'ok');
+
+      // Aynı paket daha önce yüklendiyse önce onu kaldır (üst üste tahta olmasın).
+      const room = ncRef.current?.getRoom();
+      for (const object of controller.objects.list()) {
+        if (object.def.meta.sourcePack !== manifest.packId) continue;
+        controller.objects.remove(object.def.id);
+        if (stateRef.current.online) room?.send('objectRemove', { objectId: object.def.id });
+      }
+
+      const table = buildPackTable(manifest, tableOccupied(controller));
+
+      for (const id of PACK_STEPS) {
+        if (id === 'validate') continue;
+        currentStep = id;
+        mark(id, 'running');
+        await delay(120);
+        spawnQueueRef.current.push(table.defsByStep[id]);
+        pumpSpawnQueue();
+        mark(id, 'ok');
+      }
+
+      if (table.skipped > 0) pushError('PACK_PARTIAL', `${table.skipped} objects skipped`);
+    } catch (error) {
+      mark(currentStep, 'failed', error instanceof Error ? error.message : String(error));
+      pushError('PACK_INVALID', error instanceof Error ? error.message : String(error));
+    } finally {
+      setPackBusy(false);
+    }
+  }, [packBusy, pumpSpawnQueue, pushError]);
+
+  paletteApiRef.current = { spawn: addFromPalette, loadPack, clearTable };
+
+  // `B` kısayolu paleti açar/kapatır (yazı alanlarında ve modallarda değil).
+  useEffect(() => {
+    if (state.screen !== 'table') return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'b' && event.key !== 'B') return;
+      if (event.metaKey || event.ctrlKey || event.altKey) return;
+      if (state.settingsOpen) return;
+      const target = event.target as HTMLElement | null;
+      if (
+        target &&
+        (target.tagName === 'INPUT' ||
+          target.tagName === 'TEXTAREA' ||
+          target.tagName === 'SELECT' ||
+          target.isContentEditable)
+      ) {
+        return;
+      }
+      event.preventDefault();
+      setPaletteOpen((open) => !open);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [state.screen, state.settingsOpen]);
+
+  // Masadan çıkınca palet kapansın.
+  useEffect(() => {
+    if (state.screen !== 'table') setPaletteOpen(false);
+  }, [state.screen]);
+
   const changeLanguage = useCallback((language: Language) => patchSettings({ language }), [patchSettings]);
 
   /* ------------------------------- 3D sahne ------------------------------- */
@@ -272,6 +477,21 @@ export function App() {
           objects: controller.objects,
           camera: manager.camera,
           isOffline: offline,
+          isHost: isHostRef.current,
+          paletteItems: [...PALETTE_ITEMS.map((item) => item.id), pawnItem().id],
+          openPalette: () => setPaletteOpen(true),
+          closePalette: () => setPaletteOpen(false),
+          spawnPaletteItem: (id: string, count = 1, color?: string) => {
+            const item = id === 'pawn'
+              ? pawnItem()
+              : PALETTE_ITEMS.find((entry) => entry.id === id);
+            const api = paletteApiRef.current;
+            if (!item || !api) return 0;
+            return api.spawn(item, count, color ?? PLAYER_COLORS[0]);
+          },
+          loadPack: () => paletteApiRef.current?.loadPack(),
+          clearTable: () => paletteApiRef.current?.clearTable(),
+          objectCount: () => controller.objects.count(),
           reset: () => {
             for (const object of controller.objects.list()) controller.objects.remove(object.def.id);
             if (offline) for (const def of DEMO_DEFS) controller.spawn(def);
@@ -366,7 +586,6 @@ export function App() {
     );
   }
 
-  const localMode = !state.online;
   return (
     <I18nProvider language={settings.language}>
       <div className="app">
@@ -385,6 +604,21 @@ export function App() {
           onLanguageChange={changeLanguage}
         />
         <canvas ref={canvasRef} className="table" />
+        <TableTools
+          paletteOpen={paletteOpen}
+          onTogglePalette={() => setPaletteOpen((open) => !open)}
+          packProgress={packProgress}
+          packBusy={packBusy}
+          onLoadPack={() => { void loadPack(); }}
+          onClearTable={clearTable}
+          canClear={isHost}
+          isHost={isHost}
+        />
+        <PalettePanel
+          open={paletteOpen}
+          onClose={() => setPaletteOpen(false)}
+          onAdd={addFromPalette}
+        />
         {overlays}
       </div>
     </I18nProvider>

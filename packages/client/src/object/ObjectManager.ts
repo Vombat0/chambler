@@ -50,8 +50,10 @@ export class ObjectManager {
   remove(id: string): void {
     const mo = this.objects.get(id);
     if (!mo) return;
-    this.sceneManager.physics.removeBody(id);
+    // Önce sahne kaydı, sonra fizik: kare döngüsü serbest bırakılan gövdeyi okumasın.
+    this.sceneManager.unregisterBody?.(id);
     this.sceneManager.scene.remove(mo.mesh);
+    this.sceneManager.physics.removeBody(id);
     this.objects.delete(id);
     this.ownership.remove(id);
     this.emitter.forget(id);

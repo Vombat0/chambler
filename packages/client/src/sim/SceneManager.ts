@@ -28,6 +28,8 @@ export interface SceneManagerLike {
     remove(...objects: THREE.Object3D[]): unknown;
   };
   registerBody(id: string, mesh: THREE.Object3D, rigidBody: unknown): void;
+  /** Kaldırılan gövdeyi kare döngüsünden çıkarır (silinen rapier gövdesine erişilmez). */
+  unregisterBody?(id: string): void;
   physics: {
     createBody(id: string, opts: unknown): unknown;
     removeBody(id: string): void;
@@ -246,6 +248,15 @@ export class SceneManager {
       });
       this.registerBody(id, mesh, body.rigidBody);
     }
+  }
+
+  /**
+   * Kaldırılan nesneyi kare döngüsünden çıkarır. `physics.removeBody` rapier
+   * gövdesini serbest bırakır; kayıt silinmezse döngü serbest bırakılmış
+   * gövdeyi okumaya çalışır (wasm borrow panic → "recursive use of an object").
+   */
+  unregisterBody(id: string): void {
+    this.bodies.delete(id);
   }
 
   private startLoop(): void {

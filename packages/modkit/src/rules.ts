@@ -1,4 +1,9 @@
-import { extname } from 'node:path';
+/** Browser-safe extension lookup (no `node:path` dependency). */
+function extname(path: string): string {
+  const slash = path.lastIndexOf('/');
+  const dot = path.lastIndexOf('.');
+  return dot > slash + 1 ? path.slice(dot) : '';
+}
 
 /** Allowed asset file extensions (checked case-insensitively). */
 export const ASSET_EXTENSIONS = ['.glb', '.gltf', '.png', '.jpg', '.webp', '.json', '.mp3', '.ogg'] as const;
