@@ -1,0 +1,10 @@
+{
+  "id": "chance-04",
+  "deckId": "chance",
+  "titleKey": "card.chance.chance-04.title",
+  "textKey": "card.chance.chance-04.text",
+  "effect": {
+    "type": "jail",
+    "toIndex": 30
+  }
+}

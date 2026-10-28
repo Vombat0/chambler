@@ -1,0 +1,9 @@
+{
+  "id": "chance-14",
+  "deckId": "chance",
+  "titleKey": "card.chance.chance-14.title",
+  "textKey": "card.chance.chance-14.text",
+  "effect": {
+    "type": "skip-turn"
+  }
+}

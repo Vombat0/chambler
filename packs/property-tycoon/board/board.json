@@ -1,0 +1,1015 @@
+{
+  "formatVersion": 1,
+  "boardId": "property-tycoon-standard",
+  "grid": {
+    "cols": 11,
+    "rows": 11
+  },
+  "cellSize": {
+    "width": 1,
+    "depth": 1
+  },
+  "sides": [
+    "bottom",
+    "left",
+    "top",
+    "right"
+  ],
+  "cornerIndices": [
+    0,
+    10,
+    20,
+    30
+  ],
+  "cellsPerSide": 11,
+  "cells": [
+    {
+      "id": "cell-00",
+      "index": 0,
+      "slug": "start",
+      "type": "start",
+      "nameKey": "cell.0.name",
+      "side": "bottom",
+      "slot": 0,
+      "salary": 200,
+      "edges": [
+        {
+          "side": "bottom",
+          "slot": 0
+        },
+        {
+          "side": "right",
+          "slot": 10
+        }
+      ]
+    },
+    {
+      "id": "cell-01",
+      "index": 1,
+      "slug": "kiremit-1",
+      "type": "property",
+      "nameKey": "cell.1.name",
+      "side": "bottom",
+      "slot": 1,
+      "groupId": "kiremit",
+      "price": 60,
+      "rent": [
+        2,
+        4,
+        10,
+        30,
+        90,
+        160,
+        250
+      ],
+      "houseCost": 50,
+      "hotelCost": 50,
+      "mortgage": 30,
+      "edges": [
+        {
+          "side": "bottom",
+          "slot": 1
+        }
+      ]
+    },
+    {
+      "id": "cell-02",
+      "index": 2,
+      "slug": "community-1",
+      "type": "community",
+      "nameKey": "cell.2.name",
+      "side": "bottom",
+      "slot": 2,
+      "deckId": "community",
+      "edges": [
+        {
+          "side": "bottom",
+          "slot": 2
+        }
+      ]
+    },
+    {
+      "id": "cell-03",
+      "index": 3,
+      "slug": "kiremit-2",
+      "type": "property",
+      "nameKey": "cell.3.name",
+      "side": "bottom",
+      "slot": 3,
+      "groupId": "kiremit",
+      "price": 60,
+      "rent": [
+        4,
+        8,
+        20,
+        60,
+        180,
+        320,
+        450
+      ],
+      "houseCost": 50,
+      "hotelCost": 50,
+      "mortgage": 30,
+      "edges": [
+        {
+          "side": "bottom",
+          "slot": 3
+        }
+      ]
+    },
+    {
+      "id": "cell-04",
+      "index": 4,
+      "slug": "tax-1",
+      "type": "tax",
+      "nameKey": "cell.4.name",
+      "side": "bottom",
+      "slot": 4,
+      "taxAmount": 200,
+      "edges": [
+        {
+          "side": "bottom",
+          "slot": 4
+        }
+      ]
+    },
+    {
+      "id": "cell-05",
+      "index": 5,
+      "slug": "liman-1",
+      "type": "transport",
+      "nameKey": "cell.5.name",
+      "side": "bottom",
+      "slot": 5,
+      "groupId": "liman",
+      "price": 200,
+      "rent": [
+        25,
+        50,
+        100,
+        200
+      ],
+      "mortgage": 100,
+      "edges": [
+        {
+          "side": "bottom",
+          "slot": 5
+        }
+      ]
+    },
+    {
+      "id": "cell-06",
+      "index": 6,
+      "slug": "zeytin-1",
+      "type": "property",
+      "nameKey": "cell.6.name",
+      "side": "bottom",
+      "slot": 6,
+      "groupId": "zeytin",
+      "price": 100,
+      "rent": [
+        6,
+        12,
+        30,
+        90,
+        270,
+        400,
+        550
+      ],
+      "houseCost": 50,
+      "hotelCost": 50,
+      "mortgage": 50,
+      "edges": [
+        {
+          "side": "bottom",
+          "slot": 6
+        }
+      ]
+    },
+    {
+      "id": "cell-07",
+      "index": 7,
+      "slug": "chance-1",
+      "type": "chance",
+      "nameKey": "cell.7.name",
+      "side": "bottom",
+      "slot": 7,
+      "deckId": "chance",
+      "edges": [
+        {
+          "side": "bottom",
+          "slot": 7
+        }
+      ]
+    },
+    {
+      "id": "cell-08",
+      "index": 8,
+      "slug": "zeytin-2",
+      "type": "property",
+      "nameKey": "cell.8.name",
+      "side": "bottom",
+      "slot": 8,
+      "groupId": "zeytin",
+      "price": 100,
+      "rent": [
+        6,
+        12,
+        30,
+        90,
+        270,
+        400,
+        550
+      ],
+      "houseCost": 50,
+      "hotelCost": 50,
+      "mortgage": 50,
+      "edges": [
+        {
+          "side": "bottom",
+          "slot": 8
+        }
+      ]
+    },
+    {
+      "id": "cell-09",
+      "index": 9,
+      "slug": "zeytin-3",
+      "type": "property",
+      "nameKey": "cell.9.name",
+      "side": "bottom",
+      "slot": 9,
+      "groupId": "zeytin",
+      "price": 120,
+      "rent": [
+        8,
+        16,
+        40,
+        100,
+        300,
+        450,
+        600
+      ],
+      "houseCost": 50,
+      "hotelCost": 50,
+      "mortgage": 60,
+      "edges": [
+        {
+          "side": "bottom",
+          "slot": 9
+        }
+      ]
+    },
+    {
+      "id": "cell-10",
+      "index": 10,
+      "slug": "jail",
+      "type": "jail",
+      "nameKey": "cell.10.name",
+      "side": "bottom",
+      "slot": 10,
+      "fine": 50,
+      "edges": [
+        {
+          "side": "bottom",
+          "slot": 10
+        },
+        {
+          "side": "left",
+          "slot": 0
+        }
+      ]
+    },
+    {
+      "id": "cell-11",
+      "index": 11,
+      "slug": "gul-1",
+      "type": "property",
+      "nameKey": "cell.11.name",
+      "side": "left",
+      "slot": 1,
+      "groupId": "gul",
+      "price": 140,
+      "rent": [
+        10,
+        20,
+        50,
+        150,
+        450,
+        625,
+        750
+      ],
+      "houseCost": 100,
+      "hotelCost": 100,
+      "mortgage": 70,
+      "edges": [
+        {
+          "side": "left",
+          "slot": 1
+        }
+      ]
+    },
+    {
+      "id": "cell-12",
+      "index": 12,
+      "slug": "enerji-1",
+      "type": "energy",
+      "nameKey": "cell.12.name",
+      "side": "left",
+      "slot": 2,
+      "groupId": "enerji",
+      "price": 150,
+      "rent": [
+        4,
+        10
+      ],
+      "rentMode": "dice-multiplier",
+      "mortgage": 75,
+      "edges": [
+        {
+          "side": "left",
+          "slot": 2
+        }
+      ]
+    },
+    {
+      "id": "cell-13",
+      "index": 13,
+      "slug": "gul-2",
+      "type": "property",
+      "nameKey": "cell.13.name",
+      "side": "left",
+      "slot": 3,
+      "groupId": "gul",
+      "price": 140,
+      "rent": [
+        10,
+        20,
+        50,
+        150,
+        450,
+        625,
+        750
+      ],
+      "houseCost": 100,
+      "hotelCost": 100,
+      "mortgage": 70,
+      "edges": [
+        {
+          "side": "left",
+          "slot": 3
+        }
+      ]
+    },
+    {
+      "id": "cell-14",
+      "index": 14,
+      "slug": "gul-3",
+      "type": "property",
+      "nameKey": "cell.14.name",
+      "side": "left",
+      "slot": 4,
+      "groupId": "gul",
+      "price": 160,
+      "rent": [
+        12,
+        24,
+        60,
+        180,
+        500,
+        700,
+        900
+      ],
+      "houseCost": 100,
+      "hotelCost": 100,
+      "mortgage": 80,
+      "edges": [
+        {
+          "side": "left",
+          "slot": 4
+        }
+      ]
+    },
+    {
+      "id": "cell-15",
+      "index": 15,
+      "slug": "liman-2",
+      "type": "transport",
+      "nameKey": "cell.15.name",
+      "side": "left",
+      "slot": 5,
+      "groupId": "liman",
+      "price": 200,
+      "rent": [
+        25,
+        50,
+        100,
+        200
+      ],
+      "mortgage": 100,
+      "edges": [
+        {
+          "side": "left",
+          "slot": 5
+        }
+      ]
+    },
+    {
+      "id": "cell-16",
+      "index": 16,
+      "slug": "turkuaz-1",
+      "type": "property",
+      "nameKey": "cell.16.name",
+      "side": "left",
+      "slot": 6,
+      "groupId": "turkuaz",
+      "price": 180,
+      "rent": [
+        14,
+        28,
+        70,
+        200,
+        550,
+        750,
+        950
+      ],
+      "houseCost": 100,
+      "hotelCost": 100,
+      "mortgage": 90,
+      "edges": [
+        {
+          "side": "left",
+          "slot": 6
+        }
+      ]
+    },
+    {
+      "id": "cell-17",
+      "index": 17,
+      "slug": "community-2",
+      "type": "community",
+      "nameKey": "cell.17.name",
+      "side": "left",
+      "slot": 7,
+      "deckId": "community",
+      "edges": [
+        {
+          "side": "left",
+          "slot": 7
+        }
+      ]
+    },
+    {
+      "id": "cell-18",
+      "index": 18,
+      "slug": "turkuaz-2",
+      "type": "property",
+      "nameKey": "cell.18.name",
+      "side": "left",
+      "slot": 8,
+      "groupId": "turkuaz",
+      "price": 180,
+      "rent": [
+        14,
+        28,
+        70,
+        200,
+        550,
+        750,
+        950
+      ],
+      "houseCost": 100,
+      "hotelCost": 100,
+      "mortgage": 90,
+      "edges": [
+        {
+          "side": "left",
+          "slot": 8
+        }
+      ]
+    },
+    {
+      "id": "cell-19",
+      "index": 19,
+      "slug": "turkuaz-3",
+      "type": "property",
+      "nameKey": "cell.19.name",
+      "side": "left",
+      "slot": 9,
+      "groupId": "turkuaz",
+      "price": 200,
+      "rent": [
+        16,
+        32,
+        80,
+        220,
+        600,
+        800,
+        1000
+      ],
+      "houseCost": 100,
+      "hotelCost": 100,
+      "mortgage": 100,
+      "edges": [
+        {
+          "side": "left",
+          "slot": 9
+        }
+      ]
+    },
+    {
+      "id": "cell-20",
+      "index": 20,
+      "slug": "free-parking",
+      "type": "free-parking",
+      "nameKey": "cell.20.name",
+      "side": "left",
+      "slot": 10,
+      "collectsPot": true,
+      "edges": [
+        {
+          "side": "left",
+          "slot": 10
+        },
+        {
+          "side": "top",
+          "slot": 0
+        }
+      ]
+    },
+    {
+      "id": "cell-21",
+      "index": 21,
+      "slug": "amber-1",
+      "type": "property",
+      "nameKey": "cell.21.name",
+      "side": "top",
+      "slot": 1,
+      "groupId": "amber",
+      "price": 220,
+      "rent": [
+        18,
+        36,
+        90,
+        250,
+        700,
+        875,
+        1050
+      ],
+      "houseCost": 150,
+      "hotelCost": 150,
+      "mortgage": 110,
+      "edges": [
+        {
+          "side": "top",
+          "slot": 1
+        }
+      ]
+    },
+    {
+      "id": "cell-22",
+      "index": 22,
+      "slug": "chance-2",
+      "type": "chance",
+      "nameKey": "cell.22.name",
+      "side": "top",
+      "slot": 2,
+      "deckId": "chance",
+      "edges": [
+        {
+          "side": "top",
+          "slot": 2
+        }
+      ]
+    },
+    {
+      "id": "cell-23",
+      "index": 23,
+      "slug": "amber-2",
+      "type": "property",
+      "nameKey": "cell.23.name",
+      "side": "top",
+      "slot": 3,
+      "groupId": "amber",
+      "price": 220,
+      "rent": [
+        18,
+        36,
+        90,
+        250,
+        700,
+        875,
+        1050
+      ],
+      "houseCost": 150,
+      "hotelCost": 150,
+      "mortgage": 110,
+      "edges": [
+        {
+          "side": "top",
+          "slot": 3
+        }
+      ]
+    },
+    {
+      "id": "cell-24",
+      "index": 24,
+      "slug": "amber-3",
+      "type": "property",
+      "nameKey": "cell.24.name",
+      "side": "top",
+      "slot": 4,
+      "groupId": "amber",
+      "price": 240,
+      "rent": [
+        20,
+        40,
+        100,
+        300,
+        750,
+        925,
+        1100
+      ],
+      "houseCost": 150,
+      "hotelCost": 150,
+      "mortgage": 120,
+      "edges": [
+        {
+          "side": "top",
+          "slot": 4
+        }
+      ]
+    },
+    {
+      "id": "cell-25",
+      "index": 25,
+      "slug": "liman-3",
+      "type": "transport",
+      "nameKey": "cell.25.name",
+      "side": "top",
+      "slot": 5,
+      "groupId": "liman",
+      "price": 200,
+      "rent": [
+        25,
+        50,
+        100,
+        200
+      ],
+      "mortgage": 100,
+      "edges": [
+        {
+          "side": "top",
+          "slot": 5
+        }
+      ]
+    },
+    {
+      "id": "cell-26",
+      "index": 26,
+      "slug": "zumrut-1",
+      "type": "property",
+      "nameKey": "cell.26.name",
+      "side": "top",
+      "slot": 6,
+      "groupId": "zumrut",
+      "price": 260,
+      "rent": [
+        22,
+        44,
+        110,
+        330,
+        800,
+        975,
+        1150
+      ],
+      "houseCost": 150,
+      "hotelCost": 150,
+      "mortgage": 130,
+      "edges": [
+        {
+          "side": "top",
+          "slot": 6
+        }
+      ]
+    },
+    {
+      "id": "cell-27",
+      "index": 27,
+      "slug": "zumrut-2",
+      "type": "property",
+      "nameKey": "cell.27.name",
+      "side": "top",
+      "slot": 7,
+      "groupId": "zumrut",
+      "price": 260,
+      "rent": [
+        22,
+        44,
+        110,
+        330,
+        800,
+        975,
+        1150
+      ],
+      "houseCost": 150,
+      "hotelCost": 150,
+      "mortgage": 130,
+      "edges": [
+        {
+          "side": "top",
+          "slot": 7
+        }
+      ]
+    },
+    {
+      "id": "cell-28",
+      "index": 28,
+      "slug": "enerji-2",
+      "type": "energy",
+      "nameKey": "cell.28.name",
+      "side": "top",
+      "slot": 8,
+      "groupId": "enerji",
+      "price": 150,
+      "rent": [
+        4,
+        10
+      ],
+      "rentMode": "dice-multiplier",
+      "mortgage": 75,
+      "edges": [
+        {
+          "side": "top",
+          "slot": 8
+        }
+      ]
+    },
+    {
+      "id": "cell-29",
+      "index": 29,
+      "slug": "zumrut-3",
+      "type": "property",
+      "nameKey": "cell.29.name",
+      "side": "top",
+      "slot": 9,
+      "groupId": "zumrut",
+      "price": 280,
+      "rent": [
+        24,
+        48,
+        120,
+        360,
+        850,
+        1025,
+        1200
+      ],
+      "houseCost": 150,
+      "hotelCost": 150,
+      "mortgage": 140,
+      "edges": [
+        {
+          "side": "top",
+          "slot": 9
+        }
+      ]
+    },
+    {
+      "id": "cell-30",
+      "index": 30,
+      "slug": "go-to-jail",
+      "type": "go-to-jail",
+      "nameKey": "cell.30.name",
+      "side": "top",
+      "slot": 10,
+      "targetIndex": 10,
+      "edges": [
+        {
+          "side": "top",
+          "slot": 10
+        },
+        {
+          "side": "right",
+          "slot": 0
+        }
+      ]
+    },
+    {
+      "id": "cell-31",
+      "index": 31,
+      "slug": "lacivert-1",
+      "type": "property",
+      "nameKey": "cell.31.name",
+      "side": "right",
+      "slot": 1,
+      "groupId": "lacivert",
+      "price": 300,
+      "rent": [
+        26,
+        52,
+        130,
+        390,
+        900,
+        1100,
+        1275
+      ],
+      "houseCost": 200,
+      "hotelCost": 200,
+      "mortgage": 150,
+      "edges": [
+        {
+          "side": "right",
+          "slot": 1
+        }
+      ]
+    },
+    {
+      "id": "cell-32",
+      "index": 32,
+      "slug": "lacivert-2",
+      "type": "property",
+      "nameKey": "cell.32.name",
+      "side": "right",
+      "slot": 2,
+      "groupId": "lacivert",
+      "price": 300,
+      "rent": [
+        26,
+        52,
+        130,
+        390,
+        900,
+        1100,
+        1275
+      ],
+      "houseCost": 200,
+      "hotelCost": 200,
+      "mortgage": 150,
+      "edges": [
+        {
+          "side": "right",
+          "slot": 2
+        }
+      ]
+    },
+    {
+      "id": "cell-33",
+      "index": 33,
+      "slug": "community-3",
+      "type": "community",
+      "nameKey": "cell.33.name",
+      "side": "right",
+      "slot": 3,
+      "deckId": "community",
+      "edges": [
+        {
+          "side": "right",
+          "slot": 3
+        }
+      ]
+    },
+    {
+      "id": "cell-34",
+      "index": 34,
+      "slug": "lacivert-3",
+      "type": "property",
+      "nameKey": "cell.34.name",
+      "side": "right",
+      "slot": 4,
+      "groupId": "lacivert",
+      "price": 320,
+      "rent": [
+        28,
+        56,
+        150,
+        450,
+        1000,
+        1200,
+        1400
+      ],
+      "houseCost": 200,
+      "hotelCost": 200,
+      "mortgage": 160,
+      "edges": [
+        {
+          "side": "right",
+          "slot": 4
+        }
+      ]
+    },
+    {
+      "id": "cell-35",
+      "index": 35,
+      "slug": "liman-4",
+      "type": "transport",
+      "nameKey": "cell.35.name",
+      "side": "right",
+      "slot": 5,
+      "groupId": "liman",
+      "price": 200,
+      "rent": [
+        25,
+        50,
+        100,
+        200
+      ],
+      "mortgage": 100,
+      "edges": [
+        {
+          "side": "right",
+          "slot": 5
+        }
+      ]
+    },
+    {
+      "id": "cell-36",
+      "index": 36,
+      "slug": "chance-3",
+      "type": "chance",
+      "nameKey": "cell.36.name",
+      "side": "right",
+      "slot": 6,
+      "deckId": "chance",
+      "edges": [
+        {
+          "side": "right",
+          "slot": 6
+        }
+      ]
+    },
+    {
+      "id": "cell-37",
+      "index": 37,
+      "slug": "mor-1",
+      "type": "property",
+      "nameKey": "cell.37.name",
+      "side": "right",
+      "slot": 7,
+      "groupId": "mor",
+      "price": 350,
+      "rent": [
+        35,
+        70,
+        175,
+        500,
+        1100,
+        1300,
+        1500
+      ],
+      "houseCost": 200,
+      "hotelCost": 200,
+      "mortgage": 175,
+      "edges": [
+        {
+          "side": "right",
+          "slot": 7
+        }
+      ]
+    },
+    {
+      "id": "cell-38",
+      "index": 38,
+      "slug": "tax-2",
+      "type": "tax",
+      "nameKey": "cell.38.name",
+      "side": "right",
+      "slot": 8,
+      "taxAmount": 100,
+      "edges": [
+        {
+          "side": "right",
+          "slot": 8
+        }
+      ]
+    },
+    {
+      "id": "cell-39",
+      "index": 39,
+      "slug": "mor-2",
+      "type": "property",
+      "nameKey": "cell.39.name",
+      "side": "right",
+      "slot": 9,
+      "groupId": "mor",
+      "price": 400,
+      "rent": [
+        50,
+        100,
+        200,
+        600,
+        1400,
+        1700,
+        2000
+      ],
+      "houseCost": 200,
+      "hotelCost": 200,
+      "mortgage": 200,
+      "edges": [
+        {
+          "side": "right",
+          "slot": 9
+        }
+      ]
+    }
+  ]
+}

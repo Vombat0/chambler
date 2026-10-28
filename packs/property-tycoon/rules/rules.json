@@ -1,0 +1,66 @@
+{
+  "formatVersion": 1,
+  "currency": {
+    "code": "CHB",
+    "nameKey": "currency.name",
+    "symbolKey": "currency.symbol",
+    "unitScale": 1,
+    "denominations": [
+      1,
+      5,
+      10,
+      50,
+      100,
+      500
+    ]
+  },
+  "start": {
+    "money": 1500,
+    "salary": 200,
+    "salaryOnPass": true
+  },
+  "jail": {
+    "fine": 50,
+    "maxTurns": 3,
+    "canPayFine": true,
+    "releaseOnDouble": true
+  },
+  "property": {
+    "mortgageEnabled": true,
+    "mortgageRate": 0.5,
+    "unmortgageInterestRate": 0.1,
+    "sellToBankRate": 0.5,
+    "groupRentMultiplier": 2
+  },
+  "build": {
+    "maxHouses": 4,
+    "hotelAfterHouses": 4,
+    "evenBuildRule": true,
+    "buildOnlyOnFullGroup": true,
+    "sellBuildingsBack": true
+  },
+  "auction": {
+    "enabled": true,
+    "onDecline": true,
+    "minIncrement": 10,
+    "startBid": 10
+  },
+  "bankruptcy": {
+    "toCreditorFirst": true,
+    "liquidateBuildings": true,
+    "eliminate": true
+  },
+  "end": {
+    "condition": "last-standing",
+    "maxRounds": 0,
+    "rankByNetWorth": true
+  },
+  "dice": {
+    "notation": "2d6",
+    "doublesJail": true,
+    "maxDoubles": 3
+  },
+  "pot": {
+    "taxToFreeParking": true
+  }
+}

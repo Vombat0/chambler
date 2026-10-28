@@ -1,0 +1,10 @@
+{
+  "id": "chance-06",
+  "deckId": "chance",
+  "titleKey": "card.chance.chance-06.title",
+  "textKey": "card.chance.chance-06.text",
+  "effect": {
+    "type": "collect-each",
+    "amount": 10
+  }
+}

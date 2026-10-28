@@ -1,0 +1,154 @@
+{
+  "formatVersion": 1,
+  "deckId": "community",
+  "nameKey": "deck.community.name",
+  "shuffle": "auto",
+  "cardCount": 16,
+  "cards": [
+    {
+      "id": "community-01",
+      "titleKey": "card.community.community-01.title",
+      "textKey": "card.community.community-01.text",
+      "effect": {
+        "type": "money",
+        "amount": 50
+      }
+    },
+    {
+      "id": "community-02",
+      "titleKey": "card.community.community-02.title",
+      "textKey": "card.community.community-02.text",
+      "effect": {
+        "type": "money",
+        "amount": -40
+      }
+    },
+    {
+      "id": "community-03",
+      "titleKey": "card.community.community-03.title",
+      "textKey": "card.community.community-03.text",
+      "effect": {
+        "type": "money",
+        "amount": -20
+      }
+    },
+    {
+      "id": "community-04",
+      "titleKey": "card.community.community-04.title",
+      "textKey": "card.community.community-04.text",
+      "effect": {
+        "type": "money",
+        "amount": 100
+      }
+    },
+    {
+      "id": "community-05",
+      "titleKey": "card.community.community-05.title",
+      "textKey": "card.community.community-05.text",
+      "effect": {
+        "type": "money",
+        "amount": 25
+      }
+    },
+    {
+      "id": "community-06",
+      "titleKey": "card.community.community-06.title",
+      "textKey": "card.community.community-06.text",
+      "effect": {
+        "type": "money",
+        "amount": -60
+      }
+    },
+    {
+      "id": "community-07",
+      "titleKey": "card.community.community-07.title",
+      "textKey": "card.community.community-07.text",
+      "effect": {
+        "type": "move",
+        "toIndex": 0,
+        "collectSalary": true
+      }
+    },
+    {
+      "id": "community-08",
+      "titleKey": "card.community.community-08.title",
+      "textKey": "card.community.community-08.text",
+      "effect": {
+        "type": "collect-each",
+        "amount": 25
+      }
+    },
+    {
+      "id": "community-09",
+      "titleKey": "card.community.community-09.title",
+      "textKey": "card.community.community-09.text",
+      "effect": {
+        "type": "pay-each",
+        "amount": 25
+      }
+    },
+    {
+      "id": "community-10",
+      "titleKey": "card.community.community-10.title",
+      "textKey": "card.community.community-10.text",
+      "effect": {
+        "type": "jail",
+        "toIndex": 30
+      }
+    },
+    {
+      "id": "community-11",
+      "titleKey": "card.community.community-11.title",
+      "textKey": "card.community.community-11.text",
+      "effect": {
+        "type": "money",
+        "amount": 30
+      }
+    },
+    {
+      "id": "community-12",
+      "titleKey": "card.community.community-12.title",
+      "textKey": "card.community.community-12.text",
+      "effect": {
+        "type": "move",
+        "toIndex": 20
+      }
+    },
+    {
+      "id": "community-13",
+      "titleKey": "card.community.community-13.title",
+      "textKey": "card.community.community-13.text",
+      "effect": {
+        "type": "money",
+        "amount": 200
+      }
+    },
+    {
+      "id": "community-14",
+      "titleKey": "card.community.community-14.title",
+      "textKey": "card.community.community-14.text",
+      "effect": {
+        "type": "money",
+        "amount": -100
+      }
+    },
+    {
+      "id": "community-15",
+      "titleKey": "card.community.community-15.title",
+      "textKey": "card.community.community-15.text",
+      "effect": {
+        "type": "move",
+        "toIndex": 15
+      }
+    },
+    {
+      "id": "community-16",
+      "titleKey": "card.community.community-16.title",
+      "textKey": "card.community.community-16.text",
+      "effect": {
+        "type": "money",
+        "amount": 75
+      }
+    }
+  ]
+}

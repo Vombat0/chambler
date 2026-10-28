@@ -1,0 +1,10 @@
+{
+  "id": "community-06",
+  "deckId": "community",
+  "titleKey": "card.community.community-06.title",
+  "textKey": "card.community.community-06.text",
+  "effect": {
+    "type": "money",
+    "amount": -60
+  }
+}

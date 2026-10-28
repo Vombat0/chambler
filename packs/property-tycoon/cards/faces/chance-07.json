@@ -1,0 +1,10 @@
+{
+  "id": "chance-07",
+  "deckId": "chance",
+  "titleKey": "card.chance.chance-07.title",
+  "textKey": "card.chance.chance-07.text",
+  "effect": {
+    "type": "pay-each",
+    "amount": 50
+  }
+}

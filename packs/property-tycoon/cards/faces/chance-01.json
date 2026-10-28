@@ -1,0 +1,11 @@
+{
+  "id": "chance-01",
+  "deckId": "chance",
+  "titleKey": "card.chance.chance-01.title",
+  "textKey": "card.chance.chance-01.text",
+  "effect": {
+    "type": "move",
+    "toIndex": 0,
+    "collectSalary": true
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "chance-15",
+  "deckId": "chance",
+  "titleKey": "card.chance.chance-15.title",
+  "textKey": "card.chance.chance-15.text",
+  "effect": {
+    "type": "money",
+    "amount": 50
+  }
+}

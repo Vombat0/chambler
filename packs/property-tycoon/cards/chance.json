@@ -1,0 +1,152 @@
+{
+  "formatVersion": 1,
+  "deckId": "chance",
+  "nameKey": "deck.chance.name",
+  "shuffle": "auto",
+  "cardCount": 16,
+  "cards": [
+    {
+      "id": "chance-01",
+      "titleKey": "card.chance.chance-01.title",
+      "textKey": "card.chance.chance-01.text",
+      "effect": {
+        "type": "move",
+        "toIndex": 0,
+        "collectSalary": true
+      }
+    },
+    {
+      "id": "chance-02",
+      "titleKey": "card.chance.chance-02.title",
+      "textKey": "card.chance.chance-02.text",
+      "effect": {
+        "type": "money",
+        "amount": 100
+      }
+    },
+    {
+      "id": "chance-03",
+      "titleKey": "card.chance.chance-03.title",
+      "textKey": "card.chance.chance-03.text",
+      "effect": {
+        "type": "money",
+        "amount": -50
+      }
+    },
+    {
+      "id": "chance-04",
+      "titleKey": "card.chance.chance-04.title",
+      "textKey": "card.chance.chance-04.text",
+      "effect": {
+        "type": "jail",
+        "toIndex": 30
+      }
+    },
+    {
+      "id": "chance-05",
+      "titleKey": "card.chance.chance-05.title",
+      "textKey": "card.chance.chance-05.text",
+      "effect": {
+        "type": "money",
+        "amount": -25
+      }
+    },
+    {
+      "id": "chance-06",
+      "titleKey": "card.chance.chance-06.title",
+      "textKey": "card.chance.chance-06.text",
+      "effect": {
+        "type": "collect-each",
+        "amount": 10
+      }
+    },
+    {
+      "id": "chance-07",
+      "titleKey": "card.chance.chance-07.title",
+      "textKey": "card.chance.chance-07.text",
+      "effect": {
+        "type": "pay-each",
+        "amount": 50
+      }
+    },
+    {
+      "id": "chance-08",
+      "titleKey": "card.chance.chance-08.title",
+      "textKey": "card.chance.chance-08.text",
+      "effect": {
+        "type": "move",
+        "toIndex": 10
+      }
+    },
+    {
+      "id": "chance-09",
+      "titleKey": "card.chance.chance-09.title",
+      "textKey": "card.chance.chance-09.text",
+      "effect": {
+        "type": "money",
+        "amount": 150
+      }
+    },
+    {
+      "id": "chance-10",
+      "titleKey": "card.chance.chance-10.title",
+      "textKey": "card.chance.chance-10.text",
+      "effect": {
+        "type": "money",
+        "amount": 75
+      }
+    },
+    {
+      "id": "chance-11",
+      "titleKey": "card.chance.chance-11.title",
+      "textKey": "card.chance.chance-11.text",
+      "effect": {
+        "type": "money",
+        "amount": -75
+      }
+    },
+    {
+      "id": "chance-12",
+      "titleKey": "card.chance.chance-12.title",
+      "textKey": "card.chance.chance-12.text",
+      "effect": {
+        "type": "move",
+        "toIndex": 24
+      }
+    },
+    {
+      "id": "chance-13",
+      "titleKey": "card.chance.chance-13.title",
+      "textKey": "card.chance.chance-13.text",
+      "effect": {
+        "type": "extra-turn"
+      }
+    },
+    {
+      "id": "chance-14",
+      "titleKey": "card.chance.chance-14.title",
+      "textKey": "card.chance.chance-14.text",
+      "effect": {
+        "type": "skip-turn"
+      }
+    },
+    {
+      "id": "chance-15",
+      "titleKey": "card.chance.chance-15.title",
+      "textKey": "card.chance.chance-15.text",
+      "effect": {
+        "type": "money",
+        "amount": 50
+      }
+    },
+    {
+      "id": "chance-16",
+      "titleKey": "card.chance.chance-16.title",
+      "textKey": "card.chance.chance-16.text",
+      "effect": {
+        "type": "money",
+        "amount": -30
+      }
+    }
+  ]
+}

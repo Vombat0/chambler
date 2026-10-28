@@ -1,0 +1,10 @@
+{
+  "id": "community-09",
+  "deckId": "community",
+  "titleKey": "card.community.community-09.title",
+  "textKey": "card.community.community-09.text",
+  "effect": {
+    "type": "pay-each",
+    "amount": 25
+  }
+}

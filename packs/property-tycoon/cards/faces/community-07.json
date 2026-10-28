@@ -1,0 +1,11 @@
+{
+  "id": "community-07",
+  "deckId": "community",
+  "titleKey": "card.community.community-07.title",
+  "textKey": "card.community.community-07.text",
+  "effect": {
+    "type": "move",
+    "toIndex": 0,
+    "collectSalary": true
+  }
+}

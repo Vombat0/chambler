@@ -1,0 +1,10 @@
+{
+  "id": "community-08",
+  "deckId": "community",
+  "titleKey": "card.community.community-08.title",
+  "textKey": "card.community.community-08.text",
+  "effect": {
+    "type": "collect-each",
+    "amount": 25
+  }
+}

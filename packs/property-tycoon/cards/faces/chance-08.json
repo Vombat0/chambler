@@ -1,0 +1,10 @@
+{
+  "id": "chance-08",
+  "deckId": "chance",
+  "titleKey": "card.chance.chance-08.title",
+  "textKey": "card.chance.chance-08.text",
+  "effect": {
+    "type": "move",
+    "toIndex": 10
+  }
+}

@@ -1,0 +1,638 @@
+{
+  "generator": "scripts/generate-art.ts",
+  "note": "All art is generated procedurally: vector sources in assets/svg, rasters encoded by the built-in PNG writer. No third-party images.",
+  "pngCount": 34,
+  "svgCount": 36,
+  "files": [
+    {
+      "key": "board-plate",
+      "path": "assets/board.png",
+      "kind": "png",
+      "width": 1440,
+      "height": 1440,
+      "bytes": 1808052,
+      "sha256": "b12d722f813beaa816ab42d3272038060df10285e010ab836333cccd23317152"
+    },
+    {
+      "key": "card-back-chance",
+      "path": "assets/card-back-chance.png",
+      "kind": "png",
+      "width": 360,
+      "height": 520,
+      "bytes": 107378,
+      "sha256": "06ae4930003c0c185d64d972514c27e59c222c4e4c9422d440bf3d1ba100b9ca"
+    },
+    {
+      "key": "card-back-community",
+      "path": "assets/card-back-community.png",
+      "kind": "png",
+      "width": 360,
+      "height": 520,
+      "bytes": 104707,
+      "sha256": "58e832bedec5d521b43b59979499b6d676ba68731755f7672066bd42e4e8f16a"
+    },
+    {
+      "key": "die-d6",
+      "path": "assets/die-d6.png",
+      "kind": "png",
+      "width": 128,
+      "height": 128,
+      "bytes": 2513,
+      "sha256": "14f924d37d4e6da9e8dcedb15eb47b059a2b918b7eecbd61da8863c30845256e"
+    },
+    {
+      "key": "money-1",
+      "path": "assets/money-1.png",
+      "kind": "png",
+      "width": 360,
+      "height": 160,
+      "bytes": 9639,
+      "sha256": "53dff24cd6660b8205a416dd5ad08e0da8b003f9c66f9b3ddf2341b153f99471"
+    },
+    {
+      "key": "money-10",
+      "path": "assets/money-10.png",
+      "kind": "png",
+      "width": 360,
+      "height": 160,
+      "bytes": 10184,
+      "sha256": "48a2d73af9617fa882f783db704d724ff9d11c9f27747dcc12cb1207d4ea6e95"
+    },
+    {
+      "key": "money-100",
+      "path": "assets/money-100.png",
+      "kind": "png",
+      "width": 360,
+      "height": 160,
+      "bytes": 10352,
+      "sha256": "4bddcb7edf6ec3ca6cf9e2bcc6188726dd5735d5e91642d251ec977b706cf453"
+    },
+    {
+      "key": "money-5",
+      "path": "assets/money-5.png",
+      "kind": "png",
+      "width": 360,
+      "height": 160,
+      "bytes": 10250,
+      "sha256": "1e4529932c9662d814ee9d7a9c2f0a21d1f9c7365058a0ff30a11c6e19829045"
+    },
+    {
+      "key": "money-50",
+      "path": "assets/money-50.png",
+      "kind": "png",
+      "width": 360,
+      "height": 160,
+      "bytes": 10139,
+      "sha256": "65e8a0e53e85246eb91a23d923c3f09ae846d453ae10a38527ac1c6fc7c917ad"
+    },
+    {
+      "key": "money-500",
+      "path": "assets/money-500.png",
+      "kind": "png",
+      "width": 360,
+      "height": 160,
+      "bytes": 9994,
+      "sha256": "6085e2a4819cff366b0ef0f6e947af714f867e5ef815255703766e12deed35ee"
+    },
+    {
+      "key": "property-card-amber",
+      "path": "assets/property-card-amber.png",
+      "kind": "png",
+      "width": 320,
+      "height": 440,
+      "bytes": 20417,
+      "sha256": "bece8d233240ea680cb48a5bc6fcefbea6f6be23ef6ba4ba9cbf89176584680b"
+    },
+    {
+      "key": "property-card-gul",
+      "path": "assets/property-card-gul.png",
+      "kind": "png",
+      "width": 320,
+      "height": 440,
+      "bytes": 20437,
+      "sha256": "8132142d347be13d77ce4d9ac9025a2c2eda9f2afc93dae5a6a779a478e891bf"
+    },
+    {
+      "key": "property-card-kiremit",
+      "path": "assets/property-card-kiremit.png",
+      "kind": "png",
+      "width": 320,
+      "height": 440,
+      "bytes": 20436,
+      "sha256": "e1f9684cb61c65cba5231fff2a61831b915e472024460ee253ac328598468917"
+    },
+    {
+      "key": "property-card-lacivert",
+      "path": "assets/property-card-lacivert.png",
+      "kind": "png",
+      "width": 320,
+      "height": 440,
+      "bytes": 20397,
+      "sha256": "5981841ecf79408f7bb0d17bfb012d6c085c080b93534306afefbd411564e913"
+    },
+    {
+      "key": "property-card-mor",
+      "path": "assets/property-card-mor.png",
+      "kind": "png",
+      "width": 320,
+      "height": 440,
+      "bytes": 20500,
+      "sha256": "9d9e0f97dea908b3df64856c03f21f3e56da49276f22e08addfbe7ef97e191ce"
+    },
+    {
+      "key": "property-card-turkuaz",
+      "path": "assets/property-card-turkuaz.png",
+      "kind": "png",
+      "width": 320,
+      "height": 440,
+      "bytes": 20388,
+      "sha256": "b65d51500e3927f00500b8c681231789ab8aae68ee7a26171ab97531a1f10b8e"
+    },
+    {
+      "key": "property-card-zeytin",
+      "path": "assets/property-card-zeytin.png",
+      "kind": "png",
+      "width": 320,
+      "height": 440,
+      "bytes": 20484,
+      "sha256": "b2d562e7ea1f41ca04bdde97dd57fe754960497185bec95d097f6b23fae6dfad"
+    },
+    {
+      "key": "property-card-zumrut",
+      "path": "assets/property-card-zumrut.png",
+      "kind": "png",
+      "width": 320,
+      "height": 440,
+      "bytes": 20412,
+      "sha256": "9514b9458727f7b47da945fed05126e61c536cd54221b3da21646d5387d41624"
+    },
+    {
+      "key": "board-vector",
+      "path": "assets/svg/board.svg",
+      "kind": "svg",
+      "width": 1440,
+      "height": 1440,
+      "bytes": 22591,
+      "sha256": "65ef04376dda2e4cefb28f6faa35ba08c1d72053676d45f1d96d96c2d0ebfa7b"
+    },
+    {
+      "key": "card-back-chance-vector",
+      "path": "assets/svg/card-back-chance.svg",
+      "kind": "svg",
+      "width": 360,
+      "height": 520,
+      "bytes": 2171,
+      "sha256": "783c8a9829860d846029cebd00f215b419e318beba4f631dd11457ae80c1f9d9"
+    },
+    {
+      "key": "card-back-community-vector",
+      "path": "assets/svg/card-back-community.svg",
+      "kind": "svg",
+      "width": 360,
+      "height": 520,
+      "bytes": 2172,
+      "sha256": "6fff4fd48cda1b613be790105853488b38dbe4640343195e93d3394a00ac91c4"
+    },
+    {
+      "key": "cell-labels-en",
+      "path": "assets/svg/cell-labels-en.svg",
+      "kind": "svg",
+      "width": 1440,
+      "height": 1440,
+      "bytes": 10583,
+      "sha256": "4433803a3faef5146e919e300d1d91ad589170552bb64f85ec697d8d84ec06ed"
+    },
+    {
+      "key": "cell-labels-tr",
+      "path": "assets/svg/cell-labels-tr.svg",
+      "kind": "svg",
+      "width": 1440,
+      "height": 1440,
+      "bytes": 10643,
+      "sha256": "c8e47c3db49b121a23667d4d3bd6f1612272e0bd22d203ebf823010e2791f66d"
+    },
+    {
+      "key": "die-d6-vector",
+      "path": "assets/svg/die-d6.svg",
+      "kind": "svg",
+      "width": 128,
+      "height": 128,
+      "bytes": 1274,
+      "sha256": "7f3a94fb1af9c78d443ac620e2943bed5df69ce72225945d608cf0c83b7c5cbb"
+    },
+    {
+      "key": "money-1-vector",
+      "path": "assets/svg/money-1.svg",
+      "kind": "svg",
+      "width": 360,
+      "height": 160,
+      "bytes": 2481,
+      "sha256": "d708c6d3e13f117f3848e9006b0b3b7d5ce8c051b3f9a3f2f3edf53554e53fe2"
+    },
+    {
+      "key": "money-10-vector",
+      "path": "assets/svg/money-10.svg",
+      "kind": "svg",
+      "width": 360,
+      "height": 160,
+      "bytes": 2649,
+      "sha256": "8aed9875b998a26f4ecd62e4085ec4473f88a5cfb6c9669baefb7482376a6f3d"
+    },
+    {
+      "key": "money-100-vector",
+      "path": "assets/svg/money-100.svg",
+      "kind": "svg",
+      "width": 360,
+      "height": 160,
+      "bytes": 2819,
+      "sha256": "5cf3bd8a2a618b449b7492f07f0e393f3e120e25ecb5e350343166de015b4472"
+    },
+    {
+      "key": "money-5-vector",
+      "path": "assets/svg/money-5.svg",
+      "kind": "svg",
+      "width": 360,
+      "height": 160,
+      "bytes": 2564,
+      "sha256": "3937de4e1d28f33e0a8ae10570fdaebab4064e09f9b434117efd567dce2700d7"
+    },
+    {
+      "key": "money-50-vector",
+      "path": "assets/svg/money-50.svg",
+      "kind": "svg",
+      "width": 360,
+      "height": 160,
+      "bytes": 2733,
+      "sha256": "eaec56dfbb6c700a6e60624503946fc01411c23d21610a5aab3b5ca2db7937b6"
+    },
+    {
+      "key": "money-500-vector",
+      "path": "assets/svg/money-500.svg",
+      "kind": "svg",
+      "width": 360,
+      "height": 160,
+      "bytes": 2903,
+      "sha256": "3a3564c9208c2e760b657ec694236ed7c7579ddc0c41b686c2a574f89406d4f1"
+    },
+    {
+      "key": "property-card-amber-vector",
+      "path": "assets/svg/property-card-amber.svg",
+      "kind": "svg",
+      "width": 320,
+      "height": 440,
+      "bytes": 2837,
+      "sha256": "dd7141895a469aa472ae008e33ba671ed2da77d1a30a49750ba210dd790826e6"
+    },
+    {
+      "key": "property-card-gul-vector",
+      "path": "assets/svg/property-card-gul.svg",
+      "kind": "svg",
+      "width": 320,
+      "height": 440,
+      "bytes": 2829,
+      "sha256": "e726dbe654e4806c9511c1e84a0a11eef39090edb52eddd66328852c15db2175"
+    },
+    {
+      "key": "property-card-kiremit-vector",
+      "path": "assets/svg/property-card-kiremit.svg",
+      "kind": "svg",
+      "width": 320,
+      "height": 440,
+      "bytes": 2835,
+      "sha256": "edb9de12315674c6ba2d43633ac3f8fc0d1a27903f99cd1667f25d2bc774051d"
+    },
+    {
+      "key": "property-card-lacivert-vector",
+      "path": "assets/svg/property-card-lacivert.svg",
+      "kind": "svg",
+      "width": 320,
+      "height": 440,
+      "bytes": 2837,
+      "sha256": "1b3d91b3e141f90bed6415f758c96355163096abb7e80df00f3fb9c7065aa53c"
+    },
+    {
+      "key": "property-card-mor-vector",
+      "path": "assets/svg/property-card-mor.svg",
+      "kind": "svg",
+      "width": 320,
+      "height": 440,
+      "bytes": 2827,
+      "sha256": "4e42fa5a1bc1f7711feaf91591054a115c62273fea49c0c4e1dbef648359b8e4"
+    },
+    {
+      "key": "property-card-turkuaz-vector",
+      "path": "assets/svg/property-card-turkuaz.svg",
+      "kind": "svg",
+      "width": 320,
+      "height": 440,
+      "bytes": 2835,
+      "sha256": "530e563f859c4d0a17696502eff84e99107c48af3da125a4a97ab0510d083f6d"
+    },
+    {
+      "key": "property-card-zeytin-vector",
+      "path": "assets/svg/property-card-zeytin.svg",
+      "kind": "svg",
+      "width": 320,
+      "height": 440,
+      "bytes": 2833,
+      "sha256": "94a0698d985861f32ef8e1a46f91c7b67a4f0ea02bdcfe14152588ae41a45ea2"
+    },
+    {
+      "key": "property-card-zumrut-vector",
+      "path": "assets/svg/property-card-zumrut.svg",
+      "kind": "svg",
+      "width": 320,
+      "height": 440,
+      "bytes": 2837,
+      "sha256": "edd9d1e59b4b676a5dca8708d28b2660ed92f973ed08c1a64612b5870b034adc"
+    },
+    {
+      "key": "tile-chance-vector",
+      "path": "assets/svg/tile-chance.svg",
+      "kind": "svg",
+      "width": 200,
+      "height": 260,
+      "bytes": 1534,
+      "sha256": "68ff58718f107bd9d621a75e0cd5a7fb9307fd2ece2a586b5fa79356d4b08a20"
+    },
+    {
+      "key": "tile-community-vector",
+      "path": "assets/svg/tile-community.svg",
+      "kind": "svg",
+      "width": 200,
+      "height": 260,
+      "bytes": 1641,
+      "sha256": "1434748c2bc322587aa028bb1517c28bd65491b6e9ce01c69a5bd37904846ea1"
+    },
+    {
+      "key": "tile-energy-vector",
+      "path": "assets/svg/tile-energy.svg",
+      "kind": "svg",
+      "width": 200,
+      "height": 260,
+      "bytes": 1453,
+      "sha256": "2a45567165a0fdbbd46d0531b9c986551db2b438293ad006bd594a59de767958"
+    },
+    {
+      "key": "tile-free-parking-vector",
+      "path": "assets/svg/tile-free-parking.svg",
+      "kind": "svg",
+      "width": 200,
+      "height": 260,
+      "bytes": 1634,
+      "sha256": "f7cbe24fdcd68c31441670dc93609f2de4fc131717163b59a2c1c071c8202a6d"
+    },
+    {
+      "key": "tile-go-to-jail-vector",
+      "path": "assets/svg/tile-go-to-jail.svg",
+      "kind": "svg",
+      "width": 200,
+      "height": 260,
+      "bytes": 1527,
+      "sha256": "01573e5b0f5969bad37eed13712555c58f389386eaedb9ae888ac25369fda58f"
+    },
+    {
+      "key": "tile-jail-vector",
+      "path": "assets/svg/tile-jail.svg",
+      "kind": "svg",
+      "width": 200,
+      "height": 260,
+      "bytes": 1907,
+      "sha256": "c3a611d1e4b229e0c722204cf6b215db680d0ac2c1645f3ab71105c9bc39a752"
+    },
+    {
+      "key": "tile-property-vector",
+      "path": "assets/svg/tile-property.svg",
+      "kind": "svg",
+      "width": 200,
+      "height": 260,
+      "bytes": 1555,
+      "sha256": "b3ed7b461d838d3736f1ed7b3b2914deaa06fd6ef658860718369454856f7a13"
+    },
+    {
+      "key": "tile-start-vector",
+      "path": "assets/svg/tile-start.svg",
+      "kind": "svg",
+      "width": 200,
+      "height": 260,
+      "bytes": 1473,
+      "sha256": "6050416bfc02a5b39163f1278319039daed7c6ad2fcfcdcb9b0d7d779b2274cd"
+    },
+    {
+      "key": "tile-tax-vector",
+      "path": "assets/svg/tile-tax.svg",
+      "kind": "svg",
+      "width": 200,
+      "height": 260,
+      "bytes": 1712,
+      "sha256": "011c8f0fd96ae59ccb2adba352b40e75e4ed4a5261c2679729fdd854c8d98438"
+    },
+    {
+      "key": "tile-transport-vector",
+      "path": "assets/svg/tile-transport.svg",
+      "kind": "svg",
+      "width": 200,
+      "height": 260,
+      "bytes": 1662,
+      "sha256": "bdf31b8e1d10c2e0729ab52e662351900d5030eabaaf27d82ddc494dc103070d"
+    },
+    {
+      "key": "token-cobalt-vector",
+      "path": "assets/svg/token-cobalt.svg",
+      "kind": "svg",
+      "width": 128,
+      "height": 128,
+      "bytes": 1289,
+      "sha256": "30790d18e2fe3909db44581cd7f4005939d48559e9826e51ef7ceffc3978b11a"
+    },
+    {
+      "key": "token-crimson-vector",
+      "path": "assets/svg/token-crimson.svg",
+      "kind": "svg",
+      "width": 128,
+      "height": 128,
+      "bytes": 1290,
+      "sha256": "9d5f4e6d1c2bfcb4d426d928497a22f4bd1171a01f6099f8c181482d8dc23d9f"
+    },
+    {
+      "key": "token-gold-vector",
+      "path": "assets/svg/token-gold.svg",
+      "kind": "svg",
+      "width": 128,
+      "height": 128,
+      "bytes": 1289,
+      "sha256": "84c4e25db1aed6e916b7d737b026f99eef6b3ebae0c1b76701b9ce537e0b26d2"
+    },
+    {
+      "key": "token-jade-vector",
+      "path": "assets/svg/token-jade.svg",
+      "kind": "svg",
+      "width": 128,
+      "height": 128,
+      "bytes": 1289,
+      "sha256": "22fafa00c6852348b145ad2ff1ae20a4f16fb9b8788d602ace0ed11c2a39934a"
+    },
+    {
+      "key": "token-terra-vector",
+      "path": "assets/svg/token-terra.svg",
+      "kind": "svg",
+      "width": 128,
+      "height": 128,
+      "bytes": 1290,
+      "sha256": "4822cd0b044c78e9033c656db1960088317be588af8530684827ec0351f67a3b"
+    },
+    {
+      "key": "token-violet-vector",
+      "path": "assets/svg/token-violet.svg",
+      "kind": "svg",
+      "width": 128,
+      "height": 128,
+      "bytes": 1291,
+      "sha256": "ee8ea286d75783a9fa1fe77c1e17c54f24cd4db34f0fa4cdcf38a18056f94ef7"
+    },
+    {
+      "key": "tile-chance",
+      "path": "assets/tile-chance.png",
+      "kind": "png",
+      "width": 200,
+      "height": 260,
+      "bytes": 7858,
+      "sha256": "64d902e4e1fc7b8ed2b3764f4d1d9eeea6858b570a4f857d213b46e03403750d"
+    },
+    {
+      "key": "tile-community",
+      "path": "assets/tile-community.png",
+      "kind": "png",
+      "width": 200,
+      "height": 260,
+      "bytes": 8048,
+      "sha256": "3b734ca562700efd3b9aff8c338d464b3b85d63cdeb29c7f6ddb0165c0977575"
+    },
+    {
+      "key": "tile-energy",
+      "path": "assets/tile-energy.png",
+      "kind": "png",
+      "width": 200,
+      "height": 260,
+      "bytes": 7790,
+      "sha256": "d6c87873feb455a2c7e493499c33860449c5e50147231a45b0754a7bf3cefeb2"
+    },
+    {
+      "key": "tile-free-parking",
+      "path": "assets/tile-free-parking.png",
+      "kind": "png",
+      "width": 200,
+      "height": 260,
+      "bytes": 8076,
+      "sha256": "12b557bc1bd09e5d7ea5e1c7ab9fcf4ef630d023d8b5f5849966e24a0e3b1d51"
+    },
+    {
+      "key": "tile-go-to-jail",
+      "path": "assets/tile-go-to-jail.png",
+      "kind": "png",
+      "width": 200,
+      "height": 260,
+      "bytes": 7911,
+      "sha256": "9b21d1fe518714a3c116f20f32cc57494dd9e5567c2ca502737fe2e779e98520"
+    },
+    {
+      "key": "tile-jail",
+      "path": "assets/tile-jail.png",
+      "kind": "png",
+      "width": 200,
+      "height": 260,
+      "bytes": 8220,
+      "sha256": "8044821e672d323493bcf5aba7afd85fe3a2e54c4f5bb8042bbd1fefab2fab11"
+    },
+    {
+      "key": "tile-property",
+      "path": "assets/tile-property.png",
+      "kind": "png",
+      "width": 200,
+      "height": 260,
+      "bytes": 8100,
+      "sha256": "3a895409c1c1ce32533acbee57715e8154f671e0716a37ed169ed7eca488b193"
+    },
+    {
+      "key": "tile-start",
+      "path": "assets/tile-start.png",
+      "kind": "png",
+      "width": 200,
+      "height": 260,
+      "bytes": 8119,
+      "sha256": "616f855fde71f233a9cd1f875b1f1a343eafb2e3b6b4761d559998f4032bbff7"
+    },
+    {
+      "key": "tile-tax",
+      "path": "assets/tile-tax.png",
+      "kind": "png",
+      "width": 200,
+      "height": 260,
+      "bytes": 8299,
+      "sha256": "29a05db8a3f5a6febe29a6a01a82ab86dc9fa63db78a1981183cead7f2dbab4e"
+    },
+    {
+      "key": "tile-transport",
+      "path": "assets/tile-transport.png",
+      "kind": "png",
+      "width": 200,
+      "height": 260,
+      "bytes": 7881,
+      "sha256": "5f88bd2e1548a92ff2dba8f329fa582049530e207f057c7409fcd5b21b7e40e6"
+    },
+    {
+      "key": "token-cobalt",
+      "path": "assets/token-cobalt.png",
+      "kind": "png",
+      "width": 128,
+      "height": 128,
+      "bytes": 3365,
+      "sha256": "5fc4d941973314261089cf644c7c6bab0db06bd071258af6eed24914fefa2a51"
+    },
+    {
+      "key": "token-crimson",
+      "path": "assets/token-crimson.png",
+      "kind": "png",
+      "width": 128,
+      "height": 128,
+      "bytes": 3378,
+      "sha256": "9fc764e4c9712b631149673811ccf40d63d24e155b06ed3384953d30d79f409f"
+    },
+    {
+      "key": "token-gold",
+      "path": "assets/token-gold.png",
+      "kind": "png",
+      "width": 128,
+      "height": 128,
+      "bytes": 3414,
+      "sha256": "a2179570047aa3db16a92e313599ec02fcf2060b93d654779a4e19d7c51fed7e"
+    },
+    {
+      "key": "token-jade",
+      "path": "assets/token-jade.png",
+      "kind": "png",
+      "width": 128,
+      "height": 128,
+      "bytes": 3349,
+      "sha256": "0619eb45a552ca5f882e11a48ec009931781b52dcd00e6399520c72318dc76a5"
+    },
+    {
+      "key": "token-terra",
+      "path": "assets/token-terra.png",
+      "kind": "png",
+      "width": 128,
+      "height": 128,
+      "bytes": 3401,
+      "sha256": "bfb1fa6b815a7f9c8201fbc993209be525fa73965fbed43662a23e34c8910182"
+    },
+    {
+      "key": "token-violet",
+      "path": "assets/token-violet.png",
+      "kind": "png",
+      "width": 128,
+      "height": 128,
+      "bytes": 3356,
+      "sha256": "fbba75a5bf4316a93e8e8e73b6cc3f03079a357e738d888c0f94ad33d97a6f5a"
+    }
+  ]
+}

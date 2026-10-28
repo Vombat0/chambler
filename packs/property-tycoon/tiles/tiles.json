@@ -1,0 +1,65 @@
+{
+  "formatVersion": 1,
+  "tileTypes": [
+    {
+      "type": "start",
+      "color": "#3E6B4F",
+      "assetKey": "tile-start",
+      "labelKey": "type.start"
+    },
+    {
+      "type": "property",
+      "color": "#8A6B4A",
+      "assetKey": "tile-property",
+      "labelKey": "type.property"
+    },
+    {
+      "type": "transport",
+      "color": "#2C6FA8",
+      "assetKey": "tile-transport",
+      "labelKey": "type.transport"
+    },
+    {
+      "type": "energy",
+      "color": "#B8862B",
+      "assetKey": "tile-energy",
+      "labelKey": "type.energy"
+    },
+    {
+      "type": "tax",
+      "color": "#8C3B3B",
+      "assetKey": "tile-tax",
+      "labelKey": "type.tax"
+    },
+    {
+      "type": "chance",
+      "color": "#C2456B",
+      "assetKey": "tile-chance",
+      "labelKey": "type.chance"
+    },
+    {
+      "type": "community",
+      "color": "#2E8B8B",
+      "assetKey": "tile-community",
+      "labelKey": "type.community"
+    },
+    {
+      "type": "jail",
+      "color": "#5A5A66",
+      "assetKey": "tile-jail",
+      "labelKey": "type.jail"
+    },
+    {
+      "type": "free-parking",
+      "color": "#4F7A3A",
+      "assetKey": "tile-free-parking",
+      "labelKey": "type.free-parking"
+    },
+    {
+      "type": "go-to-jail",
+      "color": "#7A3B3B",
+      "assetKey": "tile-go-to-jail",
+      "labelKey": "type.go-to-jail"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "id": "chance-13",
+  "deckId": "chance",
+  "titleKey": "card.chance.chance-13.title",
+  "textKey": "card.chance.chance-13.text",
+  "effect": {
+    "type": "extra-turn"
+  }
+}

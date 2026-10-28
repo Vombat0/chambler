@@ -1,0 +1,107 @@
+{
+  "formatVersion": 1,
+  "groups": [
+    {
+      "id": "kiremit",
+      "nameKey": "group.kiremit.name",
+      "color": "#B4552D",
+      "members": [
+        1,
+        3
+      ],
+      "size": 2,
+      "houseCost": 50,
+      "hotelCost": 50
+    },
+    {
+      "id": "zeytin",
+      "nameKey": "group.zeytin.name",
+      "color": "#6E7B3A",
+      "members": [
+        6,
+        8,
+        9
+      ],
+      "size": 3,
+      "houseCost": 50,
+      "hotelCost": 50
+    },
+    {
+      "id": "gul",
+      "nameKey": "group.gul.name",
+      "color": "#C2456B",
+      "members": [
+        11,
+        13,
+        14
+      ],
+      "size": 3,
+      "houseCost": 100,
+      "hotelCost": 100
+    },
+    {
+      "id": "turkuaz",
+      "nameKey": "group.turkuaz.name",
+      "color": "#2E8B8B",
+      "members": [
+        16,
+        18,
+        19
+      ],
+      "size": 3,
+      "houseCost": 100,
+      "hotelCost": 100
+    },
+    {
+      "id": "amber",
+      "nameKey": "group.amber.name",
+      "color": "#D79A2B",
+      "members": [
+        21,
+        23,
+        24
+      ],
+      "size": 3,
+      "houseCost": 150,
+      "hotelCost": 150
+    },
+    {
+      "id": "zumrut",
+      "nameKey": "group.zumrut.name",
+      "color": "#2F7A4E",
+      "members": [
+        26,
+        27,
+        29
+      ],
+      "size": 3,
+      "houseCost": 150,
+      "hotelCost": 150
+    },
+    {
+      "id": "lacivert",
+      "nameKey": "group.lacivert.name",
+      "color": "#2C4A7C",
+      "members": [
+        31,
+        32,
+        34
+      ],
+      "size": 3,
+      "houseCost": 200,
+      "hotelCost": 200
+    },
+    {
+      "id": "mor",
+      "nameKey": "group.mor.name",
+      "color": "#6B4A8C",
+      "members": [
+        37,
+        39
+      ],
+      "size": 2,
+      "houseCost": 200,
+      "hotelCost": 200
+    }
+  ]
+}

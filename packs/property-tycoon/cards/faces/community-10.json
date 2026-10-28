@@ -1,0 +1,10 @@
+{
+  "id": "community-10",
+  "deckId": "community",
+  "titleKey": "card.community.community-10.title",
+  "textKey": "card.community.community-10.text",
+  "effect": {
+    "type": "jail",
+    "toIndex": 30
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "community-15",
+  "deckId": "community",
+  "titleKey": "card.community.community-15.title",
+  "textKey": "card.community.community-15.text",
+  "effect": {
+    "type": "move",
+    "toIndex": 15
+  }
+}
