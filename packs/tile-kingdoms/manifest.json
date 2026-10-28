@@ -1,0 +1,802 @@
+{
+  "schemaVersion": 1,
+  "packId": "tile-kingdoms",
+  "name": "Tile Kingdoms",
+  "description": "A tile-laying worker-placement strategy game on the invented realm of Kare Kralliklar (Tile Kingdoms): draw tiles from a 72-tile bag, match their four edges (keep walls, trade roads, meadows, sacred marches) and place Watchmen, Guards, Monks and Farmers to score completed roads, cities and shrines. Original theme, original tile names, original texts and fully code-generated artwork; only the tile-placement mechanics are shared with the genre.",
+  "version": "0.1.0",
+  "author": "Chambler Pack Team",
+  "license": "MIT",
+  "minEngineVersion": "0.1.0",
+  "players": {
+    "min": 2,
+    "max": 5
+  },
+  "tags": [
+    "board-game",
+    "tile-placement",
+    "worker-placement",
+    "strategy",
+    "area-control",
+    "2-5-players"
+  ],
+  "assets": {
+    "board-layout": "board/board.json",
+    "tiles": "tiles/tiles.json",
+    "workers": "tokens/workers.json",
+    "rules": "rules/rules.json",
+    "i18n-tr": "i18n/tr.json",
+    "i18n-en": "i18n/en.json",
+    "art-index": "assets/art-index.json",
+    "playmat": "assets/playmat.png",
+    "role-farmer": "assets/role-farmer.png",
+    "role-guard": "assets/role-guard.png",
+    "role-monk": "assets/role-monk.png",
+    "role-scout": "assets/role-scout.png",
+    "start-marker": "assets/start-marker.png",
+    "tile-back": "assets/tile-back.png",
+    "tile-city-corner-field": "assets/tile-city-corner-field.png",
+    "tile-city-corner-keep": "assets/tile-city-corner-keep.png",
+    "tile-city-crossroad": "assets/tile-city-crossroad.png",
+    "tile-city-farm": "assets/tile-city-farm.png",
+    "tile-city-fortress": "assets/tile-city-fortress.png",
+    "tile-city-gate": "assets/tile-city-gate.png",
+    "tile-city-sprawltown": "assets/tile-city-sprawltown.png",
+    "tile-city-wall-straight": "assets/tile-city-wall-straight.png",
+    "tile-field-farm": "assets/tile-field-farm.png",
+    "tile-field-pasture": "assets/tile-field-pasture.png",
+    "tile-open-field": "assets/tile-open-field.png",
+    "tile-road-bend": "assets/tile-road-bend.png",
+    "tile-road-crossing": "assets/tile-road-crossing.png",
+    "tile-road-junction": "assets/tile-road-junction.png",
+    "tile-road-outpost": "assets/tile-road-outpost.png",
+    "tile-road-shrine": "assets/tile-road-shrine.png",
+    "tile-road-straight": "assets/tile-road-straight.png",
+    "tile-road-village": "assets/tile-road-village.png",
+    "tile-shrine-border": "assets/tile-shrine-border.png",
+    "tile-shrine-corner": "assets/tile-shrine-corner.png",
+    "tile-shrine-crossroad": "assets/tile-shrine-crossroad.png",
+    "tile-shrine-field": "assets/tile-shrine-field.png",
+    "tile-shrine-wall": "assets/tile-shrine-wall.png",
+    "tile-start-capital": "assets/tile-start-capital.png",
+    "worker-ember": "assets/worker-ember.png",
+    "worker-lagoon": "assets/worker-lagoon.png",
+    "worker-moss": "assets/worker-moss.png",
+    "worker-plum": "assets/worker-plum.png",
+    "worker-sand": "assets/worker-sand.png"
+  },
+  "components": [
+    {
+      "id": "kingdoms-playmat",
+      "kind": "board",
+      "assetRef": "playmat",
+      "count": 1
+    },
+    {
+      "id": "start-capital",
+      "kind": "tile",
+      "assetRef": "tile-start-capital",
+      "count": 1,
+      "defaultMeta": {
+        "edges": {
+          "north": "city",
+          "east": "field",
+          "south": "city",
+          "west": "field"
+        },
+        "centre": "city",
+        "start": true,
+        "pennants": 1
+      }
+    },
+    {
+      "id": "city-gate",
+      "kind": "tile",
+      "assetRef": "tile-city-gate",
+      "count": 4,
+      "defaultMeta": {
+        "edges": {
+          "north": "city",
+          "east": "field",
+          "south": "field",
+          "west": "field"
+        },
+        "centre": "city",
+        "pennants": 1
+      }
+    },
+    {
+      "id": "city-corner-keep",
+      "kind": "tile",
+      "assetRef": "tile-city-corner-keep",
+      "count": 5,
+      "defaultMeta": {
+        "edges": {
+          "north": "city",
+          "east": "city",
+          "south": "field",
+          "west": "field"
+        },
+        "centre": "city",
+        "pennants": 1
+      }
+    },
+    {
+      "id": "city-wall-straight",
+      "kind": "tile",
+      "assetRef": "tile-city-wall-straight",
+      "count": 3,
+      "defaultMeta": {
+        "edges": {
+          "north": "city",
+          "east": "field",
+          "south": "city",
+          "west": "field"
+        },
+        "centre": "city"
+      }
+    },
+    {
+      "id": "city-corner-field",
+      "kind": "tile",
+      "assetRef": "tile-city-corner-field",
+      "count": 3,
+      "defaultMeta": {
+        "edges": {
+          "north": "city",
+          "east": "city",
+          "south": "field",
+          "west": "field"
+        },
+        "centre": "field"
+      }
+    },
+    {
+      "id": "city-fortress",
+      "kind": "tile",
+      "assetRef": "tile-city-fortress",
+      "count": 2,
+      "defaultMeta": {
+        "edges": {
+          "north": "city",
+          "east": "city",
+          "south": "city",
+          "west": "field"
+        },
+        "centre": "city",
+        "pennants": 2,
+        "fortress": true
+      }
+    },
+    {
+      "id": "city-crossroad",
+      "kind": "tile",
+      "assetRef": "tile-city-crossroad",
+      "count": 2,
+      "defaultMeta": {
+        "edges": {
+          "north": "city",
+          "east": "road",
+          "south": "field",
+          "west": "field"
+        },
+        "centre": "none"
+      }
+    },
+    {
+      "id": "city-farm",
+      "kind": "tile",
+      "assetRef": "tile-city-farm",
+      "count": 2,
+      "defaultMeta": {
+        "edges": {
+          "north": "city",
+          "east": "field",
+          "south": "field",
+          "west": "field"
+        },
+        "centre": "field"
+      }
+    },
+    {
+      "id": "road-outpost",
+      "kind": "tile",
+      "assetRef": "tile-road-outpost",
+      "count": 2,
+      "defaultMeta": {
+        "edges": {
+          "north": "road",
+          "east": "field",
+          "south": "field",
+          "west": "field"
+        },
+        "centre": "road"
+      }
+    },
+    {
+      "id": "road-straight",
+      "kind": "tile",
+      "assetRef": "tile-road-straight",
+      "count": 7,
+      "defaultMeta": {
+        "edges": {
+          "north": "road",
+          "east": "field",
+          "south": "road",
+          "west": "field"
+        },
+        "centre": "none"
+      }
+    },
+    {
+      "id": "road-bend",
+      "kind": "tile",
+      "assetRef": "tile-road-bend",
+      "count": 7,
+      "defaultMeta": {
+        "edges": {
+          "north": "road",
+          "east": "road",
+          "south": "field",
+          "west": "field"
+        },
+        "centre": "none"
+      }
+    },
+    {
+      "id": "road-crossing",
+      "kind": "tile",
+      "assetRef": "tile-road-crossing",
+      "count": 1,
+      "defaultMeta": {
+        "edges": {
+          "north": "road",
+          "east": "road",
+          "south": "road",
+          "west": "road"
+        },
+        "centre": "road"
+      }
+    },
+    {
+      "id": "road-junction",
+      "kind": "tile",
+      "assetRef": "tile-road-junction",
+      "count": 2,
+      "defaultMeta": {
+        "edges": {
+          "north": "road",
+          "east": "road",
+          "south": "road",
+          "west": "field"
+        },
+        "centre": "road"
+      }
+    },
+    {
+      "id": "road-village",
+      "kind": "tile",
+      "assetRef": "tile-road-village",
+      "count": 2,
+      "defaultMeta": {
+        "edges": {
+          "north": "road",
+          "east": "field",
+          "south": "road",
+          "west": "field"
+        },
+        "centre": "road"
+      }
+    },
+    {
+      "id": "road-shrine",
+      "kind": "tile",
+      "assetRef": "tile-road-shrine",
+      "count": 2,
+      "defaultMeta": {
+        "edges": {
+          "north": "road",
+          "east": "field",
+          "south": "field",
+          "west": "field"
+        },
+        "centre": "shrine"
+      }
+    },
+    {
+      "id": "shrine-field",
+      "kind": "tile",
+      "assetRef": "tile-shrine-field",
+      "count": 4,
+      "defaultMeta": {
+        "edges": {
+          "north": "field",
+          "east": "field",
+          "south": "field",
+          "west": "field"
+        },
+        "centre": "shrine"
+      }
+    },
+    {
+      "id": "shrine-crossroad",
+      "kind": "tile",
+      "assetRef": "tile-shrine-crossroad",
+      "count": 2,
+      "defaultMeta": {
+        "edges": {
+          "north": "shrine",
+          "east": "field",
+          "south": "field",
+          "west": "road"
+        },
+        "centre": "shrine"
+      }
+    },
+    {
+      "id": "shrine-border",
+      "kind": "tile",
+      "assetRef": "tile-shrine-border",
+      "count": 2,
+      "defaultMeta": {
+        "edges": {
+          "north": "shrine",
+          "east": "field",
+          "south": "field",
+          "west": "field"
+        },
+        "centre": "shrine"
+      }
+    },
+    {
+      "id": "shrine-corner",
+      "kind": "tile",
+      "assetRef": "tile-shrine-corner",
+      "count": 1,
+      "defaultMeta": {
+        "edges": {
+          "north": "shrine",
+          "east": "shrine",
+          "south": "field",
+          "west": "field"
+        },
+        "centre": "none"
+      }
+    },
+    {
+      "id": "shrine-wall",
+      "kind": "tile",
+      "assetRef": "tile-shrine-wall",
+      "count": 1,
+      "defaultMeta": {
+        "edges": {
+          "north": "shrine",
+          "east": "field",
+          "south": "shrine",
+          "west": "field"
+        },
+        "centre": "shrine"
+      }
+    },
+    {
+      "id": "open-field",
+      "kind": "tile",
+      "assetRef": "tile-open-field",
+      "count": 7,
+      "defaultMeta": {
+        "edges": {
+          "north": "field",
+          "east": "field",
+          "south": "field",
+          "west": "field"
+        },
+        "centre": "none"
+      }
+    },
+    {
+      "id": "field-farm",
+      "kind": "tile",
+      "assetRef": "tile-field-farm",
+      "count": 5,
+      "defaultMeta": {
+        "edges": {
+          "north": "field",
+          "east": "field",
+          "south": "field",
+          "west": "field"
+        },
+        "centre": "field"
+      }
+    },
+    {
+      "id": "field-pasture",
+      "kind": "tile",
+      "assetRef": "tile-field-pasture",
+      "count": 3,
+      "defaultMeta": {
+        "edges": {
+          "north": "field",
+          "east": "field",
+          "south": "field",
+          "west": "field"
+        },
+        "centre": "field"
+      }
+    },
+    {
+      "id": "city-sprawltown",
+      "kind": "tile",
+      "assetRef": "tile-city-sprawltown",
+      "count": 2,
+      "defaultMeta": {
+        "edges": {
+          "north": "city",
+          "east": "field",
+          "south": "field",
+          "west": "road"
+        },
+        "centre": "city"
+      }
+    },
+    {
+      "id": "worker-ember",
+      "kind": "pawn",
+      "assetRef": "worker-ember",
+      "count": 7,
+      "defaultMeta": {
+        "color": "#B3402A",
+        "role": "worker"
+      }
+    },
+    {
+      "id": "worker-lagoon",
+      "kind": "pawn",
+      "assetRef": "worker-lagoon",
+      "count": 7,
+      "defaultMeta": {
+        "color": "#2E7D9E",
+        "role": "worker"
+      }
+    },
+    {
+      "id": "worker-moss",
+      "kind": "pawn",
+      "assetRef": "worker-moss",
+      "count": 7,
+      "defaultMeta": {
+        "color": "#5E7D3A",
+        "role": "worker"
+      }
+    },
+    {
+      "id": "worker-plum",
+      "kind": "pawn",
+      "assetRef": "worker-plum",
+      "count": 7,
+      "defaultMeta": {
+        "color": "#7A4A6B",
+        "role": "worker"
+      }
+    },
+    {
+      "id": "worker-sand",
+      "kind": "pawn",
+      "assetRef": "worker-sand",
+      "count": 7,
+      "defaultMeta": {
+        "color": "#C9A667",
+        "role": "worker"
+      }
+    },
+    {
+      "id": "role-scout",
+      "kind": "token",
+      "assetRef": "role-scout",
+      "count": 5,
+      "defaultMeta": {
+        "role": "scout",
+        "feature": "road"
+      }
+    },
+    {
+      "id": "role-guard",
+      "kind": "token",
+      "assetRef": "role-guard",
+      "count": 5,
+      "defaultMeta": {
+        "role": "guard",
+        "feature": "city"
+      }
+    },
+    {
+      "id": "role-monk",
+      "kind": "token",
+      "assetRef": "role-monk",
+      "count": 5,
+      "defaultMeta": {
+        "role": "monk",
+        "feature": "shrine"
+      }
+    },
+    {
+      "id": "role-farmer",
+      "kind": "token",
+      "assetRef": "role-farmer",
+      "count": 5,
+      "defaultMeta": {
+        "role": "farmer",
+        "feature": "field"
+      }
+    }
+  ],
+  "board": {
+    "grid": {
+      "cols": 23,
+      "rows": 23
+    },
+    "cellSize": {
+      "width": 1,
+      "depth": 1
+    },
+    "snapPoints": [
+      {
+        "id": "start-cell",
+        "position": [
+          11.5,
+          0,
+          11.5
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  "decks": [
+    {
+      "id": "tile-bag",
+      "faces": [
+        "tile-start-capital",
+        "tile-city-gate",
+        "tile-city-corner-keep",
+        "tile-city-wall-straight",
+        "tile-city-corner-field",
+        "tile-city-fortress",
+        "tile-city-crossroad",
+        "tile-city-farm",
+        "tile-road-outpost",
+        "tile-road-straight",
+        "tile-road-bend",
+        "tile-road-crossing",
+        "tile-road-junction",
+        "tile-road-village",
+        "tile-road-shrine",
+        "tile-shrine-field",
+        "tile-shrine-crossroad",
+        "tile-shrine-border",
+        "tile-shrine-corner",
+        "tile-shrine-wall",
+        "tile-open-field",
+        "tile-field-farm",
+        "tile-field-pasture",
+        "tile-city-sprawltown"
+      ],
+      "backAssetRef": "tile-back",
+      "shuffle": "auto"
+    }
+  ],
+  "helpers": [
+    {
+      "type": "turn",
+      "config": {
+        "maxPlayers": 5,
+        "direction": "clockwise",
+        "phases": [
+          "draw",
+          "place",
+          "worker",
+          "score"
+        ]
+      }
+    },
+    {
+      "type": "score",
+      "config": {
+        "min": 0,
+        "max": 999,
+        "label": "victory points",
+        "shrineValue": 9,
+        "bagTiles": 72
+      }
+    }
+  ],
+  "localization": {
+    "tr": {
+      "game.title": "Tile Kingdoms",
+      "game.subtitle": "Karo koy, kenarları eşleştir; yolların, kalelerin ve mabetlerin patronu sen ol.",
+      "board.name": "Krallık Masası",
+      "deck.bag.name": "Karo Torbası",
+      "grid.square.name": "Kare Izgara",
+      "tile.start-capital.name": "Taht Şehri",
+      "tile.start-capital.desc": "Oyunun tek işaretli karosu; masanın ortasındaki başlangıç hücresine sabitlenir.",
+      "tile.city-gate.name": "Kale Kapısı",
+      "tile.city-gate.desc": "Tek kenarında sur; ortasında sancaklı küçük bir kulenin kalesi.",
+      "tile.city-corner-keep.name": "Köşe Kulesi",
+      "tile.city-corner-keep.desc": "İki komşu kenarında sur, ortasında sancaklı burç.",
+      "tile.city-wall-straight.name": "Düz Surlar",
+      "tile.city-wall-straight.desc": "Kuzeyden güneye kesintisiz sur; ortasında küçük bir kale.",
+      "tile.city-corner-field.name": "Açık Köşe",
+      "tile.city-corner-field.desc": "İki komşu kenarında sur; ortası işlenmeye açık düz ova.",
+      "tile.city-fortress.name": "Başkale",
+      "tile.city-fortress.desc": "Üç kenarında sur, iki sancaklı başkule; tamamlayana +2 bonus.",
+      "tile.city-crossroad.name": "Sur Kavşağı",
+      "tile.city-crossroad.desc": "Bir kenarında sur, komşusunda yol; ortası boş kavşak.",
+      "tile.city-farm.name": "Sur Altı Çiftliği",
+      "tile.city-farm.desc": "Tek kenarında sur, ortasında çiftlik; kale ile ovayı komşular.",
+      "tile.road-outpost.name": "Yol Karakolu",
+      "tile.road-outpost.desc": "Tek çıkışlı yol; ortasındaki karakol yolun sahibini bekler.",
+      "tile.road-straight.name": "Düz Yol",
+      "tile.road-straight.desc": "Kuzeyden güneye düz giden ticaret yolu; ortası boş.",
+      "tile.road-bend.name": "Dönemeç",
+      "tile.road-bend.desc": "İki komşu kenarda birleşerek köşe yapan yol.",
+      "tile.road-crossing.name": "Kavşak",
+      "tile.road-crossing.desc": "Dört kenara da açılan yol; ortasındaki meydan her yönden sayılır.",
+      "tile.road-junction.name": "Üç Yolağzı",
+      "tile.road-junction.desc": "Üç kenara dalanan yol; ortasındaki kavşak dala tutmuş.",
+      "tile.road-village.name": "Yol Köyü",
+      "tile.road-village.desc": "Düz yolun ortasına kurulmuş köy; gözcüler için hazır.",
+      "tile.road-shrine.name": "Kutsal Yol Ucu",
+      "tile.road-shrine.desc": "Yol burada bir şapelde son bulur; hacıların uğrak yeri.",
+      "tile.shrine-field.name": "Kır Mabedi",
+      "tile.shrine-field.desc": "Dört yanı ovayla çevrili küçük mabet; çevresi dolunca 9 puan.",
+      "tile.shrine-crossroad.name": "Hac Kavşağı",
+      "tile.shrine-crossroad.desc": "Kutsal sınır bir yolla kesişir; ortasında mabet.",
+      "tile.shrine-border.name": "Kutsal Sınır",
+      "tile.shrine-border.desc": "Bir kenarında kutsal sınır işareti, ortasında küçük mabet.",
+      "tile.shrine-corner.name": "Kutsal Köşe",
+      "tile.shrine-corner.desc": "İki komşu kenarında kutsal sınır; ortası sade.",
+      "tile.shrine-wall.name": "Mabet Surları",
+      "tile.shrine-wall.desc": "Kuzeyden güneye kutsal sınır; ortasında bekçi mabedi.",
+      "tile.open-field.name": "Açık Ova",
+      "tile.open-field.desc": "Dört yanı ova; çiftçiler için bakir toprak.",
+      "tile.field-farm.name": "Buğday Tarlası",
+      "tile.field-farm.desc": "Dört yanı ova; ortasında altın başaklı tarla.",
+      "tile.field-pasture.name": "Mera",
+      "tile.field-pasture.desc": "Dört yanı ova; ortasında ağaçlı merada sürü otlar.",
+      "tile.city-sprawltown.name": "Dış Mahalle",
+      "tile.city-sprawltown.desc": "Sur bir kenarda, yol diğerinde; dış mahalle ikisini birleştirir.",
+      "worker.scout.name": "Gözcü",
+      "worker.scout.use": "Yola yerleşir; yol kapanınca karo başına 1 puanı o toplar.",
+      "worker.guard.name": "Muhafız",
+      "worker.guard.use": "Kaleye yerleşir; kale kapanınca 2 puan ve arma bonuslarını toplar.",
+      "worker.monk.name": "Keşiş",
+      "worker.monk.use": "Mabede yerleşir; sekiz komşu tamamlanınca 9 puanı alır.",
+      "worker.farmer.name": "Çiftçi",
+      "worker.farmer.use": "Ovada kalır; hasadını saymadan oyun sonunda toplar.",
+      "color.ember.name": "Kor",
+      "color.lagoon.name": "Göl",
+      "color.moss.name": "Yosun",
+      "color.plum.name": "Erik",
+      "color.sand.name": "Kum",
+      "token.worker-ember.name": "Kor İşçisi",
+      "token.worker-lagoon.name": "Göl İşçisi",
+      "token.worker-moss.name": "Yosun İşçisi",
+      "token.worker-plum.name": "Erik İşçisi",
+      "token.worker-sand.name": "Kum İşçisi",
+      "rule.turn": "Sıran gelince: karo çek, masaya koy, istersen işçi yerleştir, tamamlananları puanla.",
+      "rule.draw": "Torbadan bir karo çek; kimseye göstermeden kendine çevir.",
+      "rule.place": "Yeni karo en az bir kenardan mevcut haritaya değmeli; boş hücre bırakılamaz.",
+      "rule.edge-match": "Birbirine bakan kenarlar aynı türden olmalı: kale-kale, yol-yol, mabet-mabet, ova-ova.",
+      "rule.fallback": "Karo hiçbir yere sığmıyorsa torbaya geri koy ve işçi koymadan geç.",
+      "rule.worker": "Yeni karonun özelliğine uygun işçini koy: Gözcü yola, Muhafız kaleye, Keşiş mabede, Çiftçi ovaya.",
+      "rule.majority": "Bir özellikte en çok işçi sendeyse puanı sen alırsın; eşitlikte puanlar pay edilir.",
+      "rule.road-score": "Tamamlanan yol karolarına 1'er puan.",
+      "rule.city-score": "Tamamlanan kale karolarına 2'şer puan; her sancak arması +2, başkale +2.",
+      "rule.shrine-score": "Sekiz komşusu tamamlanan mabet toplam 9 puan verir.",
+      "rule.field-score": "Ova puanı yalnız oyun sonunda: her çiftçi, komşu tam kale başına 3 puan.",
+      "rule.end": "Torba bitince son tur oynanır; yarım işler eksik puanla sayılır.",
+      "rule.first-tile": "Taht Şehri masanın tam ortasına, herkese açık şekilde konur.",
+      "score.road": "Yol Puanı",
+      "score.city": "Kale Puanı",
+      "score.pennant": "Sancak Arması",
+      "score.fortress": "Başkale Bonusu",
+      "score.shrine": "Mabet Puanı",
+      "score.field": "Hasat Puanı",
+      "score.final": "Oyun Sonu Sayımı"
+    },
+    "en": {
+      "game.title": "Tile Kingdoms",
+      "game.subtitle": "Lay tiles, match edges, and claim the roads, keeps and shrines as your own.",
+      "board.name": "Kingdom Table",
+      "deck.bag.name": "Tile Bag",
+      "grid.square.name": "Square Grid",
+      "tile.start-capital.name": "Throne City",
+      "tile.start-capital.desc": "The one marked tile; fixed on the centre cell to open the table.",
+      "tile.city-gate.name": "Gate Keep",
+      "tile.city-gate.desc": "One rampart edge; a small pennanted tower holds its centre.",
+      "tile.city-corner-keep.name": "Corner Bastion",
+      "tile.city-corner-keep.desc": "Walls on two adjacent edges with a pennanted bastion in the middle.",
+      "tile.city-wall-straight.name": "Straight Ramparts",
+      "tile.city-wall-straight.desc": "Unbroken walls run north to south around a small hold.",
+      "tile.city-corner-field.name": "Open Corner",
+      "tile.city-corner-field.desc": "Two walled edges shelter a bare, workable meadow centre.",
+      "tile.city-fortress.name": "Great Keep",
+      "tile.city-fortress.desc": "Walled on three sides; its two-flag keep pays a +2 bonus.",
+      "tile.city-crossroad.name": "Wall Crossway",
+      "tile.city-crossroad.desc": "Wall meets road at an open crossing centre.",
+      "tile.city-farm.name": "Rampart Farm",
+      "tile.city-farm.desc": "A farm under one wall edge, sharing the tile with the meadow.",
+      "tile.road-outpost.name": "Road Post",
+      "tile.road-outpost.desc": "A single road stub watched over by its centre post.",
+      "tile.road-straight.name": "Straight Road",
+      "tile.road-straight.desc": "A trade road running straight north to south.",
+      "tile.road-bend.name": "Bending Road",
+      "tile.road-bend.desc": "A road turning the corner between two adjacent edges.",
+      "tile.road-crossing.name": "Crossroads",
+      "tile.road-crossing.desc": "Roads meet on all four edges around a busy square.",
+      "tile.road-junction.name": "Three Ways",
+      "tile.road-junction.desc": "A three-armed junction crowning the centre.",
+      "tile.road-village.name": "Roadside Village",
+      "tile.road-village.desc": "A village set on a straight road, ready for a watchman.",
+      "tile.road-shrine.name": "Shrine Terminus",
+      "tile.road-shrine.desc": "The road ends at a chapel door in the heart of this tile.",
+      "tile.shrine-field.name": "Field Shrine",
+      "tile.shrine-field.desc": "A chapel ringed by meadows; nine points once all eight neighbours land.",
+      "tile.shrine-crossroad.name": "Pilgrims' Crossway",
+      "tile.shrine-crossroad.desc": "A sacred border crosses a road beside the centre shrine.",
+      "tile.shrine-border.name": "Sacred Border",
+      "tile.shrine-border.desc": "One blessed march edge around a small shrine.",
+      "tile.shrine-corner.name": "Sacred Corner",
+      "tile.shrine-corner.desc": "Sacred marches meet at a bare corner.",
+      "tile.shrine-wall.name": "Shrine Wall",
+      "tile.shrine-wall.desc": "A sacred march runs through, guarded by its shrine.",
+      "tile.open-field.name": "Open Meadow",
+      "tile.open-field.desc": "Meadow on all four sides; empty ground for farmers.",
+      "tile.field-farm.name": "Wheat Field",
+      "tile.field-farm.desc": "All meadow, with a wheat-headed field at its heart.",
+      "tile.field-pasture.name": "Green Pasture",
+      "tile.field-pasture.desc": "All meadow, with trees and a small herd at its centre.",
+      "tile.city-sprawltown.name": "Suburb Street",
+      "tile.city-sprawltown.desc": "Wall on one edge, road on another; a suburb joins the two.",
+      "worker.scout.name": "Watchman",
+      "worker.scout.use": "Stands on a road; reaps 1 point per tile when that road closes.",
+      "worker.guard.name": "Guard",
+      "worker.guard.use": "Stands in a city; takes 2 points per tile plus pennant bonuses when it closes.",
+      "worker.monk.name": "Monk",
+      "worker.monk.use": "Stands at a shrine; claims 9 points once all eight neighbours land.",
+      "worker.farmer.name": "Farmer",
+      "worker.farmer.use": "Stays in the field; his harvest is only counted at the end.",
+      "color.ember.name": "Ember",
+      "color.lagoon.name": "Lagoon",
+      "color.moss.name": "Moss",
+      "color.plum.name": "Plum",
+      "color.sand.name": "Sand",
+      "token.worker-ember.name": "Ember Worker",
+      "token.worker-lagoon.name": "Lagoon Worker",
+      "token.worker-moss.name": "Moss Worker",
+      "token.worker-plum.name": "Plum Worker",
+      "token.worker-sand.name": "Sand Worker",
+      "rule.turn": "On your turn: draw a tile, lay it, optionally place one worker, score what you closed.",
+      "rule.draw": "Draw one tile from the bag and keep its face to yourself.",
+      "rule.place": "The new tile must touch the map along at least one edge; never leave a gap.",
+      "rule.edge-match": "Facing edges must carry the same kind: city to city, road to road, shrine to shrine, field to field.",
+      "rule.fallback": "If the tile fits nowhere, return it to the bag and pass without a worker.",
+      "rule.worker": "Place a worker on the new tile's feature: Watchman on road, Guard in city, Monk at shrine, Farmer in field.",
+      "rule.majority": "The player with the most workers on a closed feature scores it; ties share the score.",
+      "rule.road-score": "A completed road scores 1 point per tile.",
+      "rule.city-score": "A completed city scores 2 points per tile; each pennant +2, the Great Keep +2.",
+      "rule.shrine-score": "A shrine ringed by its eight neighbours scores 9 points in total.",
+      "rule.field-score": "Fields score only at the end: each farmer earns 3 points per completed city it touches.",
+      "rule.end": "When the bag runs dry the last round is played; unfinished work scores short.",
+      "rule.first-tile": "The Throne City opens the game, face up, dead centre of the table.",
+      "score.road": "Road Score",
+      "score.city": "City Score",
+      "score.pennant": "Pennant Badge",
+      "score.fortress": "Keep Bonus",
+      "score.shrine": "Shrine Score",
+      "score.field": "Harvest Score",
+      "score.final": "Final Tally"
+    }
+  }
+}

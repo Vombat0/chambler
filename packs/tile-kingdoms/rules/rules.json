@@ -1,0 +1,54 @@
+{
+  "formatVersion": 1,
+  "note": "Tile Kingdoms rules as data. Turn: draw a tile from the bag, lay it so every touching edge matches the neighbour's facing edge (A5 equal-value rule), optionally place one worker on a feature of the new tile, then score whatever you just completed. A tile that fits nowhere goes back to the bag.",
+  "theme": "tile-kingdoms",
+  "players": { "min": 2, "max": 5 },
+  "bag": { "types": 24, "tiles": 72, "startSetAside": "start-capital" },
+  "setup": {
+    "startPlacement": "board/board.json:startCell",
+    "startVisible": true,
+    "firstPlayer": "youngest-builder",
+    "workersPerPlayer": 7
+  },
+  "turn": ["draw-tile", "place-tile", "place-worker-optional", "score-completed"],
+  "placement": {
+    "edgeRule": "facing-edge-values-equal",
+    "rotations": [0, 90, 180, 270],
+    "mustTouchExisting": true,
+    "noGaps": true,
+    "fallback": "return-to-bag-and-skip-worker"
+  },
+  "workers": {
+    "perPlayer": 7,
+    "placeAfterTileOnly": true,
+    "roleByFeature": { "road": "scout", "city": "guard", "shrine": "monk", "field": "farmer" },
+    "majority": "most-workers-scores",
+    "tie": "each-tied-player-scores",
+    "returnsHome": "when-feature-scored",
+    "farmerStays": true
+  },
+  "scoring": {
+    "road": { "completePerTile": 1, "finalPerTile": 1 },
+    "city": {
+      "completePerTile": 2,
+      "pennantBonus": 2,
+      "fortressTileId": "city-fortress",
+      "fortressBonus": 2,
+      "finalPerTile": 1,
+      "finalPennantBonus": 0,
+      "finalFortressBonus": 0
+    },
+    "shrine": { "value": 9, "surroundingTiles": 8, "countsCentre": true, "completeWhen": "all-eight-neighbours-filled" },
+    "field": { "stage": "final-only", "perCompletedCity": 3, "countsAdjacentCities": true }
+  },
+  "end": {
+    "trigger": "bag-empty-finish-round",
+    "finalScoring": ["incomplete-roads", "incomplete-cities", "fields"],
+    "winner": "highest-total",
+    "tie": "most-complete-cities"
+  },
+  "attribution": {
+    "originalTheme": "Tile Kingdoms / Kare Krallıklar is an original theme with original names, texts and code-generated art.",
+    "sharedWithGenre": "mechanics only (tile draw, edge-matched placement, worker placement, feature scoring); no third-party names, art or text is used."
+  }
+}

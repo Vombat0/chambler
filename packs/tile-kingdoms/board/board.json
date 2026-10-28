@@ -1,0 +1,19 @@
+{
+  "formatVersion": 1,
+  "boardId": "tile-kingdoms-table",
+  "theme": "tile-kingdoms",
+  "gridType": "square",
+  "grid": { "cols": 23, "rows": 23 },
+  "cellSize": { "width": 1, "depth": 1 },
+  "startCell": { "col": 11, "row": 11 },
+  "startTile": "start-capital",
+  "note": "Square snap grid for a tile-laying table. Tiles are placed cell by cell; the facing-edge rule is delegated to the A5 TileEdges contract (meta.edges {north,east,south,west}, equal facing values match, rotations 0/90/180/270). The grid is a play-area boundary, not a fixed layout: tiles only grow the map outward from the start cell.",
+  "canvas": { "width": 920, "height": 920, "cellPx": 40 },
+  "edgeContract": {
+    "source": "packages/client/src/grid/TileEdges.ts (A5)",
+    "metaPath": "meta.edges",
+    "keys": ["north", "east", "south", "west"],
+    "matchRule": "facing-edge-values-equal",
+    "rotations": [0, 90, 180, 270]
+  }
+}

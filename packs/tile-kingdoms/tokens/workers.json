@@ -1,0 +1,18 @@
+{
+  "formatVersion": 1,
+  "note": "Each player commands 7 workers. A worker is placed on the feature of the tile you just laid and steps home when that feature is scored. The four roles are the same worker wearing the livery of the feature it serves: Watchman on roads, Guard in cities, Monk at shrines, Farmer in the fields.",
+  "workersPerPlayer": 7,
+  "roles": [
+    { "id": "scout", "feature": "road", "nameKey": "worker.scout.name", "useKey": "worker.scout.use", "assetKey": "role-scout" },
+    { "id": "guard", "feature": "city", "nameKey": "worker.guard.name", "useKey": "worker.guard.use", "assetKey": "role-guard" },
+    { "id": "monk", "feature": "shrine", "nameKey": "worker.monk.name", "useKey": "worker.monk.use", "assetKey": "role-monk" },
+    { "id": "farmer", "feature": "field", "nameKey": "worker.farmer.name", "useKey": "worker.farmer.use", "assetKey": "role-farmer" }
+  ],
+  "colors": [
+    { "id": "ember", "color": "#B3402A", "nameKey": "color.ember.name", "assetKey": "worker-ember" },
+    { "id": "lagoon", "color": "#2E7D9E", "nameKey": "color.lagoon.name", "assetKey": "worker-lagoon" },
+    { "id": "moss", "color": "#5E7D3A", "nameKey": "color.moss.name", "assetKey": "worker-moss" },
+    { "id": "plum", "color": "#7A4A6B", "nameKey": "color.plum.name", "assetKey": "worker-plum" },
+    { "id": "sand", "color": "#C9A667", "nameKey": "color.sand.name", "assetKey": "worker-sand" }
+  ]
+}

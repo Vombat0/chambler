@@ -1,0 +1,656 @@
+{
+  "generator": "scripts/generate-art.ts",
+  "note": "All art is generated procedurally from primitives: tile faces derive straight from the edge arrays in tiles/tiles.json, rasters are encoded by the built-in PNG writer. No third-party images.",
+  "pngCount": 36,
+  "svgCount": 36,
+  "files": [
+    {
+      "key": "playmat",
+      "path": "assets/playmat.png",
+      "kind": "png",
+      "width": 920,
+      "height": 920,
+      "bytes": 767731,
+      "sha256": "a20895d63c7aebc41f64ac35efbd6b819a37d5d8ea9c94ebff643bb36c86e2ba"
+    },
+    {
+      "key": "role-farmer",
+      "path": "assets/role-farmer.png",
+      "kind": "png",
+      "width": 128,
+      "height": 128,
+      "bytes": 11963,
+      "sha256": "930daa792c010f4a1cc210421ef861e6450cf16a3cbbbfc91cdbd83860e64cb7"
+    },
+    {
+      "key": "role-guard",
+      "path": "assets/role-guard.png",
+      "kind": "png",
+      "width": 128,
+      "height": 128,
+      "bytes": 12063,
+      "sha256": "d5e491f8cd2b08d5202e5d9ade97ac95204f591ae6d5bf2555fe8f172c51b41e"
+    },
+    {
+      "key": "role-monk",
+      "path": "assets/role-monk.png",
+      "kind": "png",
+      "width": 128,
+      "height": 128,
+      "bytes": 12162,
+      "sha256": "33a838b049a1c77dfcb79a9bd0aae4e0dabcbaafdd2572ce778cbf969c04c95b"
+    },
+    {
+      "key": "role-scout",
+      "path": "assets/role-scout.png",
+      "kind": "png",
+      "width": 128,
+      "height": 128,
+      "bytes": 12360,
+      "sha256": "edf23ec8eb00827302b7230f3d0583b109da2ea9f2d6e9d9ac7df9f8e373e157"
+    },
+    {
+      "key": "start-marker",
+      "path": "assets/start-marker.png",
+      "kind": "png",
+      "width": 176,
+      "height": 176,
+      "bytes": 7803,
+      "sha256": "55bd44413678eb4955b5b18e04ec2f76b4717dbc735011dcf39fc0b1007bb319"
+    },
+    {
+      "key": "playmat-vector",
+      "path": "assets/svg/playmat.svg",
+      "kind": "svg",
+      "width": 920,
+      "height": 920,
+      "bytes": 6088,
+      "sha256": "7e12424352665b4742508c7c62dd338ce9eb71c0a5bd118b6d9dd6fee5f82638"
+    },
+    {
+      "key": "role-farmer-vector",
+      "path": "assets/svg/role-farmer.svg",
+      "kind": "svg",
+      "width": 128,
+      "height": 128,
+      "bytes": 1549,
+      "sha256": "441ece60e4d5f74124c3942bb919da0ec2f61c4aae3a029fbef7607432771605"
+    },
+    {
+      "key": "role-guard-vector",
+      "path": "assets/svg/role-guard.svg",
+      "kind": "svg",
+      "width": 128,
+      "height": 128,
+      "bytes": 1176,
+      "sha256": "19dd6c8ae24f22929f0e822a7487e374e85bbee101fe79b89703798c53179d9c"
+    },
+    {
+      "key": "role-monk-vector",
+      "path": "assets/svg/role-monk.svg",
+      "kind": "svg",
+      "width": 128,
+      "height": 128,
+      "bytes": 1312,
+      "sha256": "9817721d556221a79daad98b3dfe3d0689ed84b8721ae89b91971201b6aa57d6"
+    },
+    {
+      "key": "role-scout-vector",
+      "path": "assets/svg/role-scout.svg",
+      "kind": "svg",
+      "width": 128,
+      "height": 128,
+      "bytes": 1245,
+      "sha256": "b9cadf1063c9a2fb27a88170887209902e1a0ad83d4b3e79f0636571fc2fba91"
+    },
+    {
+      "key": "start-marker-vector",
+      "path": "assets/svg/start-marker.svg",
+      "kind": "svg",
+      "width": 176,
+      "height": 176,
+      "bytes": 1256,
+      "sha256": "fd62d274fe643b010b69852a64bbe58273c19cbdc62186454ebb6a8e83462160"
+    },
+    {
+      "key": "tile-back-vector",
+      "path": "assets/svg/tile-back.svg",
+      "kind": "svg",
+      "width": 176,
+      "height": 176,
+      "bytes": 1530,
+      "sha256": "98d5db56dcb6737b9765cc668cd7396b2ef606a9d73320530e71435ba3f0b4bb"
+    },
+    {
+      "key": "tile-city-corner-field-vector",
+      "path": "assets/svg/tile-city-corner-field.svg",
+      "kind": "svg",
+      "width": 176,
+      "height": 176,
+      "bytes": 5655,
+      "sha256": "a87e5b2d6551a0b71b9d752e734fd851517cc3728bba82660de1ad9f0d162947"
+    },
+    {
+      "key": "tile-city-corner-keep-vector",
+      "path": "assets/svg/tile-city-corner-keep.svg",
+      "kind": "svg",
+      "width": 176,
+      "height": 176,
+      "bytes": 4931,
+      "sha256": "77ef213d6054b960b506bb4df2b02070c4be53d37b313c2fd84f43bb8e43a6dd"
+    },
+    {
+      "key": "tile-city-crossroad-vector",
+      "path": "assets/svg/tile-city-crossroad.svg",
+      "kind": "svg",
+      "width": 176,
+      "height": 176,
+      "bytes": 4280,
+      "sha256": "f499832aa2f446beb5168e8dbcd031f350069fb4ac9976a972787f191b04ba7c"
+    },
+    {
+      "key": "tile-city-farm-vector",
+      "path": "assets/svg/tile-city-farm.svg",
+      "kind": "svg",
+      "width": 176,
+      "height": 176,
+      "bytes": 5234,
+      "sha256": "5c346f0e34ff06aa9463f46938da70385edfb60a21aa9cd2b612bd5df2655e6f"
+    },
+    {
+      "key": "tile-city-fortress-vector",
+      "path": "assets/svg/tile-city-fortress.svg",
+      "kind": "svg",
+      "width": 176,
+      "height": 176,
+      "bytes": 5595,
+      "sha256": "23829699dad82aecfdbb753a7e2a0a4d0f85f604f3c5948434c8e1f8be3c6a28"
+    },
+    {
+      "key": "tile-city-gate-vector",
+      "path": "assets/svg/tile-city-gate.svg",
+      "kind": "svg",
+      "width": 176,
+      "height": 176,
+      "bytes": 4504,
+      "sha256": "35a4ca81270db45744c9af1a00cba86053bc81d6abf88eeb864cd9a44a3e086a"
+    },
+    {
+      "key": "tile-city-sprawltown-vector",
+      "path": "assets/svg/tile-city-sprawltown.svg",
+      "kind": "svg",
+      "width": 176,
+      "height": 176,
+      "bytes": 4492,
+      "sha256": "8176e95b71c5bc1be753bea66670f699901a20d8d3417607f3a4797714f49470"
+    },
+    {
+      "key": "tile-city-wall-straight-vector",
+      "path": "assets/svg/tile-city-wall-straight.svg",
+      "kind": "svg",
+      "width": 176,
+      "height": 176,
+      "bytes": 4780,
+      "sha256": "7266f399a7a13e08205fb6da894dd5634d7ea285003371507ec13dbeba24b547"
+    },
+    {
+      "key": "tile-field-farm-vector",
+      "path": "assets/svg/tile-field-farm.svg",
+      "kind": "svg",
+      "width": 176,
+      "height": 176,
+      "bytes": 4811,
+      "sha256": "2dd7cd5616f826596dad98c753c4c018cc4462655d26636ed03103a0afda3f03"
+    },
+    {
+      "key": "tile-field-pasture-vector",
+      "path": "assets/svg/tile-field-pasture.svg",
+      "kind": "svg",
+      "width": 176,
+      "height": 176,
+      "bytes": 3908,
+      "sha256": "f8af5a87a25a659df4a7870433b0580dc6eae386b79c452f8707dc4c8a54a655"
+    },
+    {
+      "key": "tile-open-field-vector",
+      "path": "assets/svg/tile-open-field.svg",
+      "kind": "svg",
+      "width": 176,
+      "height": 176,
+      "bytes": 3717,
+      "sha256": "68bd12a3bba3bd03c23aeba251961b3dadf09a4c433a0dae8df19282f8fd62a8"
+    },
+    {
+      "key": "tile-road-bend-vector",
+      "path": "assets/svg/tile-road-bend.svg",
+      "kind": "svg",
+      "width": 176,
+      "height": 176,
+      "bytes": 3985,
+      "sha256": "cb4082469e64d5158c8a685121a41d5c62031afafc803faf204303dae8a9815d"
+    },
+    {
+      "key": "tile-road-crossing-vector",
+      "path": "assets/svg/tile-road-crossing.svg",
+      "kind": "svg",
+      "width": 176,
+      "height": 176,
+      "bytes": 4407,
+      "sha256": "37cb95066b914590e6eaa1edd6c4196b59e0ed144f5e88a95df541dfac107939"
+    },
+    {
+      "key": "tile-road-junction-vector",
+      "path": "assets/svg/tile-road-junction.svg",
+      "kind": "svg",
+      "width": 176,
+      "height": 176,
+      "bytes": 4280,
+      "sha256": "6ed07d22b554e9822db70d10cee9a75b7ed9cf1a19f56940cffa9bbf34ee2fb2"
+    },
+    {
+      "key": "tile-road-outpost-vector",
+      "path": "assets/svg/tile-road-outpost.svg",
+      "kind": "svg",
+      "width": 176,
+      "height": 176,
+      "bytes": 4006,
+      "sha256": "0b149501cb2bb5436a09b509591b23de0fe507617f8b5fb2de83ddd02433f51f"
+    },
+    {
+      "key": "tile-road-shrine-vector",
+      "path": "assets/svg/tile-road-shrine.svg",
+      "kind": "svg",
+      "width": 176,
+      "height": 176,
+      "bytes": 4238,
+      "sha256": "0d4e40388f5a938b8b7bd317ce3f2873efcda1a21bc5b836fdca0aee5331c1db"
+    },
+    {
+      "key": "tile-road-straight-vector",
+      "path": "assets/svg/tile-road-straight.svg",
+      "kind": "svg",
+      "width": 176,
+      "height": 176,
+      "bytes": 3989,
+      "sha256": "1ddea69e1fdded60ee0b0824071703e3add8ddb466144dc0014645463febe3d7"
+    },
+    {
+      "key": "tile-road-village-vector",
+      "path": "assets/svg/tile-road-village.svg",
+      "kind": "svg",
+      "width": 176,
+      "height": 176,
+      "bytes": 4140,
+      "sha256": "a888c589027cd6f9f4730dabb47de35b6baf0d481934f9f5bb08fdaf43a317bb"
+    },
+    {
+      "key": "tile-shrine-border-vector",
+      "path": "assets/svg/tile-shrine-border.svg",
+      "kind": "svg",
+      "width": 176,
+      "height": 176,
+      "bytes": 4426,
+      "sha256": "91e563180b66aa5052913dff54f9425ee2d24660377d32b70af8d50f5adaa7c2"
+    },
+    {
+      "key": "tile-shrine-corner-vector",
+      "path": "assets/svg/tile-shrine-corner.svg",
+      "kind": "svg",
+      "width": 176,
+      "height": 176,
+      "bytes": 4365,
+      "sha256": "1463a575ac1a549cafc41129ad0e22bc599cac86867cc9b78e8b57a00adfb01d"
+    },
+    {
+      "key": "tile-shrine-crossroad-vector",
+      "path": "assets/svg/tile-shrine-crossroad.svg",
+      "kind": "svg",
+      "width": 176,
+      "height": 176,
+      "bytes": 4563,
+      "sha256": "a915baaf57b754455070e5fd5b22491c1f9dd606c4a001d662b9dbacaf801035"
+    },
+    {
+      "key": "tile-shrine-field-vector",
+      "path": "assets/svg/tile-shrine-field.svg",
+      "kind": "svg",
+      "width": 176,
+      "height": 176,
+      "bytes": 4101,
+      "sha256": "f69901f436a36585efb4a49610091d9d916a95c678f3082b21fa2db2fcfdb488"
+    },
+    {
+      "key": "tile-shrine-wall-vector",
+      "path": "assets/svg/tile-shrine-wall.svg",
+      "kind": "svg",
+      "width": 176,
+      "height": 176,
+      "bytes": 4746,
+      "sha256": "4e2c5d6f65bc6ab8e6876c0e0684ec7816ffcd318b6ad6b068ecfa9ef970c7df"
+    },
+    {
+      "key": "tile-start-capital-vector",
+      "path": "assets/svg/tile-start-capital.svg",
+      "kind": "svg",
+      "width": 176,
+      "height": 176,
+      "bytes": 5019,
+      "sha256": "78de0d37d67551a3b0e5960e9bbc0a34d56097b43b50f1f43164808f44efd7db"
+    },
+    {
+      "key": "worker-ember-vector",
+      "path": "assets/svg/worker-ember.svg",
+      "kind": "svg",
+      "width": 128,
+      "height": 128,
+      "bytes": 1314,
+      "sha256": "6e26a200a8d2b309b6ed6b9efcd37bec316d56f2f85585d2062181b81b1cabbd"
+    },
+    {
+      "key": "worker-lagoon-vector",
+      "path": "assets/svg/worker-lagoon.svg",
+      "kind": "svg",
+      "width": 128,
+      "height": 128,
+      "bytes": 1316,
+      "sha256": "db2f4d06b032e110f17526c858b94759e28df36551eef9757185c79ce33f0b99"
+    },
+    {
+      "key": "worker-moss-vector",
+      "path": "assets/svg/worker-moss.svg",
+      "kind": "svg",
+      "width": 128,
+      "height": 128,
+      "bytes": 1318,
+      "sha256": "ef16386a2f52086dc16677cfc99a7d32a9087185012c6d724770761099ad60b7"
+    },
+    {
+      "key": "worker-plum-vector",
+      "path": "assets/svg/worker-plum.svg",
+      "kind": "svg",
+      "width": 128,
+      "height": 128,
+      "bytes": 1316,
+      "sha256": "c02a31940cb6224cfb127d02579ef8f7ae70ff82ca2d8c916fb9596d36a1e6e1"
+    },
+    {
+      "key": "worker-sand-vector",
+      "path": "assets/svg/worker-sand.svg",
+      "kind": "svg",
+      "width": 128,
+      "height": 128,
+      "bytes": 1314,
+      "sha256": "d64cdfda6f5d6a05e965e4b7f8a1ddb910ed2d134a7e455ee4498e6981d8e4b6"
+    },
+    {
+      "key": "tile-back",
+      "path": "assets/tile-back.png",
+      "kind": "png",
+      "width": 176,
+      "height": 176,
+      "bytes": 39638,
+      "sha256": "a33850aa51c8668c60e3bae2f51361507f2e82e0074a5398833a10034959c731"
+    },
+    {
+      "key": "tile-city-corner-field",
+      "path": "assets/tile-city-corner-field.png",
+      "kind": "png",
+      "width": 176,
+      "height": 176,
+      "bytes": 33986,
+      "sha256": "b76a7a5c4e445207fd95bd40f504ec9e5dbcd8b1681755b62df30244565d8d97"
+    },
+    {
+      "key": "tile-city-corner-keep",
+      "path": "assets/tile-city-corner-keep.png",
+      "kind": "png",
+      "width": 176,
+      "height": 176,
+      "bytes": 33696,
+      "sha256": "2a4627780a629aa5bfda1dd06f5826987e908e7190329c9ba9494bab90c1ce05"
+    },
+    {
+      "key": "tile-city-crossroad",
+      "path": "assets/tile-city-crossroad.png",
+      "kind": "png",
+      "width": 176,
+      "height": 176,
+      "bytes": 33285,
+      "sha256": "575691980d5d09f84b384ee900fd912cd600c63b5c8da436bd4e57a3ec1e3cec"
+    },
+    {
+      "key": "tile-city-farm",
+      "path": "assets/tile-city-farm.png",
+      "kind": "png",
+      "width": 176,
+      "height": 176,
+      "bytes": 32748,
+      "sha256": "6d49c77002bd8fac57c4a759a7708ca4a2bbb6e5c8f2e83b1187c4f73c385aff"
+    },
+    {
+      "key": "tile-city-fortress",
+      "path": "assets/tile-city-fortress.png",
+      "kind": "png",
+      "width": 176,
+      "height": 176,
+      "bytes": 34439,
+      "sha256": "ca33e47c7d06b903c034c72a18f81f2b35eabeabc4d578d0fc89877c71e550cc"
+    },
+    {
+      "key": "tile-city-gate",
+      "path": "assets/tile-city-gate.png",
+      "kind": "png",
+      "width": 176,
+      "height": 176,
+      "bytes": 32855,
+      "sha256": "e0919498098ba304524a678c0146d5f83c3133474c1ae57b78ac7fdb2aaffb28"
+    },
+    {
+      "key": "tile-city-sprawltown",
+      "path": "assets/tile-city-sprawltown.png",
+      "kind": "png",
+      "width": 176,
+      "height": 176,
+      "bytes": 33384,
+      "sha256": "586b7d9bb70ee7ad71c82b2f8197c0dcac7ea88b5cc285901a2fb48b13266263"
+    },
+    {
+      "key": "tile-city-wall-straight",
+      "path": "assets/tile-city-wall-straight.png",
+      "kind": "png",
+      "width": 176,
+      "height": 176,
+      "bytes": 33402,
+      "sha256": "b6b2364ee43ca066293c463969943a1a9f5fde769e71670a5aaa288c7bb317e9"
+    },
+    {
+      "key": "tile-field-farm",
+      "path": "assets/tile-field-farm.png",
+      "kind": "png",
+      "width": 176,
+      "height": 176,
+      "bytes": 30809,
+      "sha256": "eee2ea9c021b38785b83a25cea8571293fa65087615a8b8ffda1bbb9bedb5e5b"
+    },
+    {
+      "key": "tile-field-pasture",
+      "path": "assets/tile-field-pasture.png",
+      "kind": "png",
+      "width": 176,
+      "height": 176,
+      "bytes": 30854,
+      "sha256": "558deda2f4047f2344d37ef9657f6ee1001239555331bb43cdf5e8d6543f6842"
+    },
+    {
+      "key": "tile-open-field",
+      "path": "assets/tile-open-field.png",
+      "kind": "png",
+      "width": 176,
+      "height": 176,
+      "bytes": 30118,
+      "sha256": "1cda6db2dd77257e438775c169ec98d302f1f706fc7096534b3ba2b4bdec1202"
+    },
+    {
+      "key": "tile-road-bend",
+      "path": "assets/tile-road-bend.png",
+      "kind": "png",
+      "width": 176,
+      "height": 176,
+      "bytes": 32626,
+      "sha256": "43a77d73e7e1d745c826d5349967843448c42003b705daf8c16efc78b19b8d73"
+    },
+    {
+      "key": "tile-road-crossing",
+      "path": "assets/tile-road-crossing.png",
+      "kind": "png",
+      "width": 176,
+      "height": 176,
+      "bytes": 33401,
+      "sha256": "f17924f6bde921bae65f9e8f817aa49b9984386ed11700dfe18bbc8ce78b6d4d"
+    },
+    {
+      "key": "tile-road-junction",
+      "path": "assets/tile-road-junction.png",
+      "kind": "png",
+      "width": 176,
+      "height": 176,
+      "bytes": 33376,
+      "sha256": "a7635779bf6366901f3919754e73554a5d4b2d3d3f88a242a4807c6a2dad3157"
+    },
+    {
+      "key": "tile-road-outpost",
+      "path": "assets/tile-road-outpost.png",
+      "kind": "png",
+      "width": 176,
+      "height": 176,
+      "bytes": 31918,
+      "sha256": "a71ec4b936988706e494e9e7ead32a11ca65febf1e4d93c483ba076bdb26fb46"
+    },
+    {
+      "key": "tile-road-shrine",
+      "path": "assets/tile-road-shrine.png",
+      "kind": "png",
+      "width": 176,
+      "height": 176,
+      "bytes": 32392,
+      "sha256": "a6fe81eb1928c1f3979bc07b912a6c5edb5cffe9e0d662e2d07003cf9cf06f9e"
+    },
+    {
+      "key": "tile-road-straight",
+      "path": "assets/tile-road-straight.png",
+      "kind": "png",
+      "width": 176,
+      "height": 176,
+      "bytes": 32757,
+      "sha256": "0fba4ca0865ca4ae19a01c05f66a4b84fac53161b9d4e8dabe982b5a2b088e9a"
+    },
+    {
+      "key": "tile-road-village",
+      "path": "assets/tile-road-village.png",
+      "kind": "png",
+      "width": 176,
+      "height": 176,
+      "bytes": 32988,
+      "sha256": "e0679c60c0a66495619400c4923775572560d5662131c41077c6631d57e6bf86"
+    },
+    {
+      "key": "tile-shrine-border",
+      "path": "assets/tile-shrine-border.png",
+      "kind": "png",
+      "width": 176,
+      "height": 176,
+      "bytes": 32369,
+      "sha256": "5d393a617a020ab4dae6e205e778749a71f21462ec4dbc7cf37a933aa0477bce"
+    },
+    {
+      "key": "tile-shrine-corner",
+      "path": "assets/tile-shrine-corner.png",
+      "kind": "png",
+      "width": 176,
+      "height": 176,
+      "bytes": 32673,
+      "sha256": "e8fbf2eb61e1a12512ae94fbdc254d42a32b327ff02cb7b13b7ef84722fa7089"
+    },
+    {
+      "key": "tile-shrine-crossroad",
+      "path": "assets/tile-shrine-crossroad.png",
+      "kind": "png",
+      "width": 176,
+      "height": 176,
+      "bytes": 33016,
+      "sha256": "04cdb429bc468d05f00ce22254d08add0b6b69a0881e1c1d06f39529c31c3b9d"
+    },
+    {
+      "key": "tile-shrine-field",
+      "path": "assets/tile-shrine-field.png",
+      "kind": "png",
+      "width": 176,
+      "height": 176,
+      "bytes": 31411,
+      "sha256": "3dfff6ea935ab32a2ad6704a9e0becb27ed2db099a3fa104699b64c20970d2b6"
+    },
+    {
+      "key": "tile-shrine-wall",
+      "path": "assets/tile-shrine-wall.png",
+      "kind": "png",
+      "width": 176,
+      "height": 176,
+      "bytes": 32934,
+      "sha256": "82530f817dc9aea3a2a8243a4e0bca4907b14a03e38e1a565f48906cd87d8b3a"
+    },
+    {
+      "key": "tile-start-capital",
+      "path": "assets/tile-start-capital.png",
+      "kind": "png",
+      "width": 176,
+      "height": 176,
+      "bytes": 35554,
+      "sha256": "f4a7749fe255b56805ca2512a8d901ce3f4b0f9ef01ca38b7758e2aef2ba7589"
+    },
+    {
+      "key": "worker-ember",
+      "path": "assets/worker-ember.png",
+      "kind": "png",
+      "width": 128,
+      "height": 128,
+      "bytes": 12751,
+      "sha256": "d71f87ddaeff0c465dbc937620c7d800de3be0ef4d2d9b40a0b568cb2219602a"
+    },
+    {
+      "key": "worker-lagoon",
+      "path": "assets/worker-lagoon.png",
+      "kind": "png",
+      "width": 128,
+      "height": 128,
+      "bytes": 12781,
+      "sha256": "1832c1e92954ac21b1f20c92815859c820c943d15a90c107b10991ea2070fa5b"
+    },
+    {
+      "key": "worker-moss",
+      "path": "assets/worker-moss.png",
+      "kind": "png",
+      "width": 128,
+      "height": 128,
+      "bytes": 12749,
+      "sha256": "73522cee2c41d269419d7240e6ae973503d372318786bd79f7c0cbc412dba118"
+    },
+    {
+      "key": "worker-plum",
+      "path": "assets/worker-plum.png",
+      "kind": "png",
+      "width": 128,
+      "height": 128,
+      "bytes": 12757,
+      "sha256": "534a267024966358e5491b4df44b18cbbf1972d32adf574a0213d8a26ef02058"
+    },
+    {
+      "key": "worker-sand",
+      "path": "assets/worker-sand.png",
+      "kind": "png",
+      "width": 128,
+      "height": 128,
+      "bytes": 12755,
+      "sha256": "14b0b9e48ab883af4400a754842372aa07102bcec80cc77c17bb2b031ccfb791"
+    }
+  ]
+}
