@@ -6,6 +6,7 @@
  * incremental patches afterwards.
  */
 import { MapSchema, Schema, type } from '@colyseus/schema';
+import { ObjectState } from './ObjectState.js';
 import type { PlayerInfo } from '@chambler/shared';
 
 /** One seated player. Mirrors @chambler/shared `PlayerInfo` plus host/connection flags. */
@@ -30,6 +31,8 @@ export class TableState extends Schema {
   @type('uint64') createdAt = 0;
   /** sessionId -> player. */
   @type({ map: PlayerState }) players = new MapSchema<PlayerState>();
+  /** objectId -> object durable state. */
+  @type({ map: ObjectState }) objects = new MapSchema<ObjectState>();
 }
 
 /** Shared-protocol view of a player (`join`/`leave` messages, HTTP lobby lookup). */
@@ -39,5 +42,6 @@ export function toPlayerInfo(player: PlayerState): PlayerInfo {
     name: player.name,
     color: player.color,
     seat: player.seat,
+    isHost: player.isHost,
   };
 }

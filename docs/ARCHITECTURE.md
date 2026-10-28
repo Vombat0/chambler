@@ -64,3 +64,9 @@ Face-up data of a face-down card (`assetRef`/meta back-mapping) is filtered the 
 - No runtime dependency may be added to shared; helpers use standard WebCrypto/JS.
 - Transform messages are unreliable; never bind game logic to transform arrival.
 - Physics authority per object belongs to exactly one client (ownership conflict = bug).
+
+## B2 shared contract additions
+- `PlayerInfo.isHost` added (B1 schema already had it).
+- State channel gains `seat`, `color`, `error`, `hand` messages.
+- Network types: `ObjectSnapshot`, `OwnershipState`, `TransformFrame`.
+- Hand-written validators in `packages/shared/src/validators.ts` (zero deps).

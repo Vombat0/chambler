@@ -41,12 +41,37 @@ export interface ObjectDef {
   meta: Record<string, unknown>;
 }
 
+/**
+ * Network-serialisable view of an `ObjectDef`. Structurally identical today;
+ * kept as a distinct alias so the wire contract can evolve independently.
+ */
+export type ObjectSnapshot = ObjectDef;
+
+export interface OwnershipState {
+  objectId: string;
+  ownerId: string | null;
+  locked: boolean;
+  /** Claim token minted by the server; used to reject stale transforms. */
+  claimToken?: string;
+}
+
+/** A single sampled transform on the unreliable transform channel. */
+export interface TransformFrame {
+  id: string;
+  pos: Vec3;
+  rot: Quat;
+  vel?: Vec3;
+  seq: number;
+  t: number;
+}
+
 export interface PlayerInfo {
   id: string;
   name: string;
   /** CSS/HTML color, e.g. `#ff0000`. */
   color: string;
   seat: number;
+  isHost: boolean;
 }
 
 /** Result of a die owned by a client; the owning client reads it, the server broadcasts it. */

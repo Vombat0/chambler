@@ -1,4 +1,4 @@
-import type { ObjectDef, PlayerInfo, Transform, Vec3 } from './types.js';
+import type { HandInfo, ObjectDef, ObjectSnapshot, OwnershipState, PlayerInfo, Transform, TransformFrame, Vec3 } from './types.js';
 
 /**
  * Frequency of the transform channel. State channel messages are sent
@@ -21,7 +21,11 @@ export type StateChannelMessage =
   | { type: 'objectLock'; objectId: string; playerId: string | null; locked: boolean }
   | { type: 'flip'; objectId: string; faceUp: boolean }
   | { type: 'deckShuffle'; deckId: string }
-  | { type: 'chat'; playerId: string; text: string; sentAt: number };
+  | { type: 'chat'; playerId: string; text: string; sentAt: number }
+  | { type: 'seat'; seat: number }
+  | { type: 'color'; color: string }
+  | { type: 'hand'; hand: HandInfo }
+  | { type: 'error'; code: string; message: string };
 
 /* ------------------------------------------------------------------ */
 /* Channel 2: TRANSFORM — unreliable, unordered, sampled at 20 Hz      */
@@ -34,6 +38,10 @@ export interface TransformChannelMessage {
   transform: Transform;
   /** Linear velocity, if the owner wants receiving clients to extrapolate. */
   velocity?: Vec3;
+  /** Monotonic sequence number for stale-packet rejection. */
+  seq?: number;
+  /** Sender timestamp (ms). */
+  t?: number;
 }
 
 export type ChamblerMessage = StateChannelMessage | TransformChannelMessage;
@@ -50,3 +58,6 @@ export function isTransformChannelMessage(
 ): message is TransformChannelMessage {
   return message.type === 'transformUpdate';
 }
+
+// Re-export network types for convenience.
+export type { ObjectSnapshot, OwnershipState, TransformFrame };
