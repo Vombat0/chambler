@@ -1,0 +1,5 @@
+{
+  "risks": [
+    { "risk_id": "R-01", "description": "Provider rate limit exhaustion", "mitigation": "Use backup models and load balancing" }
+  ]
+}

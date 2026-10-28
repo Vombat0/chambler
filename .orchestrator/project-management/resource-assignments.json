@@ -1,0 +1,7 @@
+{
+  "assignments": {
+    "T-REG-001": "google/antigravity-gemini-3.5-flash-lite",
+    "T-ENG-001": "evren/claude-opus-5.5",
+    "T-UI-001": "google/antigravity-claude-sonnet-5-5-low"
+  }
+}

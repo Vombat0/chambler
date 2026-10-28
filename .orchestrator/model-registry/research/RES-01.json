@@ -1,0 +1,1083 @@
+{
+  "task_metadata": {
+    "task_id": "RES-01",
+    "wbs_id": "0.2",
+    "phase_id": "PRE",
+    "assigned_provider": "google",
+    "assigned_model_id": "antigravity-gemini-3.8-flash-high",
+    "target_workload": "TypeScript, Three.js, Rapier (WASM physics), Colyseus (Node.js networking), React/Svelte UI, WebSocket state sync, unit/integration testing, and code review",
+    "generated_at": "2026-10-28T00:00:00Z"
+  },
+  "models": [
+    {
+      "endpoint_id": "google/antigravity-claude-opus-5-5-high",
+      "base_model_id": "claude-opus-5-5",
+      "display_name": "Claude Opus 5.5 (High) (Antigravity)",
+      "provider_id": "google",
+      "reasoning_effort": "high",
+      "context_window": 1000000,
+      "output_limit": 128000,
+      "reasoning_supported": true,
+      "tool_calling_supported": true,
+      "multimodal_support": {
+        "vision": true,
+        "pdf": true,
+        "audio": false,
+        "video": false
+      },
+      "official_information": {
+        "developer": "Anthropic",
+        "release_date": "2026-09-22",
+        "pricing": {
+          "official_input_per_1m": 4.0,
+          "official_output_per_1m": 20.0,
+          "antigravity_tier": "oauth_antigravity",
+          "billing_note": "Covered under Antigravity OAuth quota"
+        },
+        "quota_and_rate_limits": "High tier Antigravity OAuth quota, subject to provider concurrency caps",
+        "source_url": "https://platform.claude.com/docs/en/models/opus-5-5/overview"
+      },
+      "independent_benchmarks": [
+        {
+          "benchmark": "Terminal-Bench 4.0",
+          "score": "65.15%",
+          "ranking": "1/57",
+          "date": "2026-09-22",
+          "methodology": "Vals AI Terminal execution suite, 198 tasks, effort max/high",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/anthropic_claude-opus-5-5"
+        },
+        {
+          "benchmark": "SWE-bench Multimodal",
+          "score": "70.21%",
+          "ranking": "1/20",
+          "date": "2026-09-22",
+          "methodology": "Multimodal software engineering agent evaluation",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/anthropic_claude-opus-5-5"
+        },
+        {
+          "benchmark": "Code Migration v1.1",
+          "score": "81.01%",
+          "ranking": "2/28",
+          "date": "2026-09-22",
+          "methodology": "Large repository framework and language migration suite",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/anthropic_claude-opus-5-5"
+        },
+        {
+          "benchmark": "Vibe Code Bench v1.1",
+          "score": "90.29%",
+          "ranking": "5/121",
+          "date": "2026-09-22",
+          "methodology": "Full-stack web application development and visual layout",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/anthropic_claude-opus-5-5"
+        },
+        {
+          "benchmark": "ProofBench v1.1",
+          "score": "100.00%",
+          "ranking": "2/52",
+          "date": "2026-09-22",
+          "methodology": "Formal verification and mathematical proof synthesis",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/anthropic_claude-opus-5-5"
+        }
+      ],
+      "local_observations": "Deepest reasoning depth in the suite; high token output expenditure and longer turnaround latency (~84 min on comprehensive test suites); highest autonomy in multi-step terminal workflows.",
+      "known_weaknesses": [
+        "High latency per step under maximum reasoning effort",
+        "Higher token expenditure for simple tasks",
+        "SRE Bench performance drops significantly without server-side fallback"
+      ],
+      "task_suitability_scores": {
+        "network_architecture": {
+          "score": 5,
+          "reasoning": "Unmatched in modeling complex distributed room states, Colyseus synchronization invariants, and WebSocket reconnection protocols."
+        },
+        "physics_3d": {
+          "score": 5,
+          "reasoning": "100% on ProofBench and top-tier mathematical reasoning make it exceptional for Rapier WASM physics constraints and 3D matrix math."
+        },
+        "ui": {
+          "score": 4,
+          "reasoning": "Highly capable on React/Svelte component architecture (90.29% Vibe Code), but excessive latency and token budget for minor UI styling."
+        },
+        "test_qa": {
+          "score": 5,
+          "reasoning": "Best-in-class multi-step edge case detection, mocking complex async network conditions, and end-to-end integration tests."
+        },
+        "documentation": {
+          "score": 4,
+          "reasoning": "Produces stellar technical documentation, but high reasoning effort leads to unnecessary latency for plain markdown."
+        },
+        "code_review": {
+          "score": 5,
+          "reasoning": "Exceptional static analysis, detecting race conditions in state replication, WASM memory leaks, and architectural anti-patterns."
+        }
+      }
+    },
+    {
+      "endpoint_id": "google/antigravity-claude-opus-5-5-medium",
+      "base_model_id": "claude-opus-5-5",
+      "display_name": "Claude Opus 5.5 (Medium) (Antigravity)",
+      "provider_id": "google",
+      "reasoning_effort": "medium",
+      "context_window": 1000000,
+      "output_limit": 128000,
+      "reasoning_supported": true,
+      "tool_calling_supported": true,
+      "multimodal_support": {
+        "vision": true,
+        "pdf": true,
+        "audio": false,
+        "video": false
+      },
+      "official_information": {
+        "developer": "Anthropic",
+        "release_date": "2026-09-22",
+        "pricing": {
+          "official_input_per_1m": 4.0,
+          "official_output_per_1m": 20.0,
+          "antigravity_tier": "oauth_antigravity",
+          "billing_note": "Covered under Antigravity OAuth quota"
+        },
+        "quota_and_rate_limits": "Antigravity OAuth quota; medium reasoning gives optimal token throughput",
+        "source_url": "https://platform.claude.com/docs/en/models/opus-5-5/overview"
+      },
+      "independent_benchmarks": [
+        {
+          "benchmark": "Terminal-Bench 4.0",
+          "score": "65.15%",
+          "ranking": "1/57",
+          "date": "2026-09-22",
+          "methodology": "Vals AI Terminal execution suite, 198 tasks",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/anthropic_claude-opus-5-5"
+        },
+        {
+          "benchmark": "SWE-bench Multimodal",
+          "score": "70.21%",
+          "ranking": "1/20",
+          "date": "2026-09-22",
+          "methodology": "Multimodal software engineering agent evaluation",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/anthropic_claude-opus-5-5"
+        },
+        {
+          "benchmark": "Code Migration v1.1",
+          "score": "81.01%",
+          "ranking": "2/28",
+          "date": "2026-09-22",
+          "methodology": "Large repository framework and language migration suite",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/anthropic_claude-opus-5-5"
+        }
+      ],
+      "local_observations": "The sweet-spot configuration for Claude Opus 5.5; balances frontier reasoning with predictable execution latency and controlled token generation.",
+      "known_weaknesses": [
+        "Moderate latency compared to flash models",
+        "Slightly reduced mathematical chain length compared to high effort"
+      ],
+      "task_suitability_scores": {
+        "network_architecture": {
+          "score": 5,
+          "reasoning": "Excellent for implementing Colyseus server schema, delta compression, and real-time multiplayer message brokers."
+        },
+        "physics_3d": {
+          "score": 5,
+          "reasoning": "Handles Three.js rendering loops, scene graph hierarchy, and Rapier WASM colliders with precision and speed."
+        },
+        "ui": {
+          "score": 4,
+          "reasoning": "Generates robust React/Svelte state management wrappers around Three.js canvases and WebSockets."
+        },
+        "test_qa": {
+          "score": 5,
+          "reasoning": "Generates comprehensive Vitest/Jest suites and mock WebSocket connections with rapid turnaround."
+        },
+        "documentation": {
+          "score": 5,
+          "reasoning": "Produces clear, detailed architectural and API documentation at balanced latency."
+        },
+        "code_review": {
+          "score": 5,
+          "reasoning": "Ideal for pull request inspection, discovering state mutations and WASM binding leaks."
+        }
+      }
+    },
+    {
+      "endpoint_id": "google/antigravity-claude-opus-5-5-low",
+      "base_model_id": "claude-opus-5-5",
+      "display_name": "Claude Opus 5.5 (Low) (Antigravity)",
+      "provider_id": "google",
+      "reasoning_effort": "low",
+      "context_window": 1000000,
+      "output_limit": 128000,
+      "reasoning_supported": true,
+      "tool_calling_supported": true,
+      "multimodal_support": {
+        "vision": true,
+        "pdf": true,
+        "audio": false,
+        "video": false
+      },
+      "official_information": {
+        "developer": "Anthropic",
+        "release_date": "2026-09-22",
+        "pricing": {
+          "official_input_per_1m": 4.0,
+          "official_output_per_1m": 20.0,
+          "antigravity_tier": "oauth_antigravity",
+          "billing_note": "Covered under Antigravity OAuth quota"
+        },
+        "quota_and_rate_limits": "Antigravity OAuth quota; lowest token consumption among Opus variants",
+        "source_url": "https://platform.claude.com/docs/en/models/opus-5-5/overview"
+      },
+      "independent_benchmarks": [
+        {
+          "benchmark": "Terminal-Bench 4.0",
+          "score": "65.15%",
+          "ranking": "1/57",
+          "date": "2026-09-22",
+          "methodology": "Vals AI Terminal execution suite",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/anthropic_claude-opus-5-5"
+        },
+        {
+          "benchmark": "Vibe Code Bench v1.1",
+          "score": "90.29%",
+          "ranking": "5/121",
+          "date": "2026-09-22",
+          "methodology": "Full-stack web application development and visual layout",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/anthropic_claude-opus-5-5"
+        }
+      ],
+      "local_observations": "Rapid response mode; maintains Opus's high semantic coding comprehension while eliminating long thinking pauses.",
+      "known_weaknesses": [
+        "May overlook subtle distributed concurrency race conditions on low effort",
+        "Less effective on complex formal mathematical derivations"
+      ],
+      "task_suitability_scores": {
+        "network_architecture": {
+          "score": 4,
+          "reasoning": "Very fast for boilerplate schema definition and standard WebSocket events, but less suited for complex consensus logic."
+        },
+        "physics_3d": {
+          "score": 4,
+          "reasoning": "Quick Three.js component setup and asset loading; may require manual verification on advanced collision solvers."
+        },
+        "ui": {
+          "score": 5,
+          "reasoning": "Top tier for rapid UI prototyping, responsive layouts, and reactive Svelte/React bindings."
+        },
+        "test_qa": {
+          "score": 4,
+          "reasoning": "Fast unit test authoring, though complex mocking may need explicit hints."
+        },
+        "documentation": {
+          "score": 5,
+          "reasoning": "Fast, high-quality technical writing and code docstrings."
+        },
+        "code_review": {
+          "score": 4,
+          "reasoning": "Effective for style and sanity checks; deeper architectural audits warrant medium/high effort."
+        }
+      }
+    },
+    {
+      "endpoint_id": "google/antigravity-gemini-4-argon-high",
+      "base_model_id": "gemini-4-argon",
+      "display_name": "Gemini 4 Argon (High) (Antigravity)",
+      "provider_id": "google",
+      "reasoning_effort": "high",
+      "context_window": 1048576,
+      "output_limit": 65536,
+      "reasoning_supported": true,
+      "tool_calling_supported": true,
+      "multimodal_support": {
+        "vision": true,
+        "pdf": true,
+        "audio": false,
+        "video": false
+      },
+      "official_information": {
+        "developer": "Google DeepMind",
+        "release_date": "2026-10-13",
+        "pricing": {
+          "official_input_per_1m": 4.0,
+          "official_output_per_1m": 20.0,
+          "antigravity_tier": "oauth_antigravity",
+          "billing_note": "Covered under Antigravity OAuth quota"
+        },
+        "quota_and_rate_limits": "High tier Antigravity OAuth quota",
+        "source_url": "https://ai.google.dev/gemini-api/docs/models/gemini-4-argon"
+      },
+      "independent_benchmarks": [
+        {
+          "benchmark": "IOI (International Olympiad in Informatics)",
+          "score": "100.00%",
+          "ranking": "1/46",
+          "date": "2026-10-13",
+          "methodology": "Competitive algorithmic programming evaluation",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/google_gemini-4-argon"
+        },
+        {
+          "benchmark": "Vibe Code Bench v1.1",
+          "score": "91.91%",
+          "ranking": "2/121",
+          "date": "2026-10-13",
+          "methodology": "Full-stack code generation and UI layout",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/google_gemini-4-argon"
+        },
+        {
+          "benchmark": "SRE Bench",
+          "score": "44.27%",
+          "ranking": "3/35",
+          "date": "2026-10-13",
+          "methodology": "Site reliability engineering and complex systems debugging",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/google_gemini-4-argon"
+        },
+        {
+          "benchmark": "CyberBench v1.1",
+          "score": "77.86%",
+          "ranking": "3/47",
+          "date": "2026-10-13",
+          "methodology": "Cybersecurity vulnerability discovery and exploit analysis",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/google_gemini-4-argon"
+        },
+        {
+          "benchmark": "Code Migration v1.1",
+          "score": "70.80%",
+          "ranking": "6/28",
+          "date": "2026-10-13",
+          "methodology": "Codebase migration and major version updates",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/google_gemini-4-argon"
+        }
+      ],
+      "local_observations": "Premier algorithmic powerhouse (100% on IOI); lower overall latency than Opus 5.5 (~45 min vs ~84 min); excels at low-level optimization and WASM memory safety.",
+      "known_weaknesses": [
+        "Lower resolved rate on open-ended ProgramBench (2.50%)",
+        "Terminal-Bench 4.0 (57.58%) slightly lower than Opus 5.5"
+      ],
+      "task_suitability_scores": {
+        "network_architecture": {
+          "score": 5,
+          "reasoning": "Top tier for distributed protocols, packet serialization algorithms, and high-load Node.js Colyseus clustering."
+        },
+        "physics_3d": {
+          "score": 5,
+          "reasoning": "Flawless mathematical reasoning (IOI 100%) makes it the optimal choice for Rapier WASM physics integration and custom Three.js shaders."
+        },
+        "ui": {
+          "score": 4,
+          "reasoning": "Very strong (91.91% Vibe Code Bench), but high reasoning effort adds unnecessary latency for routine styling."
+        },
+        "test_qa": {
+          "score": 5,
+          "reasoning": "Outstanding at finding corner cases in concurrent systems and fuzz testing WASM boundary conditions."
+        },
+        "documentation": {
+          "score": 4,
+          "reasoning": "Deeply technical documentation output, but slower than medium or flash tiers."
+        },
+        "code_review": {
+          "score": 5,
+          "reasoning": "Exceptional security and reliability review (CyberBench 77.86%, SRE Bench 44.27%), catches subtle WASM memory corruption."
+        }
+      }
+    },
+    {
+      "endpoint_id": "google/antigravity-gemini-4-argon-medium",
+      "base_model_id": "gemini-4-argon",
+      "display_name": "Gemini 4 Argon (Medium) (Antigravity)",
+      "provider_id": "google",
+      "reasoning_effort": "medium",
+      "context_window": 1048576,
+      "output_limit": 65536,
+      "reasoning_supported": true,
+      "tool_calling_supported": true,
+      "multimodal_support": {
+        "vision": true,
+        "pdf": true,
+        "audio": false,
+        "video": false
+      },
+      "official_information": {
+        "developer": "Google DeepMind",
+        "release_date": "2026-10-13",
+        "pricing": {
+          "official_input_per_1m": 4.0,
+          "official_output_per_1m": 20.0,
+          "antigravity_tier": "oauth_antigravity",
+          "billing_note": "Covered under Antigravity OAuth quota"
+        },
+        "quota_and_rate_limits": "Antigravity OAuth quota; balanced token economy",
+        "source_url": "https://ai.google.dev/gemini-api/docs/models/gemini-4-argon"
+      },
+      "independent_benchmarks": [
+        {
+          "benchmark": "IOI (International Olympiad in Informatics)",
+          "score": "100.00%",
+          "ranking": "1/46",
+          "date": "2026-10-13",
+          "methodology": "Competitive algorithmic programming evaluation",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/google_gemini-4-argon"
+        },
+        {
+          "benchmark": "Vibe Code Bench v1.1",
+          "score": "91.91%",
+          "ranking": "2/121",
+          "date": "2026-10-13",
+          "methodology": "Full-stack code generation and UI layout",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/google_gemini-4-argon"
+        },
+        {
+          "benchmark": "SRE Bench",
+          "score": "44.27%",
+          "ranking": "3/35",
+          "date": "2026-10-13",
+          "methodology": "Site reliability engineering and complex systems debugging",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/google_gemini-4-argon"
+        }
+      ],
+      "local_observations": "Highly dependable workhorse for systems engineering; combines algorithmic precision with faster code generation cycles.",
+      "known_weaknesses": [
+        "Moderate output token speed compared to flash models"
+      ],
+      "task_suitability_scores": {
+        "network_architecture": {
+          "score": 5,
+          "reasoning": "Top choice for Colyseus room handlers, state patch optimizations, and client interpolation algorithms."
+        },
+        "physics_3d": {
+          "score": 5,
+          "reasoning": "Strong vector geometry, Rapier rigid body lifecycle management, and Three.js scene orchestration."
+        },
+        "ui": {
+          "score": 4,
+          "reasoning": "Clean component architecture and reliable state propagation across frontend layers."
+        },
+        "test_qa": {
+          "score": 5,
+          "reasoning": "High-velocity test generation with accurate mocking of physics simulations."
+        },
+        "documentation": {
+          "score": 4,
+          "reasoning": "Precise and concise documentation with code snippets."
+        },
+        "code_review": {
+          "score": 5,
+          "reasoning": "Thorough static analysis and algorithm optimization recommendations."
+        }
+      }
+    },
+    {
+      "endpoint_id": "google/antigravity-gemini-4-argon-low",
+      "base_model_id": "gemini-4-argon",
+      "display_name": "Gemini 4 Argon (Low) (Antigravity)",
+      "provider_id": "google",
+      "reasoning_effort": "low",
+      "context_window": 1048576,
+      "output_limit": 65536,
+      "reasoning_supported": true,
+      "tool_calling_supported": true,
+      "multimodal_support": {
+        "vision": true,
+        "pdf": true,
+        "audio": false,
+        "video": false
+      },
+      "official_information": {
+        "developer": "Google DeepMind",
+        "release_date": "2026-10-13",
+        "pricing": {
+          "official_input_per_1m": 4.0,
+          "official_output_per_1m": 20.0,
+          "antigravity_tier": "oauth_antigravity",
+          "billing_note": "Covered under Antigravity OAuth quota"
+        },
+        "quota_and_rate_limits": "Antigravity OAuth quota; lowest latency among Argon variants",
+        "source_url": "https://ai.google.dev/gemini-api/docs/models/gemini-4-argon"
+      },
+      "independent_benchmarks": [
+        {
+          "benchmark": "Vibe Code Bench v1.1",
+          "score": "91.91%",
+          "ranking": "2/121",
+          "date": "2026-10-13",
+          "methodology": "Full-stack code generation and UI layout",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/google_gemini-4-argon"
+        },
+        {
+          "benchmark": "Code Migration v1.1",
+          "score": "70.80%",
+          "ranking": "6/28",
+          "date": "2026-10-13",
+          "methodology": "Codebase migration and major version updates",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/google_gemini-4-argon"
+        }
+      ],
+      "local_observations": "Fast execution variant; ideal when Argon's architectural depth is needed for implementation tasks without reasoning overhead.",
+      "known_weaknesses": [
+        "Reduced chain-of-thought for deep distributed edge-case exploration"
+      ],
+      "task_suitability_scores": {
+        "network_architecture": {
+          "score": 4,
+          "reasoning": "Fast boilerplate implementation for network message schemas and endpoints."
+        },
+        "physics_3d": {
+          "score": 4,
+          "reasoning": "Effective Three.js component creation, but may require manual checking on complex collision matrix definitions."
+        },
+        "ui": {
+          "score": 5,
+          "reasoning": "Excels at responsive React/Svelte UI, canvas wrappers, and interactive controls (91.91% Vibe Code Bench)."
+        },
+        "test_qa": {
+          "score": 4,
+          "reasoning": "Generates unit tests rapidly across standard cases."
+        },
+        "documentation": {
+          "score": 5,
+          "reasoning": "High-speed documentation generation with accurate code examples."
+        },
+        "code_review": {
+          "score": 4,
+          "reasoning": "Fast review for coding standards, typing issues, and common bugs."
+        }
+      }
+    },
+    {
+      "endpoint_id": "google/antigravity-gemini-3.8-flash-high",
+      "base_model_id": "gemini-3.8-flash",
+      "display_name": "Gemini 3.8 Flash (High) (Antigravity)",
+      "provider_id": "google",
+      "reasoning_effort": "high",
+      "context_window": 1048576,
+      "output_limit": 65536,
+      "reasoning_supported": true,
+      "tool_calling_supported": true,
+      "multimodal_support": {
+        "vision": true,
+        "pdf": true,
+        "audio": false,
+        "video": false
+      },
+      "official_information": {
+        "developer": "Google DeepMind",
+        "release_date": "2026-09-02",
+        "pricing": {
+          "official_input_per_1m": 0.75,
+          "official_output_per_1m": 3.75,
+          "antigravity_tier": "oauth_antigravity",
+          "billing_note": "Covered under Antigravity OAuth quota"
+        },
+        "quota_and_rate_limits": "Antigravity OAuth quota; high throughput and low token costs",
+        "source_url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash"
+      },
+      "independent_benchmarks": [
+        {
+          "benchmark": "LiveCodeBench",
+          "score": "89.48%",
+          "ranking": "3/143",
+          "date": "2026-09-02",
+          "methodology": "Competitive coding, holistic live coding evaluation",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/google_gemini-3.8-flash"
+        },
+        {
+          "benchmark": "GPQA Diamond",
+          "score": "94.44%",
+          "ranking": "4/138",
+          "date": "2026-09-02",
+          "methodology": "Expert-level scientific and mathematical reasoning",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/google_gemini-3.8-flash"
+        },
+        {
+          "benchmark": "SWE-bench",
+          "score": "80.00%",
+          "ranking": "24/88",
+          "date": "2026-09-02",
+          "methodology": "Full SWE-bench problem resolution suite",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/google_gemini-3.8-flash"
+        },
+        {
+          "benchmark": "Vibe Code Bench v1.1",
+          "score": "78.65%",
+          "ranking": "31/121",
+          "date": "2026-09-02",
+          "methodology": "Interactive web app and UI generation",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/google_gemini-3.8-flash"
+        },
+        {
+          "benchmark": "Terminal-Bench 4.0",
+          "score": "19.70%",
+          "ranking": "33/57",
+          "date": "2026-09-02",
+          "methodology": "Multi-step autonomous terminal interaction",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/google_gemini-3.8-flash"
+        }
+      ],
+      "local_observations": "Extremely fast generation speed with high reasoning competence (LiveCodeBench 89.48%); 0.00% fallback rate on Vals suite; exceptional token efficiency.",
+      "known_weaknesses": [
+        "Terminal-Bench 4.0 (19.70%) and SRE Bench (11.07%) indicate weaker autonomous bash/terminal agent capabilities compared to frontier models",
+        "Code Migration v1.1 (38.65%) indicates lower multi-file refactoring robustness"
+      ],
+      "task_suitability_scores": {
+        "network_architecture": {
+          "score": 4,
+          "reasoning": "Strong at coding network message serialization and WebSocket protocol logic, but less suited for complex autonomous multi-service orchestration."
+        },
+        "physics_3d": {
+          "score": 4,
+          "reasoning": "High math/physics problem-solving accuracy (GPQA Diamond 94.44%), very capable with Three.js shaders and Rapier integrations."
+        },
+        "ui": {
+          "score": 5,
+          "reasoning": "Fast, high-quality React/Svelte component creation and styling."
+        },
+        "test_qa": {
+          "score": 4,
+          "reasoning": "Fast unit and regression test writer with high benchmark pass rates."
+        },
+        "documentation": {
+          "score": 5,
+          "reasoning": "Top-tier speed and clarity for technical specs, API docs, and markdown tables."
+        },
+        "code_review": {
+          "score": 4,
+          "reasoning": "Solid review for syntactic bugs, performance bottlenecks, and typing errors."
+        }
+      }
+    },
+    {
+      "endpoint_id": "google/antigravity-gemini-3.8-flash-medium",
+      "base_model_id": "gemini-3.8-flash",
+      "display_name": "Gemini 3.8 Flash (Medium) (Antigravity)",
+      "provider_id": "google",
+      "reasoning_effort": "medium",
+      "context_window": 1048576,
+      "output_limit": 65536,
+      "reasoning_supported": true,
+      "tool_calling_supported": true,
+      "multimodal_support": {
+        "vision": true,
+        "pdf": true,
+        "audio": false,
+        "video": false
+      },
+      "official_information": {
+        "developer": "Google DeepMind",
+        "release_date": "2026-09-02",
+        "pricing": {
+          "official_input_per_1m": 0.75,
+          "official_output_per_1m": 3.75,
+          "antigravity_tier": "oauth_antigravity",
+          "billing_note": "Covered under Antigravity OAuth quota"
+        },
+        "quota_and_rate_limits": "Antigravity OAuth quota; generous rate limits",
+        "source_url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash"
+      },
+      "independent_benchmarks": [
+        {
+          "benchmark": "LiveCodeBench",
+          "score": "89.48%",
+          "ranking": "3/143",
+          "date": "2026-09-02",
+          "methodology": "Competitive coding, holistic live coding evaluation",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/google_gemini-3.8-flash"
+        },
+        {
+          "benchmark": "SWE-bench",
+          "score": "80.00%",
+          "ranking": "24/88",
+          "date": "2026-09-02",
+          "methodology": "Full SWE-bench problem resolution suite",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/google_gemini-3.8-flash"
+        }
+      ],
+      "local_observations": "Ideal balance of high speed, cost efficiency, and strong coding accuracy for everyday feature implementation.",
+      "known_weaknesses": [
+        "Weaker autonomous multi-step terminal tool use"
+      ],
+      "task_suitability_scores": {
+        "network_architecture": {
+          "score": 4,
+          "reasoning": "Reliable WebSocket client/server handlers and schema definitions."
+        },
+        "physics_3d": {
+          "score": 4,
+          "reasoning": "Generates Three.js meshes, lighting, camera controls, and Rapier rigid bodies quickly."
+        },
+        "ui": {
+          "score": 5,
+          "reasoning": "Exceptional velocity and layout fidelity for React/Svelte UI components."
+        },
+        "test_qa": {
+          "score": 4,
+          "reasoning": "Quick test scaffolding and assertion generation."
+        },
+        "documentation": {
+          "score": 5,
+          "reasoning": "High-speed, comprehensive markdown generation."
+        },
+        "code_review": {
+          "score": 4,
+          "reasoning": "Good for style checks and general logic reviews."
+        }
+      }
+    },
+    {
+      "endpoint_id": "google/antigravity-gemini-3.8-flash-low",
+      "base_model_id": "gemini-3.8-flash",
+      "display_name": "Gemini 3.8 Flash (Low) (Antigravity)",
+      "provider_id": "google",
+      "reasoning_effort": "low",
+      "context_window": 1048576,
+      "output_limit": 65536,
+      "reasoning_supported": true,
+      "tool_calling_supported": true,
+      "multimodal_support": {
+        "vision": true,
+        "pdf": true,
+        "audio": false,
+        "video": false
+      },
+      "official_information": {
+        "developer": "Google DeepMind",
+        "release_date": "2026-09-02",
+        "pricing": {
+          "official_input_per_1m": 0.75,
+          "official_output_per_1m": 3.75,
+          "antigravity_tier": "oauth_antigravity",
+          "billing_note": "Covered under Antigravity OAuth quota"
+        },
+        "quota_and_rate_limits": "Antigravity OAuth quota; lowest latency in the 3.8 family",
+        "source_url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash"
+      },
+      "independent_benchmarks": [
+        {
+          "benchmark": "LiveCodeBench",
+          "score": "89.48%",
+          "ranking": "3/143",
+          "date": "2026-09-02",
+          "methodology": "Competitive coding, holistic live coding evaluation",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/google_gemini-3.8-flash"
+        },
+        {
+          "benchmark": "Vibe Code Bench v1.1",
+          "score": "78.65%",
+          "ranking": "31/121",
+          "date": "2026-09-02",
+          "methodology": "Interactive web app and UI generation",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/google_gemini-3.8-flash"
+        }
+      ],
+      "local_observations": "Ultra-fast response latency; best suited for short-cycle edits, utility code, and immediate frontend updates.",
+      "known_weaknesses": [
+        "Struggles with intricate multi-file architectural constraints without extended reasoning"
+      ],
+      "task_suitability_scores": {
+        "network_architecture": {
+          "score": 3,
+          "reasoning": "Adequate for simple message payload interfaces; prone to race conditions in complex room state sync."
+        },
+        "physics_3d": {
+          "score": 3,
+          "reasoning": "Good for basic Three.js geometry boilerplate; weak on advanced Rapier physics constraint tuning."
+        },
+        "ui": {
+          "score": 5,
+          "reasoning": "Fastest turnaround for frontend tweaks, CSS styling, and Svelte/React props binding."
+        },
+        "test_qa": {
+          "score": 4,
+          "reasoning": "Rapid unit test generation for pure functions."
+        },
+        "documentation": {
+          "score": 5,
+          "reasoning": "Instant markdown documentation, README creation, and changelog writing."
+        },
+        "code_review": {
+          "score": 3,
+          "reasoning": "Best for basic formatting, linting, and syntax checks; misses deep architectural pitfalls."
+        }
+      }
+    },
+    {
+      "endpoint_id": "google/antigravity-gemini-3.5-flash-lite",
+      "base_model_id": "gemini-3.5-flash-lite",
+      "display_name": "Gemini 3.5 Flash Lite (Antigravity)",
+      "provider_id": "google",
+      "reasoning_effort": "none",
+      "context_window": 1048576,
+      "output_limit": 65535,
+      "reasoning_supported": false,
+      "tool_calling_supported": true,
+      "multimodal_support": {
+        "vision": true,
+        "pdf": true,
+        "audio": false,
+        "video": false
+      },
+      "official_information": {
+        "developer": "Google DeepMind",
+        "release_date": "2026-07-21",
+        "pricing": {
+          "official_input_per_1m": 0.3,
+          "official_output_per_1m": 2.5,
+          "antigravity_tier": "oauth_antigravity",
+          "billing_note": "Covered under Antigravity OAuth quota"
+        },
+        "quota_and_rate_limits": "High Antigravity OAuth quota; lowest resource utilization",
+        "source_url": "https://ai.google.dev/gemini-api/docs/models"
+      },
+      "independent_benchmarks": [
+        {
+          "benchmark": "SWE-bench Verified (Full 500-task)",
+          "score": "75.00%",
+          "ranking": "45/88",
+          "date": "2026-07-21",
+          "methodology": "Full SWE-bench problem resolution suite",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/google_gemini-3.5-flash-lite"
+        },
+        {
+          "benchmark": "LiveCodeBench",
+          "score": "79.01%",
+          "ranking": "75/143",
+          "date": "2026-07-21",
+          "methodology": "Competitive coding, holistic live coding evaluation",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/google_gemini-3.5-flash-lite"
+        },
+        {
+          "benchmark": "Terminal-Bench 2.1",
+          "score": "50.19%",
+          "ranking": "58/75",
+          "date": "2026-07-21",
+          "methodology": "Terminal command execution and task resolution",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/google_gemini-3.5-flash-lite"
+        },
+        {
+          "benchmark": "Vibe Code Bench v1.1",
+          "score": "37.16%",
+          "ranking": "76/121",
+          "date": "2026-07-21",
+          "methodology": "Full-stack code generation and UI layout",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/google_gemini-3.5-flash-lite"
+        },
+        {
+          "benchmark": "Code Migration",
+          "score": "6.15%",
+          "ranking": "71/79",
+          "date": "2026-07-21",
+          "methodology": "Large repository migration suite",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/google_gemini-3.5-flash-lite"
+        }
+      ],
+      "local_observations": "Blazing fast latency (~3 min 53 s on comprehensive benchmark suite); 1M context enables ingestion of massive logs or docs; constrained reasoning capacity for complex systems.",
+      "known_weaknesses": [
+        "Extremely low Code Migration score (6.15%) and ProgramBench (0.00%)",
+        "Struggles with multi-file architecture refactoring and complex state machines",
+        "Limited reasoning depth for WASM physics and distributed networking"
+      ],
+      "task_suitability_scores": {
+        "network_architecture": {
+          "score": 2,
+          "reasoning": "Lacks the architectural coherence required for Colyseus state synchronization and network protocol design."
+        },
+        "physics_3d": {
+          "score": 2,
+          "reasoning": "Unreliable for 3D quaternion math, matrix transformations, and WASM memory allocation."
+        },
+        "ui": {
+          "score": 3,
+          "reasoning": "Adequate for simple static HTML/CSS and basic template components, but weak on complex reactive state (37.16% Vibe Code Bench)."
+        },
+        "test_qa": {
+          "score": 3,
+          "reasoning": "Capable of generating simple isolated unit test boilerplate, but ineffective for integration testing."
+        },
+        "documentation": {
+          "score": 5,
+          "reasoning": "Exceptional value for rapid documentation generation, type definition docstrings, and summarization using its 1M context."
+        },
+        "code_review": {
+          "score": 2,
+          "reasoning": "Fails to detect subtle concurrency bugs, WASM pointer errors, and architectural anti-patterns."
+        }
+      }
+    },
+    {
+      "endpoint_id": "google/antigravity-gpt-oss-120b-medium",
+      "base_model_id": "gpt-oss-120b",
+      "display_name": "GPT-OSS 120B (Medium) (Antigravity)",
+      "provider_id": "google",
+      "reasoning_effort": "medium",
+      "context_window": 131072,
+      "output_limit": 32768,
+      "reasoning_supported": true,
+      "tool_calling_supported": true,
+      "multimodal_support": {
+        "vision": true,
+        "pdf": true,
+        "audio": false,
+        "video": false
+      },
+      "official_information": {
+        "developer": "OpenAI (open-weight, served via Google Antigravity)",
+        "release_date": "2025-08-05",
+        "pricing": {
+          "official_input_per_1m": 0.15,
+          "official_output_per_1m": 0.6,
+          "antigravity_tier": "oauth_antigravity",
+          "billing_note": "Covered under Antigravity OAuth quota"
+        },
+        "quota_and_rate_limits": "Antigravity OAuth quota; 128k context window limit",
+        "source_url": "https://openai.com/index/introducing-gpt-oss/"
+      },
+      "independent_benchmarks": [
+        {
+          "benchmark": "MATH 500",
+          "score": "94.80%",
+          "ranking": "7/50",
+          "date": "2025-08-05",
+          "methodology": "Challenging competition-level mathematics benchmark",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/benchmarks/math500"
+        },
+        {
+          "benchmark": "LiveCodeBench",
+          "score": "83.23%",
+          "ranking": "51/143",
+          "date": "2025-08-05",
+          "methodology": "Competitive programming evaluation",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/fireworks_gpt-oss-120b"
+        },
+        {
+          "benchmark": "GPQA Diamond",
+          "score": "78.54%",
+          "ranking": "74/138",
+          "date": "2025-08-05",
+          "methodology": "Expert scientific reasoning",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/fireworks_gpt-oss-120b"
+        },
+        {
+          "benchmark": "SWE-bench",
+          "score": "33.60%",
+          "ranking": "87/88",
+          "date": "2025-08-05",
+          "methodology": "Software engineering benchmark suite",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/fireworks_gpt-oss-120b"
+        },
+        {
+          "benchmark": "Terminal-Bench 2.0",
+          "score": "19.10%",
+          "ranking": "59/67",
+          "date": "2025-08-05",
+          "methodology": "Terminal command execution",
+          "evaluator": "Vals AI",
+          "source_url": "https://www.vals.ai/models/fireworks_gpt-oss-120b"
+        }
+      ],
+      "local_observations": "Open-weight 117B MoE model; outstanding mathematical calculation skills (94.80% MATH 500); limited context window (128k vs 1M) and low full SWE-bench score (33.60%).",
+      "known_weaknesses": [
+        "128k context window is significantly smaller than the 1M windows of Claude and Gemini",
+        "Low SWE-bench score (33.60%) indicates difficulty with whole-repo engineering tasks",
+        "Terminal-Bench 2.0 (19.10%) shows limited agentic environment interaction"
+      ],
+      "task_suitability_scores": {
+        "network_architecture": {
+          "score": 3,
+          "reasoning": "Competent at math and algorithm specs, but 128k context and low SWE-bench limit its ability to maintain complex repo-wide Colyseus schemas."
+        },
+        "physics_3d": {
+          "score": 4,
+          "reasoning": "Strong mathematical reasoning (94.80% on MATH 500) makes it very capable of 3D vector transformations, quaternion math, and physics computations."
+        },
+        "ui": {
+          "score": 3,
+          "reasoning": "Can generate individual UI components, but less proficient in modern frontend ecosystems and reactive state integration."
+        },
+        "test_qa": {
+          "score": 3,
+          "reasoning": "Good at writing isolated mathematical/algorithmic unit tests, but weaker at complex full-stack integration mocks."
+        },
+        "documentation": {
+          "score": 4,
+          "reasoning": "Clear, accurate documentation for math algorithms, physics formulas, and function-level docstrings."
+        },
+        "code_review": {
+          "score": 3,
+          "reasoning": "Good for detecting logic errors and mathematical inaccuracies, but weaker on distributed systems architecture."
+        }
+      }
+    }
+  ],
+  "workload_assignment_recommendations": {
+    "network_architecture": {
+      "primary": "google/antigravity-gemini-4-argon-medium",
+      "backup_1": "google/antigravity-claude-opus-5-5-medium",
+      "backup_2": "google/antigravity-gemini-4-argon-high",
+      "backup_3": "google/antigravity-claude-opus-5-5-high"
+    },
+    "physics_3d": {
+      "primary": "google/antigravity-gemini-4-argon-high",
+      "backup_1": "google/antigravity-claude-opus-5-5-medium",
+      "backup_2": "google/antigravity-gemini-4-argon-medium",
+      "backup_3": "google/antigravity-gpt-oss-120b-medium"
+    },
+    "ui": {
+      "primary": "google/antigravity-gemini-3.8-flash-medium",
+      "backup_1": "google/antigravity-gemini-4-argon-low",
+      "backup_2": "google/antigravity-claude-opus-5-5-low",
+      "backup_3": "google/antigravity-gemini-3.8-flash-low"
+    },
+    "test_qa": {
+      "primary": "google/antigravity-gemini-4-argon-medium",
+      "backup_1": "google/antigravity-claude-opus-5-5-medium",
+      "backup_2": "google/antigravity-gemini-3.8-flash-high",
+      "backup_3": "google/antigravity-gemini-3.8-flash-medium"
+    },
+    "documentation": {
+      "primary": "google/antigravity-gemini-3.5-flash-lite",
+      "backup_1": "google/antigravity-gemini-3.8-flash-low",
+      "backup_2": "google/antigravity-gemini-3.8-flash-medium",
+      "backup_3": "google/antigravity-claude-opus-5-5-low"
+    },
+    "code_review": {
+      "primary": "google/antigravity-gemini-4-argon-high",
+      "backup_1": "google/antigravity-claude-opus-5-5-high",
+      "backup_2": "google/antigravity-gemini-4-argon-medium",
+      "backup_3": "google/antigravity-claude-opus-5-5-medium"
+    }
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "timestamp": "2026-10-28T14:30:00.000Z",
+  "assignments": [
+    {
+      "taskId": "T-INV-001",
+      "assignedProvider": "google",
+      "assignedModelId": "google/antigravity-gemini-3.5-flash-lite",
+      "status": "COMPLETED"
+    },
+    {
+      "taskId": "T-REQ-001",
+      "assignedProvider": "google",
+      "assignedModelId": "google/antigravity-gemini-3.5-flash-lite",
+      "status": "COMPLETED"
+    },
+    {
+      "taskId": "T-RES-001",
+      "assignedProvider": "google",
+      "assignedModelId": "google/antigravity-gemini-3.5-flash-lite",
+      "status": "COMPLETED"
+    },
+    {
+      "taskId": "T-EXP-001",
+      "assignedProvider": "google",
+      "assignedModelId": "google/antigravity-gemini-3.5-flash-lite",
+      "status": "COMPLETED"
+    },
+    {
+      "taskId": "T-REG-001",
+      "assignedProvider": "google",
+      "assignedModelId": "google/antigravity-gemini-3.5-flash-lite",
+      "status": "COMPLETED"
+    },
+    {
+      "taskId": "T-DATA-001",
+      "assignedProvider": "google",
+      "assignedModelId": "google/antigravity-gemini-3.5-flash-lite",
+      "status": "COMPLETED"
+    },
+    {
+      "taskId": "T-ENG-001",
+      "assignedProvider": "google",
+      "assignedModelId": "google/antigravity-gemini-3.5-flash-lite",
+      "status": "COMPLETED"
+    },
+    {
+      "taskId": "T-UI-001",
+      "assignedProvider": "google",
+      "assignedModelId": "google/antigravity-gemini-3.5-flash-lite",
+      "status": "COMPLETED"
+    },
+    {
+      "taskId": "T-QA-001",
+      "assignedProvider": "google",
+      "assignedModelId": "google/antigravity-gemini-3.5-flash-lite",
+      "status": "COMPLETED"
+    },
+    {
+      "taskId": "T-EXP-002",
+      "assignedProvider": "google",
+      "assignedModelId": "google/antigravity-gemini-3.5-flash-lite",
+      "status": "COMPLETED"
+    },
+    {
+      "taskId": "T-EXP-003",
+      "assignedProvider": "google",
+      "assignedModelId": "google/antigravity-gemini-3.5-flash-lite",
+      "status": "COMPLETED"
+    },
+    {
+      "taskId": "T-EXP-004",
+      "assignedProvider": "google",
+      "assignedModelId": "google/antigravity-gemini-3.5-flash-lite",
+      "status": "COMPLETED"
+    },
+    {
+      "taskId": "T-FIX-001",
+      "assignedProvider": "google",
+      "assignedModelId": "google/antigravity-gemini-3.5-flash-lite",
+      "status": "COMPLETED"
+    },
+    {
+      "taskId": "T-AUDIT-001",
+      "assignedProvider": "google",
+      "assignedModelId": "google/antigravity-gemini-3.5-flash-lite",
+      "status": "COMPLETED"
+    }
+  ]
+}

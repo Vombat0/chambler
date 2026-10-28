@@ -1,0 +1,292 @@
+{
+  "capability_definitions": {
+    "text_code": "Text and code generation/editing",
+    "reasoning": "Extended reasoning / configurable thinking effort",
+    "multimodal_vision": "Image input understanding",
+    "multimodal_pdf": "Native PDF document comprehension",
+    "multimodal_audio": "Audio input understanding",
+    "multimodal_video": "Video input understanding",
+    "router": "Meta-router endpoints directing to dynamic underlying models (NONE detected in live catalog)",
+    "image_generation": "Direct image generation (NONE in live catalog)",
+    "embedding": "Vector embedding generation (NONE in live catalog)"
+  },
+  "endpoints_by_capability": {
+    "text_code": [
+      "evren/deepseek-v4.1-flash",
+      "evren/gemma-4-31b",
+      "evren/glm-5.3",
+      "evren/mimo-v2.6-pro",
+      "evren/qwen3-vl-30b",
+      "evren/qwen3.8-flash-next",
+      "google/antigravity-claude-opus-5-5-high",
+      "google/antigravity-claude-opus-5-5-low",
+      "google/antigravity-claude-opus-5-5-medium",
+      "google/antigravity-claude-sonnet-5-5-high",
+      "google/antigravity-claude-sonnet-5-5-low",
+      "google/antigravity-claude-sonnet-5-5-medium",
+      "google/antigravity-gemini-3.5-flash-lite",
+      "google/antigravity-gemini-3.8-flash-high",
+      "google/antigravity-gemini-3.8-flash-low",
+      "google/antigravity-gemini-3.8-flash-medium",
+      "google/antigravity-gemini-4-argon-high",
+      "google/antigravity-gemini-4-argon-low",
+      "google/antigravity-gemini-4-argon-medium",
+      "google/antigravity-gpt-oss-120b-medium",
+      "opencode/beam-free",
+      "opencode/big-pickle",
+      "opencode/deepseek-v4.1-flash-free",
+      "opencode/flint-40b-free",
+      "opencode/glm-5.3-flash-free",
+      "opencode/mimo-v2.6-flash-free",
+      "opencode/nemotron-3.5-lightning-free",
+      "opencode/nemotron-3.5-super-vl-free"
+    ],
+    "reasoning": [
+      "evren/deepseek-v4.1-flash",
+      "evren/gemma-4-31b",
+      "evren/glm-5.3",
+      "evren/mimo-v2.6-pro",
+      "evren/qwen3-vl-30b",
+      "evren/qwen3.8-flash-next",
+      "google/antigravity-claude-opus-5-5-high",
+      "google/antigravity-claude-opus-5-5-low",
+      "google/antigravity-claude-opus-5-5-medium",
+      "google/antigravity-gemini-4-argon-high",
+      "google/antigravity-gemini-4-argon-low",
+      "google/antigravity-gemini-4-argon-medium",
+      "google/antigravity-gpt-oss-120b-medium",
+      "opencode/beam-free",
+      "opencode/big-pickle",
+      "opencode/deepseek-v4.1-flash-free",
+      "opencode/flint-40b-free",
+      "opencode/glm-5.3-flash-free",
+      "opencode/mimo-v2.6-flash-free",
+      "opencode/nemotron-3.5-lightning-free",
+      "opencode/nemotron-3.5-super-vl-free"
+    ],
+    "multimodal_vision": [
+      "evren/deepseek-v4.1-flash",
+      "evren/gemma-4-31b",
+      "evren/glm-5.3",
+      "evren/mimo-v2.6-pro",
+      "evren/qwen3-vl-30b",
+      "evren/qwen3.8-flash-next",
+      "google/antigravity-claude-opus-5-5-high",
+      "google/antigravity-claude-opus-5-5-low",
+      "google/antigravity-claude-opus-5-5-medium",
+      "google/antigravity-claude-sonnet-5-5-high",
+      "google/antigravity-claude-sonnet-5-5-low",
+      "google/antigravity-claude-sonnet-5-5-medium",
+      "google/antigravity-gemini-3.5-flash-lite",
+      "google/antigravity-gemini-3.8-flash-high",
+      "google/antigravity-gemini-3.8-flash-low",
+      "google/antigravity-gemini-3.8-flash-medium",
+      "google/antigravity-gemini-4-argon-high",
+      "google/antigravity-gemini-4-argon-low",
+      "google/antigravity-gemini-4-argon-medium",
+      "google/antigravity-gpt-oss-120b-medium",
+      "opencode/deepseek-v4.1-flash-free",
+      "opencode/glm-5.3-flash-free",
+      "opencode/mimo-v2.6-flash-free",
+      "opencode/nemotron-3.5-super-vl-free"
+    ],
+    "multimodal_pdf": [
+      "google/antigravity-claude-opus-5-5-high",
+      "google/antigravity-claude-opus-5-5-low",
+      "google/antigravity-claude-opus-5-5-medium",
+      "google/antigravity-claude-sonnet-5-5-high",
+      "google/antigravity-claude-sonnet-5-5-low",
+      "google/antigravity-claude-sonnet-5-5-medium",
+      "google/antigravity-gemini-3.5-flash-lite",
+      "google/antigravity-gemini-3.8-flash-high",
+      "google/antigravity-gemini-3.8-flash-low",
+      "google/antigravity-gemini-3.8-flash-medium",
+      "google/antigravity-gemini-4-argon-high",
+      "google/antigravity-gemini-4-argon-low",
+      "google/antigravity-gemini-4-argon-medium",
+      "google/antigravity-gpt-oss-120b-medium"
+    ],
+    "multimodal_audio": [
+      "opencode/mimo-v2.6-flash-free"
+    ],
+    "multimodal_video": [
+      "opencode/glm-5.3-flash-free",
+      "opencode/mimo-v2.6-flash-free"
+    ],
+    "router": [],
+    "image_generation": [],
+    "embedding": []
+  },
+  "endpoint_capabilities": {
+    "evren/deepseek-v4.1-flash": [
+      "text/code",
+      "reasoning",
+      "multimodal",
+      "input_vision"
+    ],
+    "evren/gemma-4-31b": [
+      "text/code",
+      "reasoning",
+      "multimodal",
+      "input_vision"
+    ],
+    "evren/glm-5.3": [
+      "text/code",
+      "reasoning",
+      "multimodal",
+      "input_vision"
+    ],
+    "evren/mimo-v2.6-pro": [
+      "text/code",
+      "reasoning",
+      "multimodal",
+      "input_vision"
+    ],
+    "evren/qwen3-vl-30b": [
+      "text/code",
+      "reasoning",
+      "multimodal",
+      "input_vision"
+    ],
+    "evren/qwen3.8-flash-next": [
+      "text/code",
+      "reasoning",
+      "multimodal",
+      "input_vision"
+    ],
+    "google/antigravity-claude-opus-5-5-high": [
+      "text/code",
+      "reasoning",
+      "multimodal",
+      "input_vision",
+      "input_pdf"
+    ],
+    "google/antigravity-claude-opus-5-5-low": [
+      "text/code",
+      "reasoning",
+      "multimodal",
+      "input_vision",
+      "input_pdf"
+    ],
+    "google/antigravity-claude-opus-5-5-medium": [
+      "text/code",
+      "reasoning",
+      "multimodal",
+      "input_vision",
+      "input_pdf"
+    ],
+    "google/antigravity-claude-sonnet-5-5-high": [
+      "text/code",
+      "multimodal",
+      "input_vision",
+      "input_pdf"
+    ],
+    "google/antigravity-claude-sonnet-5-5-low": [
+      "text/code",
+      "multimodal",
+      "input_vision",
+      "input_pdf"
+    ],
+    "google/antigravity-claude-sonnet-5-5-medium": [
+      "text/code",
+      "multimodal",
+      "input_vision",
+      "input_pdf"
+    ],
+    "google/antigravity-gemini-3.5-flash-lite": [
+      "text/code",
+      "multimodal",
+      "input_vision",
+      "input_pdf"
+    ],
+    "google/antigravity-gemini-3.8-flash-high": [
+      "text/code",
+      "multimodal",
+      "input_vision",
+      "input_pdf"
+    ],
+    "google/antigravity-gemini-3.8-flash-low": [
+      "text/code",
+      "multimodal",
+      "input_vision",
+      "input_pdf"
+    ],
+    "google/antigravity-gemini-3.8-flash-medium": [
+      "text/code",
+      "multimodal",
+      "input_vision",
+      "input_pdf"
+    ],
+    "google/antigravity-gemini-4-argon-high": [
+      "text/code",
+      "reasoning",
+      "multimodal",
+      "input_vision",
+      "input_pdf"
+    ],
+    "google/antigravity-gemini-4-argon-low": [
+      "text/code",
+      "reasoning",
+      "multimodal",
+      "input_vision",
+      "input_pdf"
+    ],
+    "google/antigravity-gemini-4-argon-medium": [
+      "text/code",
+      "reasoning",
+      "multimodal",
+      "input_vision",
+      "input_pdf"
+    ],
+    "google/antigravity-gpt-oss-120b-medium": [
+      "text/code",
+      "reasoning",
+      "multimodal",
+      "input_vision",
+      "input_pdf"
+    ],
+    "opencode/beam-free": [
+      "text/code",
+      "reasoning"
+    ],
+    "opencode/big-pickle": [
+      "text/code",
+      "reasoning"
+    ],
+    "opencode/deepseek-v4.1-flash-free": [
+      "text/code",
+      "reasoning",
+      "multimodal",
+      "input_vision"
+    ],
+    "opencode/flint-40b-free": [
+      "text/code",
+      "reasoning"
+    ],
+    "opencode/glm-5.3-flash-free": [
+      "text/code",
+      "reasoning",
+      "multimodal",
+      "input_vision",
+      "input_video"
+    ],
+    "opencode/mimo-v2.6-flash-free": [
+      "text/code",
+      "reasoning",
+      "multimodal",
+      "input_vision",
+      "input_audio",
+      "input_video"
+    ],
+    "opencode/nemotron-3.5-lightning-free": [
+      "text/code",
+      "reasoning"
+    ],
+    "opencode/nemotron-3.5-super-vl-free": [
+      "text/code",
+      "reasoning",
+      "multimodal",
+      "input_vision"
+    ]
+  }
+}

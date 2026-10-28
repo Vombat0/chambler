@@ -1,0 +1,539 @@
+{
+  "task_id": "RES-03",
+  "wbs_id": "0.2",
+  "phase_id": "PRE",
+  "researched_at": "2026-10-28",
+  "researcher_provider": "opencode",
+  "researcher_model": "glm-5.3-flash-free",
+  "methodology_note": "Kimlik dogrulama kaynaklari: opencode.ai/docs/zen (resmi), models.dev api.json ve models.opencode.ai (canli katalog), vendor blog/model kartlari, ucuncu taraf degerlendirmeler. Yalnizca big-pickle UNVERIFIED (OpenCode bilincli olarak stealth); diger 7 model dogrulandi. Benchmark skorlari farkli harness/vendor'lardan geldiginden dogrudan karsilastirilamaz; '*' = vendor raporu.",
+  "models": [
+    {
+      "endpoint_id": "opencode/beam-free",
+      "identity_verification": "VERIFIED_NOT_CLAUDE_SONNET_5_5",
+      "base_model_id": "Reflection AI Beam 1.0 (reflection/Beam-1.0-501B-A23B)",
+      "identity_evidence": "models.opencode.ai, beam-free id'sini 'Beam 1.0 501B A23B reflection/beam-1.0-501b-a23b' etiketiyle listeler; Reflection AI resmi blog ve HF agirliklari (Apache 2.0) acik; OpenCode 2026-10-16'da gizli 'Cat Jam Free' kod adini public 'Beam Free' olarak yeniden adlandirdi (PR #55993).",
+      "architecture": "MoE: 501B toplam / 23.4B aktif; 1M context",
+      "context_limit": 1048576,
+      "output_limit": 131072,
+      "reasoning": true,
+      "tool_calling": true,
+      "structured_output": true,
+      "multimodal_inputs": [
+        "text"
+      ],
+      "knowledge_cutoff": "2026-06-30 (models.dev)",
+      "release_date": "2026-10-05",
+      "benchmarks": [
+        {
+          "name": "SWE-bench Verified",
+          "score": "81.6% (BF16)",
+          "source": "Reflection model karti",
+          "url": "https://huggingface.co/reflection/Beam-1.0-501B-A23B"
+        },
+        {
+          "name": "Terminal-Bench 2.1",
+          "score": "80.1% (BF16)",
+          "source": "Reflection model karti",
+          "url": "https://huggingface.co/reflection/Beam-1.0-501B-A23B"
+        },
+        {
+          "name": "SWE-bench Pro v1",
+          "score": "66.1% (BF16)",
+          "source": "Reflection model karti",
+          "url": "https://huggingface.co/reflection/Beam-1.0-501B-A23B"
+        },
+        {
+          "name": "SWE-bench Pro v2-Hard",
+          "score": "76.5-78.6% (precision'a gore)",
+          "source": "Reflection model karti",
+          "url": "https://huggingface.co/reflection/Beam-1.0-501B-A23B"
+        },
+        {
+          "name": "DeepSWE v1.1",
+          "score": "43.3-44.4% (harness farki)",
+          "source": "Reflection model karti / blog",
+          "url": "https://reflection.ai/blog/introducing-beam"
+        },
+        {
+          "name": "SWE Atlas Codebase QnA",
+          "score": "31.8-34.6%",
+          "source": "Reflection model karti / Turing Post",
+          "url": "https://huggingface.co/reflection/Beam-1.0-501B-A23B"
+        },
+        {
+          "name": "AutomationBench-AA",
+          "score": "48.5%",
+          "source": "Artificial Analysis (bagimsiz)",
+          "url": "https://artificialanalysis.ai/articles/reflection-beam"
+        },
+        {
+          "name": "Terminal-Bench 4.0",
+          "score": "3.0% (bilinen zafiyet)",
+          "source": "Artificial Analysis (bagimsiz)",
+          "url": "https://artificialanalysis.ai/articles/reflection-beam"
+        }
+      ],
+      "known_weaknesses": "AA'ya gore Terminal-Bench 4.0 cok zayif; yuksek halusinasyon orani (47%, K2 Horizon 26%); agirkliyor (501B) - OpenCode uzerinden servis ediliyor ama maliyet/kapasite riskleri provider tarafinda",
+      "free_tier": {
+        "price": "Free (sinirli sure)",
+        "data_policy": "Egitimde KULLANILMAZ; veri guvenlik icin 30 gun saklanir; Cin (HK/Macau dahil), Rusya, Iran, K.Kore vb. ulkelerde kullanilamaz",
+        "rate_limits": "UNKNOWN (dokumantasyonda kota yayinlanmiyor)"
+      },
+      "sources": [
+        "https://opencode.ai/docs/zen",
+        "https://reflection.ai/blog/introducing-beam",
+        "https://huggingface.co/reflection/Beam-1.0-501B-A23B",
+        "https://models.opencode.ai/providers/opencode/",
+        "https://www.orcarouter.ai/blog/beam-1-0-free-opencode-1m-context",
+        "https://artificialanalysis.ai/articles/reflection-beam"
+      ],
+      "suitability": {
+        "ag_mimari": 4,
+        "fizik_3d": 4,
+        "arayuz": 4,
+        "test_qa": 3,
+        "dokumantasyon": 4,
+        "inceleme": 4
+      }
+    },
+    {
+      "endpoint_id": "opencode/big-pickle",
+      "identity_verification": "UNVERIFIED",
+      "base_model_id": "UNKNOWN - OpenCode resmi olarak 'stealth model' diyor, kimligi aciklanmiyor",
+      "identity_evidence": "Zen dokumantasyonu: 'Big Pickle is a stealth model'. Grokipedia: topluluk ve bir OpenCode maintainer'in onceden GLM-4.6 (Zhipu) olarak tanimladigini, ancak altta yatan modelin periyodik donusturuldugunu ve guncel kimligin aciklanmadigini yaziyor. Ucuncu taraf SWE Atlas testinde de kimlik gizliydi. Claude Sonnet 5.5 olduguna dair hicbir kanit yok; STEALTH oldugu icin olmadigini da kanitlamak mumkun degil.",
+      "architecture": "UNKNOWN",
+      "context_limit": 200000,
+      "output_limit": 32000,
+      "reasoning": true,
+      "tool_calling": true,
+      "structured_output": true,
+      "multimodal_inputs": [
+        "text"
+      ],
+      "knowledge_cutoff": "2025-01 (models.dev kaydi, guvenilirlik dusuk)",
+      "release_date": "2025-10-17 (models.dev)",
+      "benchmarks": [
+        {
+          "name": "SWE Atlas Codebase QnA (mini-swe-agent)",
+          "score": "50.8% (63/124)",
+          "source": "Bagimsiz ucuncu taraf degerlendirme, 2026-08-11, acik kaynak harness + verifier loglari",
+          "url": "https://github.com/PhillipChaffee/big-pickle-swe-atlas"
+        }
+      ],
+      "known_weaknesses": "Kimlik bilinmedigi ve model periyodik rotasyonla degistiginden kalite degiskendir; 32K output limiti dusuk; kimligi bilinmediginden yetenek puanlari tekil ucuncu taraf testine dayanir",
+      "free_tier": {
+        "price": "Free (sinirli sure)",
+        "data_policy": "KET: serbest donemde toplanan veri modeli gelistirmek icin kullanilabilir - gizli kod gonderme",
+        "rate_limits": "UNKNOWN"
+      },
+      "sources": [
+        "https://opencode.ai/docs/zen",
+        "https://github.com/PhillipChaffee/big-pickle-swe-atlas"
+      ],
+      "suitability": {
+        "ag_mimari": 3,
+        "fizik_3d": 3,
+        "arayuz": 3,
+        "test_qa": 3,
+        "dokumantasyon": 3,
+        "inceleme": 3
+      }
+    },
+    {
+      "endpoint_id": "opencode/deepseek-v4.1-flash-free",
+      "identity_verification": "VERIFIED_NOT_CLAUDE_SONNET_5_5",
+      "base_model_id": "DeepSeek V4.1 Flash (DeepSeek)",
+      "identity_evidence": "Resmi zen dokumantasyonu modeli 'DeepSeek V4.1 Flash Free' olarak listeler; models.dev lab atamasi deepseek-flash family. 'free' sadece OpenCode fiyatlandirma katmanidir; base, ucretli 'deepseek-v4.1-flash' ile ayni ailedir.",
+      "architecture": "UNKNOWN detay (200K context; DeepSeek V4 serisi)",
+      "context_limit": 200000,
+      "output_limit": 32000,
+      "reasoning": true,
+      "tool_calling": true,
+      "structured_output": true,
+      "multimodal_inputs": [
+        "text",
+        "image"
+      ],
+      "knowledge_cutoff": "2025-05 (models.dev)",
+      "release_date": "2026-09-10 (models.dev)",
+      "benchmarks": [
+        {
+          "name": "Terminal-Bench 2.1",
+          "score": "90.6 (vendor)",
+          "source": "DeepSeek vendor skoru, Beam blog karsilastirma tablosu uzerinden; ayrica vendor raporu",
+          "url": "https://www.eesel.ai/blog/reflection-ai-beam"
+        },
+        {
+          "name": "DeepSWE v1.1",
+          "score": "74.2 (vendor)",
+          "source": "Turing Post tablosu (vendor raporu)",
+          "url": "https://www.turingpost.com/p/reflection-s-flop-pardon-beam-the-global-frontier-remains-ahead"
+        },
+        {
+          "name": "SWE-bench Verified",
+          "score": "82.9 (vendor)",
+          "source": "Turing Post tablosu (vendor raporu)",
+          "url": "https://www.turingpost.com/p/reflection-s-flop-pardon-beam-the-global-frontier-remains-ahead"
+        },
+        {
+          "name": "SWE-bench Multilingual",
+          "score": "98.2 (vendor)",
+          "source": "Turing Post tablosu (vendor raporu)",
+          "url": "https://www.turingpost.com/p/reflection-s-flop-pardon-beam-the-global-frontier-remains-ahead"
+        },
+        {
+          "name": "SWE Atlas Codebase QnA",
+          "score": "53.5 (vendor)",
+          "source": "Turing Post tablosu (vendor raporu)",
+          "url": "https://www.turingpost.com/p/reflection-s-flop-pardon-beam-the-global-frontier-remains-ahead"
+        }
+      ],
+      "known_weaknesses": "Bagimsiz (vendor disi) kod benchmark skoru bulunamadi; skorlar vendor kaynakli ve ayar/tarih belirsizligi var; 32K output limiti",
+      "free_tier": {
+        "price": "Free (sinirli sure)",
+        "data_policy": "ZERO-RETENTION: egitimde kullanilmiyor, saklama yok",
+        "rate_limits": "UNKNOWN"
+      },
+      "sources": [
+        "https://opencode.ai/docs/zen",
+        "https://www.eesel.ai/blog/reflection-ai-beam",
+        "https://www.turingpost.com/p/reflection-s-flop-pardon-beam-the-global-frontier-remains-ahead"
+      ],
+      "suitability": {
+        "ag_mimari": 4,
+        "fizik_3d": 3,
+        "arayuz": 3,
+        "test_qa": 4,
+        "dokumantasyon": 3,
+        "inceleme": 4
+      }
+    },
+    {
+      "endpoint_id": "opencode/flint-40b-free",
+      "identity_verification": "VERIFIED_NOT_CLAUDE_SONNET_5_5",
+      "base_model_id": "Recursive Flint 40B-A2.5B (recursive/flint, RecursiveSI/flint on HF)",
+      "identity_evidence": "models.dev, flint-40b-free model id'sini lab 'Recursive' altina bagliyor; agirliklar HF'de acik (Apache 2.0); TechCrunch haberi ve Ollama model karti bagimsiz dogruluyor.",
+      "architecture": "MoE: 39.8B toplam / ~2.5B aktif per token; 262K context",
+      "context_limit": 262144,
+      "output_limit": 65536,
+      "reasoning": true,
+      "tool_calling": true,
+      "structured_output": true,
+      "multimodal_inputs": [
+        "text"
+      ],
+      "knowledge_cutoff": "2026-06 (models.dev)",
+      "release_date": "2026-10-21",
+      "benchmarks": [
+        {
+          "name": "SWE-bench Verified (mini-swe-agent)",
+          "score": "74.2% (vendor, avg pass@1 >=5 deneme)",
+          "source": "Recursive model karti",
+          "url": "https://huggingface.co/RecursiveSI/flint"
+        },
+        {
+          "name": "Terminal-Bench 2.1 (Terminus 2)",
+          "score": "54.9% (vendor)",
+          "source": "Recursive model karti",
+          "url": "https://huggingface.co/RecursiveSI/flint"
+        },
+        {
+          "name": "SWE-bench Pro v2",
+          "score": "89.7% (vendor)",
+          "source": "Recursive model karti",
+          "url": "https://huggingface.co/RecursiveSI/flint"
+        },
+        {
+          "name": "LiveCodeBench v6",
+          "score": "80.3% (vendor) / 82.2% (bagimsiz 45-problem orneklem)",
+          "source": "DataCraftsmanAU bagimsiz eval, 2026-10-22",
+          "url": "https://raw.githubusercontent.com/DataCraftsmanAU/flint-independent-eval/main/README.md"
+        },
+        {
+          "name": "IFBench",
+          "score": "89.2%",
+          "source": "Recursive model karti",
+          "url": "https://huggingface.co/RecursiveSI/flint"
+        }
+      ],
+      "known_weaknesses": "40B kume agirlikli oldugundan cok buyuk kod tabanlarinda derinlik sinirli olabilir; Terminal-Bench skoru ayni siniftaki 70B+ modellerin altinda; vendor skorlarina bagimli",
+      "free_tier": {
+        "price": "Free (sinirli sure)",
+        "data_policy": "KET: serbest donemde veri egitim/iyilestirme icin KULLANILABILIR + 30 gun saklanir - gizli kod gonderme",
+        "rate_limits": "UNKNOWN"
+      },
+      "sources": [
+        "https://opencode.ai/docs/zen",
+        "https://huggingface.co/RecursiveSI/flint",
+        "https://models.dev/models/recursive/flint/",
+        "https://techcrunch.com/2026/10/21/recursive-launches-flint-a-laptop-coding-model-it-says-was-largely-built-by-ai",
+        "https://raw.githubusercontent.com/DataCraftsmanAU/flint-independent-eval/main/README.md"
+      ],
+      "suitability": {
+        "ag_mimari": 3,
+        "fizik_3d": 3,
+        "arayuz": 3,
+        "test_qa": 4,
+        "dokumantasyon": 3,
+        "inceleme": 3
+      }
+    },
+    {
+      "endpoint_id": "opencode/glm-5.3-flash-free",
+      "identity_verification": "VERIFIED_NOT_CLAUDE_SONNET_5_5",
+      "base_model_id": "Z.ai (Zhipu) GLM-5.3-Flash",
+      "identity_evidence": "Resmi Z.ai blogu (GLM-5.3-Flash duyurusu) ve doc.z.ai; ocgo-pricing tablosu 'GLM-5.3-Flash Free Z.ai' etiketi veriyor; models.dev lab atamasi glm-flash family.",
+      "architecture": "MoE: 320B toplam / 18B aktif; hibrit (linear + sparse) attention; natively multimodal",
+      "context_limit": 200000,
+      "output_limit": 32000,
+      "reasoning": true,
+      "tool_calling": true,
+      "structured_output": true,
+      "multimodal_inputs": [
+        "text",
+        "image",
+        "video"
+      ],
+      "knowledge_cutoff": "UNKNOWN",
+      "release_date": "2026-08-26",
+      "benchmarks": [
+        {
+          "name": "Terminal-Bench 2.1",
+          "score": "84.3 (vendor)",
+          "source": "Z.ai resmi blog",
+          "url": "https://z.ai/blog/glm-5.3-flash"
+        },
+        {
+          "name": "DeepSWE v1.1 (mini-swe-agent, temp 0.95)",
+          "score": "63.4 (vendor)",
+          "source": "Z.ai resmi blog",
+          "url": "https://z.ai/blog/glm-5.3-flash"
+        },
+        {
+          "name": "SWE-bench (Vals AI)",
+          "score": "92.0% +/-1.21",
+          "source": "Vals AI bagimsiz",
+          "url": "https://www.vals.ai/models/zai_glm-5.3-flash"
+        },
+        {
+          "name": "LiveCodeBench (Vals)",
+          "score": "80.5",
+          "source": "benchlm GLM-5.3 vs Flash karsilastirma",
+          "url": "https://benchlm.ai/compare/glm-5-3-vs-glm-5-3-flash"
+        },
+        {
+          "name": "Terminal-Bench 4.0 (Vals)",
+          "score": "37.37% +/-2.67",
+          "source": "Vals AI bagimsiz",
+          "url": "https://www.vals.ai/models/zai_glm-5.3-flash"
+        },
+        {
+          "name": "AutomationBench v1.0.6",
+          "score": "48.8 (vendor)",
+          "source": "Z.ai resmi blog",
+          "url": "https://z.ai/blog/glm-5.3-flash"
+        },
+        {
+          "name": "Vals Index (genel)",
+          "score": "50.86 (#23/28)",
+          "source": "Vals AI",
+          "url": "https://www.vals.ai/models/zai_glm-5.3-flash"
+        }
+      ],
+      "known_weaknesses": "Output limiti 32K ile dusuk; 18B aktif parametre sinifi en buyuk is yuklerinde frontier modellerle ayni derinlikte degil; Vals Terminal-Bench 4.0 skoru zayif",
+      "free_tier": {
+        "price": "Free (sinirli sure)",
+        "data_policy": "ZERO-RETENTION: egitimde KULLANILMAZ, saklama yok",
+        "rate_limits": "UNKNOWN"
+      },
+      "sources": [
+        "https://opencode.ai/docs/zen",
+        "https://z.ai/blog/glm-5.3-flash",
+        "https://www.vals.ai/models/zai_glm-5.3-flash",
+        "https://benchlm.ai/compare/glm-5-3-vs-glm-5-3-flash"
+      ],
+      "suitability": {
+        "ag_mimari": 4,
+        "fizik_3d": 3,
+        "arayuz": 4,
+        "test_qa": 4,
+        "dokumantasyon": 3,
+        "inceleme": 4
+      }
+    },
+    {
+      "endpoint_id": "opencode/mimo-v2.6-flash-free",
+      "identity_verification": "VERIFIED_NOT_CLAUDE_SONNET_5_5",
+      "base_model_id": "Xiaomi MiMo-V2.6-Flash",
+      "identity_evidence": "Xiaomi'nin resmi RL yayini (mimo.xiaomi.com/rl) model ismini kullaniyor; benchlm ve llm-stats sayfalari 'Creator: Xiaomi'; OpenCode zen docs 'MiMo-V2.6-Flash Free'.",
+      "architecture": "UNKNOWN detay (Xiaomi MiMo V2.6 ailesi MOE e-yaklasik, model ozellikleri tam aciklanmadi)",
+      "context_limit": 200000,
+      "output_limit": 32000,
+      "reasoning": true,
+      "tool_calling": true,
+      "structured_output": true,
+      "multimodal_inputs": [
+        "text",
+        "image",
+        "audio",
+        "video"
+      ],
+      "knowledge_cutoff": "UNKNOWN",
+      "release_date": "2026-09-22 (models.dev)",
+      "benchmarks": [
+        {
+          "name": "DeepSWE v1.1 (mini-swe-agent, avg@3)",
+          "score": "65.68",
+          "source": "Xiaomi resmi RL sayfasi (vendor, acik yayin)",
+          "url": "https://mimo.xiaomi.com/rl"
+        },
+        {
+          "name": "In-house Coding Bench (avg@3)",
+          "score": "62.87",
+          "source": "Xiaomi resmi RL sayfasi (vendor, in-house metodoloji)",
+          "url": "https://mimo.xiaomi.com/rl"
+        },
+        {
+          "name": "AutomationBench v1.0.6 (avg@3)",
+          "score": "52.70",
+          "source": "Xiaomi resmi RL sayfasi",
+          "url": "https://mimo.xiaomi.com/rl"
+        },
+        {
+          "name": "Terminal-Bench 2.1",
+          "score": "87.6%",
+          "source": "benchlm karsilastirma tablosu",
+          "url": "https://benchlm.ai/compare/mimo-v2-6-flash-vs-nemotron-3-5-bolt-74b-a9b"
+        },
+        {
+          "name": "AI Benchy (mini-bench ort.)",
+          "score": "5.4 avg, 47.8% pass, 6.2s ort. yanit",
+          "source": "aibenchy karsilastirma, 2026-10-26",
+          "url": "https://aibenchy.com/compare/nvidia-nemotron-3-5-lightning-high/xiaomi-mimo-v2-6-flash-none"
+        }
+      ],
+      "known_weaknesses": "Model boyutu/mimarisi aciklanmadi; vendor disi kod benchmarklari sinirli; in-house benchmarklarda vendor kontrolu var; 32K output limiti",
+      "free_tier": {
+        "price": "Free (sinirli sure)",
+        "data_policy": "KET: serbest donemde veriler gelistirmek icin kullanilabilir - gizli kod gonderme",
+        "rate_limits": "UNKNOWN"
+      },
+      "sources": [
+        "https://opencode.ai/docs/zen",
+        "https://mimo.xiaomi.com/rl",
+        "https://benchlm.ai/compare/mimo-v2-6-flash-vs-nemotron-3-5-bolt-74b-a9b",
+        "https://aibenchy.com/compare/nvidia-nemotron-3-5-lightning-high/xiaomi-mimo-v2-6-flash-none"
+      ],
+      "suitability": {
+        "ag_mimari": 3,
+        "fizik_3d": 2,
+        "arayuz": 4,
+        "test_qa": 3,
+        "dokumantasyon": 3,
+        "inceleme": 3
+      }
+    },
+    {
+      "endpoint_id": "opencode/nemotron-3.5-lightning-free",
+      "identity_verification": "VERIFIED_NOT_CLAUDE_SONNET_5_5",
+      "base_model_id": "NVIDIA Nemotron 3.5 Lightning (30B-A3B sinifi)",
+      "identity_evidence": "Zen dokumantasyonu 'Nemotron 3.5 Lightning Free (NVIDIA free endpoints)' yaziyor; NVIDIA resmi teknik raporu ve benchlm 'Creator: NVIDIA', model karti büyük olasilikle dogrudan dogruluyor.",
+      "architecture": "MoE hibrit Mamba-Transformer, ~30B toplam / ~3B aktif",
+      "context_limit": 262144,
+      "output_limit": 262144,
+      "reasoning": true,
+      "tool_calling": true,
+      "structured_output": true,
+      "multimodal_inputs": [
+        "text"
+      ],
+      "knowledge_cutoff": "2025-09 (models.dev)",
+      "release_date": "2026-08-11 (models.dev)",
+      "benchmarks": [
+        {
+          "name": "benchlm independent public score",
+          "score": "24.8 (alt sinif)",
+          "source": "benchlm, 2026-10-27",
+          "url": "https://benchlm.ai/compare/mimo-v2-6-pro-vs-nemotron-3-5-lightning-30b-a3b-nvfp4"
+        },
+        {
+          "name": "AI Benchy mini-bench",
+          "score": "5.2 avg, 30.4% pass, 77s ort. yanit",
+          "source": "aibenchy karsilastirma, 2026-10-26",
+          "url": "https://aibenchy.com/compare/nvidia-nemotron-3-5-lightning-high/xiaomi-mimo-v2-6-flash-none"
+        }
+      ],
+      "known_weaknesses": "Kod agent/quality benchmarklari MiMo-V2.6-Flash'in belirgin sekilde altinda; yavas (77s vs 6.2s) ve 30.4% pass; kod islerinde guclu bir aday DEGIL",
+      "free_tier": {
+        "price": "Free (sinirli sure)",
+        "data_policy": "KET (NVIDIA Trial ToS): veriler guvenlik ve urun gelistirme icin KULLANILIYOR; gizli ya da kisisel veri gonderme (trial terms)",
+        "rate_limits": "UNKNOWN"
+      },
+      "sources": [
+        "https://opencode.ai/docs/zen",
+        "https://benchlm.ai/compare/mimo-v2-6-pro-vs-nemotron-3-5-lightning-30b-a3b-nvfp4",
+        "https://aibenchy.com/compare/nvidia-nemotron-3-5-lightning-high/xiaomi-mimo-v2-6-flash-none",
+        "https://research.nvidia.com/labs/nemotron/files/NVIDIA-Nemotron-3.5-Super-and-Lightning-Technical-Report.pdf"
+      ],
+      "suitability": {
+        "ag_mimari": 2,
+        "fizik_3d": 2,
+        "arayuz": 2,
+        "test_qa": 2,
+        "dokumantasyon": 3,
+        "inceleme": 2
+      }
+    },
+    {
+      "endpoint_id": "opencode/nemotron-3.5-super-vl-free",
+      "identity_verification": "VERIFIED_NOT_CLAUDE_SONNET_5_5",
+      "base_model_id": "NVIDIA Nemotron 3.5 Super VL (120B-A12B)",
+      "identity_evidence": "Zen dokumantasyonu 'Nemotron 3.5 Super VL Free (NVIDIA free endpoints)'; NVIDIA X duyurusu (@NVIDIAAI, 2026-10-15) ve benchlm sayfa 'Creator: NVIDIA'.",
+      "architecture": "MoE hibrit Mamba-Transformer, ~120B-A12B, vision-language",
+      "context_limit": 1048576,
+      "output_limit": 131072,
+      "reasoning": true,
+      "tool_calling": true,
+      "structured_output": true,
+      "multimodal_inputs": [
+        "text",
+        "image"
+      ],
+      "knowledge_cutoff": "UNKNOWN",
+      "release_date": "2026-10-15",
+      "benchmarks": [
+        {
+          "name": "benchlm independent public score",
+          "score": "49.23",
+          "source": "benchlm, 2026-10-27",
+          "url": "https://benchlm.ai/compare/mimo-v2-6-pro-vs-nemotron-3-5-super-vl-120b-a12b"
+        },
+        {
+          "name": "SWE-bench Pro",
+          "score": "UNKNOWN (skor yayinlanmadi, sadece 'strong accuracy' ifadesi mevcut)",
+          "source": "NVIDIA X duyurusu",
+          "url": "https://x.com/NVIDIAAI/status/2110749840141652118"
+        }
+      ],
+      "known_weaknesses": "Kod benchmarklari sinirli ve spesifik sayilar yayinlanmadi; avantaji 1M context + vision; gizlilik aciklamasi en dar seviyede (NVIDIA Trial)",
+      "free_tier": {
+        "price": "Free (sinirli sure)",
+        "data_policy": "KET (NVIDIA Trial ToS): trial use only; gizli/kisisel veri gonderme; log session verisi urun iyilestirme icin kullaniliyor",
+        "rate_limits": "UNKNOWN"
+      },
+      "sources": [
+        "https://opencode.ai/docs/zen",
+        "https://benchlm.ai/compare/mimo-v2-6-pro-vs-nemotron-3-5-super-vl-120b-a12b",
+        "https://x.com/NVIDIAAI/status/2110749840141652118"
+      ],
+      "suitability": {
+        "ag_mimari": 2,
+        "fizik_3d": 3,
+        "arayuz": 3,
+        "test_qa": 3,
+        "dokumantasyon": 3,
+        "inceleme": 3
+      }
+    }
+  ]
+}

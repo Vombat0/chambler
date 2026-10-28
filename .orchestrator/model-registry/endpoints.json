@@ -1,0 +1,742 @@
+{
+  "summary": {
+    "live_endpoint_count": 28,
+    "verified_available_models": 28,
+    "ineligible_models": 3,
+    "orchestrator_excluded_models": 3,
+    "assignable_models": 25
+  },
+  "orchestrator_isolation": {
+    "orchestrator_provider": "google",
+    "orchestrator_model_id": "antigravity-claude-sonnet-5-5-medium",
+    "orchestrator_base_model": "claude-sonnet-5-5",
+    "excluded_endpoints": [
+      "google/antigravity-claude-sonnet-5-5-high",
+      "google/antigravity-claude-sonnet-5-5-low",
+      "google/antigravity-claude-sonnet-5-5-medium"
+    ]
+  },
+  "endpoints": [
+    {
+      "endpoint_id": "evren/deepseek-v4.1-flash",
+      "provider_id": "evren",
+      "model_id": "deepseek-v4.1-flash",
+      "display_name": "DeepSeek V4.1 Flash",
+      "base_model_id": "deepseek-v4.1-flash",
+      "context_limit": 200000,
+      "output_limit": 32000,
+      "variants": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "capability_classes": [
+        "text/code",
+        "reasoning",
+        "multimodal"
+      ],
+      "multimodal_inputs": [
+        "vision"
+      ],
+      "tools_supported": true,
+      "is_router": false,
+      "router_status": "DIRECT",
+      "assignable": true,
+      "exclusion_reason": null,
+      "status": "active"
+    },
+    {
+      "endpoint_id": "evren/gemma-4-31b",
+      "provider_id": "evren",
+      "model_id": "gemma-4-31b",
+      "display_name": "Gemma 4 31B",
+      "base_model_id": "gemma-4-31b",
+      "context_limit": 200000,
+      "output_limit": 32000,
+      "variants": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "capability_classes": [
+        "text/code",
+        "reasoning",
+        "multimodal"
+      ],
+      "multimodal_inputs": [
+        "vision"
+      ],
+      "tools_supported": true,
+      "is_router": false,
+      "router_status": "DIRECT",
+      "assignable": true,
+      "exclusion_reason": null,
+      "status": "active"
+    },
+    {
+      "endpoint_id": "evren/glm-5.3",
+      "provider_id": "evren",
+      "model_id": "glm-5.3",
+      "display_name": "GLM 5.3",
+      "base_model_id": "glm-5.3",
+      "context_limit": 200000,
+      "output_limit": 32000,
+      "variants": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "capability_classes": [
+        "text/code",
+        "reasoning",
+        "multimodal"
+      ],
+      "multimodal_inputs": [
+        "vision"
+      ],
+      "tools_supported": true,
+      "is_router": false,
+      "router_status": "DIRECT",
+      "assignable": true,
+      "exclusion_reason": null,
+      "status": "active"
+    },
+    {
+      "endpoint_id": "evren/mimo-v2.6-pro",
+      "provider_id": "evren",
+      "model_id": "mimo-v2.6-pro",
+      "display_name": "Mimo V2.6 Pro",
+      "base_model_id": "mimo-v2.6",
+      "context_limit": 200000,
+      "output_limit": 32000,
+      "variants": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "capability_classes": [
+        "text/code",
+        "reasoning",
+        "multimodal"
+      ],
+      "multimodal_inputs": [
+        "vision"
+      ],
+      "tools_supported": true,
+      "is_router": false,
+      "router_status": "DIRECT",
+      "assignable": true,
+      "exclusion_reason": null,
+      "status": "active"
+    },
+    {
+      "endpoint_id": "evren/qwen3-vl-30b",
+      "provider_id": "evren",
+      "model_id": "qwen3-vl-30b",
+      "display_name": "Qwen3 VL 30B",
+      "base_model_id": "qwen3-vl-30b",
+      "context_limit": 200000,
+      "output_limit": 32000,
+      "variants": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "capability_classes": [
+        "text/code",
+        "reasoning",
+        "multimodal"
+      ],
+      "multimodal_inputs": [
+        "vision"
+      ],
+      "tools_supported": true,
+      "is_router": false,
+      "router_status": "DIRECT",
+      "assignable": true,
+      "exclusion_reason": null,
+      "status": "active"
+    },
+    {
+      "endpoint_id": "evren/qwen3.8-flash-next",
+      "provider_id": "evren",
+      "model_id": "qwen3.8-flash-next",
+      "display_name": "Qwen3.8 Flash Next",
+      "base_model_id": "qwen3.8-flash-next",
+      "context_limit": 200000,
+      "output_limit": 32000,
+      "variants": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "capability_classes": [
+        "text/code",
+        "reasoning",
+        "multimodal"
+      ],
+      "multimodal_inputs": [
+        "vision"
+      ],
+      "tools_supported": true,
+      "is_router": false,
+      "router_status": "DIRECT",
+      "assignable": true,
+      "exclusion_reason": null,
+      "status": "active"
+    },
+    {
+      "endpoint_id": "google/antigravity-claude-opus-5-5-high",
+      "provider_id": "google",
+      "model_id": "antigravity-claude-opus-5-5-high",
+      "display_name": "Claude Opus 5.5 (High) (Antigravity)",
+      "base_model_id": "claude-opus-5-5",
+      "context_limit": 1000000,
+      "output_limit": 128000,
+      "variants": [],
+      "capability_classes": [
+        "text/code",
+        "reasoning",
+        "multimodal"
+      ],
+      "multimodal_inputs": [
+        "vision",
+        "pdf"
+      ],
+      "tools_supported": true,
+      "is_router": false,
+      "router_status": "DIRECT",
+      "assignable": true,
+      "exclusion_reason": null,
+      "status": "active"
+    },
+    {
+      "endpoint_id": "google/antigravity-claude-opus-5-5-low",
+      "provider_id": "google",
+      "model_id": "antigravity-claude-opus-5-5-low",
+      "display_name": "Claude Opus 5.5 (Low) (Antigravity)",
+      "base_model_id": "claude-opus-5-5",
+      "context_limit": 1000000,
+      "output_limit": 128000,
+      "variants": [],
+      "capability_classes": [
+        "text/code",
+        "reasoning",
+        "multimodal"
+      ],
+      "multimodal_inputs": [
+        "vision",
+        "pdf"
+      ],
+      "tools_supported": true,
+      "is_router": false,
+      "router_status": "DIRECT",
+      "assignable": true,
+      "exclusion_reason": null,
+      "status": "active"
+    },
+    {
+      "endpoint_id": "google/antigravity-claude-opus-5-5-medium",
+      "provider_id": "google",
+      "model_id": "antigravity-claude-opus-5-5-medium",
+      "display_name": "Claude Opus 5.5 (Medium) (Antigravity)",
+      "base_model_id": "claude-opus-5-5",
+      "context_limit": 1000000,
+      "output_limit": 128000,
+      "variants": [],
+      "capability_classes": [
+        "text/code",
+        "reasoning",
+        "multimodal"
+      ],
+      "multimodal_inputs": [
+        "vision",
+        "pdf"
+      ],
+      "tools_supported": true,
+      "is_router": false,
+      "router_status": "DIRECT",
+      "assignable": true,
+      "exclusion_reason": null,
+      "status": "active"
+    },
+    {
+      "endpoint_id": "google/antigravity-claude-sonnet-5-5-high",
+      "provider_id": "google",
+      "model_id": "antigravity-claude-sonnet-5-5-high",
+      "display_name": "Claude Sonnet 5.5 (High) (Antigravity)",
+      "base_model_id": "claude-sonnet-5-5",
+      "context_limit": 1000000,
+      "output_limit": 128000,
+      "variants": [],
+      "capability_classes": [
+        "text/code",
+        "multimodal"
+      ],
+      "multimodal_inputs": [
+        "vision",
+        "pdf"
+      ],
+      "tools_supported": true,
+      "is_router": false,
+      "router_status": "DIRECT",
+      "assignable": false,
+      "exclusion_reason": "ORCHESTRATOR_EXCLUDED: Matches orchestrator base model Claude Sonnet 5.5 (Absolute Model Isolation Rule)",
+      "status": "active"
+    },
+    {
+      "endpoint_id": "google/antigravity-claude-sonnet-5-5-low",
+      "provider_id": "google",
+      "model_id": "antigravity-claude-sonnet-5-5-low",
+      "display_name": "Claude Sonnet 5.5 (Low) (Antigravity)",
+      "base_model_id": "claude-sonnet-5-5",
+      "context_limit": 1000000,
+      "output_limit": 128000,
+      "variants": [],
+      "capability_classes": [
+        "text/code",
+        "multimodal"
+      ],
+      "multimodal_inputs": [
+        "vision",
+        "pdf"
+      ],
+      "tools_supported": true,
+      "is_router": false,
+      "router_status": "DIRECT",
+      "assignable": false,
+      "exclusion_reason": "ORCHESTRATOR_EXCLUDED: Matches orchestrator base model Claude Sonnet 5.5 (Absolute Model Isolation Rule)",
+      "status": "active"
+    },
+    {
+      "endpoint_id": "google/antigravity-claude-sonnet-5-5-medium",
+      "provider_id": "google",
+      "model_id": "antigravity-claude-sonnet-5-5-medium",
+      "display_name": "Claude Sonnet 5.5 (Medium) (Antigravity)",
+      "base_model_id": "claude-sonnet-5-5",
+      "context_limit": 1000000,
+      "output_limit": 128000,
+      "variants": [],
+      "capability_classes": [
+        "text/code",
+        "multimodal"
+      ],
+      "multimodal_inputs": [
+        "vision",
+        "pdf"
+      ],
+      "tools_supported": true,
+      "is_router": false,
+      "router_status": "DIRECT",
+      "assignable": false,
+      "exclusion_reason": "ORCHESTRATOR_EXCLUDED: Matches orchestrator base model Claude Sonnet 5.5 (Absolute Model Isolation Rule)",
+      "status": "active"
+    },
+    {
+      "endpoint_id": "google/antigravity-gemini-3.5-flash-lite",
+      "provider_id": "google",
+      "model_id": "antigravity-gemini-3.5-flash-lite",
+      "display_name": "Gemini 3.5 Flash Lite (Antigravity)",
+      "base_model_id": "gemini-3.5-flash-lite",
+      "context_limit": 1048576,
+      "output_limit": 65535,
+      "variants": [],
+      "capability_classes": [
+        "text/code",
+        "multimodal"
+      ],
+      "multimodal_inputs": [
+        "vision",
+        "pdf"
+      ],
+      "tools_supported": true,
+      "is_router": false,
+      "router_status": "DIRECT",
+      "assignable": true,
+      "exclusion_reason": null,
+      "status": "active"
+    },
+    {
+      "endpoint_id": "google/antigravity-gemini-3.8-flash-high",
+      "provider_id": "google",
+      "model_id": "antigravity-gemini-3.8-flash-high",
+      "display_name": "Gemini 3.8 Flash (High) (Antigravity)",
+      "base_model_id": "gemini-3.8-flash",
+      "context_limit": 1048576,
+      "output_limit": 65536,
+      "variants": [],
+      "capability_classes": [
+        "text/code",
+        "multimodal"
+      ],
+      "multimodal_inputs": [
+        "vision",
+        "pdf"
+      ],
+      "tools_supported": true,
+      "is_router": false,
+      "router_status": "DIRECT",
+      "assignable": true,
+      "exclusion_reason": null,
+      "status": "active"
+    },
+    {
+      "endpoint_id": "google/antigravity-gemini-3.8-flash-low",
+      "provider_id": "google",
+      "model_id": "antigravity-gemini-3.8-flash-low",
+      "display_name": "Gemini 3.8 Flash (Low) (Antigravity)",
+      "base_model_id": "gemini-3.8-flash",
+      "context_limit": 1048576,
+      "output_limit": 65536,
+      "variants": [],
+      "capability_classes": [
+        "text/code",
+        "multimodal"
+      ],
+      "multimodal_inputs": [
+        "vision",
+        "pdf"
+      ],
+      "tools_supported": true,
+      "is_router": false,
+      "router_status": "DIRECT",
+      "assignable": true,
+      "exclusion_reason": null,
+      "status": "active"
+    },
+    {
+      "endpoint_id": "google/antigravity-gemini-3.8-flash-medium",
+      "provider_id": "google",
+      "model_id": "antigravity-gemini-3.8-flash-medium",
+      "display_name": "Gemini 3.8 Flash (Medium) (Antigravity)",
+      "base_model_id": "gemini-3.8-flash",
+      "context_limit": 1048576,
+      "output_limit": 65536,
+      "variants": [],
+      "capability_classes": [
+        "text/code",
+        "multimodal"
+      ],
+      "multimodal_inputs": [
+        "vision",
+        "pdf"
+      ],
+      "tools_supported": true,
+      "is_router": false,
+      "router_status": "DIRECT",
+      "assignable": true,
+      "exclusion_reason": null,
+      "status": "active"
+    },
+    {
+      "endpoint_id": "google/antigravity-gemini-4-argon-high",
+      "provider_id": "google",
+      "model_id": "antigravity-gemini-4-argon-high",
+      "display_name": "Gemini 4 Argon (High) (Antigravity)",
+      "base_model_id": "gemini-4-argon",
+      "context_limit": 1048576,
+      "output_limit": 65536,
+      "variants": [],
+      "capability_classes": [
+        "text/code",
+        "reasoning",
+        "multimodal"
+      ],
+      "multimodal_inputs": [
+        "vision",
+        "pdf"
+      ],
+      "tools_supported": true,
+      "is_router": false,
+      "router_status": "DIRECT",
+      "assignable": true,
+      "exclusion_reason": null,
+      "status": "active"
+    },
+    {
+      "endpoint_id": "google/antigravity-gemini-4-argon-low",
+      "provider_id": "google",
+      "model_id": "antigravity-gemini-4-argon-low",
+      "display_name": "Gemini 4 Argon (Low) (Antigravity)",
+      "base_model_id": "gemini-4-argon",
+      "context_limit": 1048576,
+      "output_limit": 65536,
+      "variants": [],
+      "capability_classes": [
+        "text/code",
+        "reasoning",
+        "multimodal"
+      ],
+      "multimodal_inputs": [
+        "vision",
+        "pdf"
+      ],
+      "tools_supported": true,
+      "is_router": false,
+      "router_status": "DIRECT",
+      "assignable": true,
+      "exclusion_reason": null,
+      "status": "active"
+    },
+    {
+      "endpoint_id": "google/antigravity-gemini-4-argon-medium",
+      "provider_id": "google",
+      "model_id": "antigravity-gemini-4-argon-medium",
+      "display_name": "Gemini 4 Argon (Medium) (Antigravity)",
+      "base_model_id": "gemini-4-argon",
+      "context_limit": 1048576,
+      "output_limit": 65536,
+      "variants": [],
+      "capability_classes": [
+        "text/code",
+        "reasoning",
+        "multimodal"
+      ],
+      "multimodal_inputs": [
+        "vision",
+        "pdf"
+      ],
+      "tools_supported": true,
+      "is_router": false,
+      "router_status": "DIRECT",
+      "assignable": true,
+      "exclusion_reason": null,
+      "status": "active"
+    },
+    {
+      "endpoint_id": "google/antigravity-gpt-oss-120b-medium",
+      "provider_id": "google",
+      "model_id": "antigravity-gpt-oss-120b-medium",
+      "display_name": "GPT-OSS 120B (Medium) (Antigravity)",
+      "base_model_id": "gpt-oss-120b",
+      "context_limit": 131072,
+      "output_limit": 32768,
+      "variants": [],
+      "capability_classes": [
+        "text/code",
+        "reasoning",
+        "multimodal"
+      ],
+      "multimodal_inputs": [
+        "vision",
+        "pdf"
+      ],
+      "tools_supported": true,
+      "is_router": false,
+      "router_status": "DIRECT",
+      "assignable": true,
+      "exclusion_reason": null,
+      "status": "active"
+    },
+    {
+      "endpoint_id": "opencode/beam-free",
+      "provider_id": "opencode",
+      "model_id": "beam-free",
+      "display_name": "Beam Free",
+      "base_model_id": "beam",
+      "context_limit": 1048576,
+      "output_limit": 131072,
+      "variants": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "capability_classes": [
+        "text/code",
+        "reasoning"
+      ],
+      "multimodal_inputs": [],
+      "tools_supported": true,
+      "is_router": false,
+      "router_status": "DIRECT",
+      "assignable": true,
+      "exclusion_reason": null,
+      "status": "active"
+    },
+    {
+      "endpoint_id": "opencode/big-pickle",
+      "provider_id": "opencode",
+      "model_id": "big-pickle",
+      "display_name": "Big Pickle",
+      "base_model_id": "big-pickle",
+      "context_limit": 200000,
+      "output_limit": 32000,
+      "variants": [],
+      "capability_classes": [
+        "text/code",
+        "reasoning"
+      ],
+      "multimodal_inputs": [],
+      "tools_supported": true,
+      "is_router": false,
+      "router_status": "DIRECT",
+      "assignable": true,
+      "exclusion_reason": null,
+      "status": "active"
+    },
+    {
+      "endpoint_id": "opencode/deepseek-v4.1-flash-free",
+      "provider_id": "opencode",
+      "model_id": "deepseek-v4.1-flash-free",
+      "display_name": "DeepSeek V4.1 Flash Free",
+      "base_model_id": "deepseek-v4.1-flash",
+      "context_limit": 200000,
+      "output_limit": 32000,
+      "variants": [
+        "low",
+        "high",
+        "max"
+      ],
+      "capability_classes": [
+        "text/code",
+        "reasoning",
+        "multimodal"
+      ],
+      "multimodal_inputs": [
+        "vision"
+      ],
+      "tools_supported": true,
+      "is_router": false,
+      "router_status": "DIRECT",
+      "assignable": true,
+      "exclusion_reason": null,
+      "status": "active"
+    },
+    {
+      "endpoint_id": "opencode/flint-40b-free",
+      "provider_id": "opencode",
+      "model_id": "flint-40b-free",
+      "display_name": "Flint 40B Free",
+      "base_model_id": "flint-40b",
+      "context_limit": 262144,
+      "output_limit": 65536,
+      "variants": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "capability_classes": [
+        "text/code",
+        "reasoning"
+      ],
+      "multimodal_inputs": [],
+      "tools_supported": true,
+      "is_router": false,
+      "router_status": "DIRECT",
+      "assignable": true,
+      "exclusion_reason": null,
+      "status": "active"
+    },
+    {
+      "endpoint_id": "opencode/glm-5.3-flash-free",
+      "provider_id": "opencode",
+      "model_id": "glm-5.3-flash-free",
+      "display_name": "GLM-5.3-Flash Free",
+      "base_model_id": "glm-5.3",
+      "context_limit": 200000,
+      "output_limit": 32000,
+      "variants": [
+        "low",
+        "high",
+        "max"
+      ],
+      "capability_classes": [
+        "text/code",
+        "reasoning",
+        "multimodal"
+      ],
+      "multimodal_inputs": [
+        "vision",
+        "video"
+      ],
+      "tools_supported": true,
+      "is_router": false,
+      "router_status": "DIRECT",
+      "assignable": true,
+      "exclusion_reason": null,
+      "status": "active"
+    },
+    {
+      "endpoint_id": "opencode/mimo-v2.6-flash-free",
+      "provider_id": "opencode",
+      "model_id": "mimo-v2.6-flash-free",
+      "display_name": "MiMo-V2.6-Flash Free",
+      "base_model_id": "mimo-v2.6",
+      "context_limit": 200000,
+      "output_limit": 32000,
+      "variants": [],
+      "capability_classes": [
+        "text/code",
+        "reasoning",
+        "multimodal"
+      ],
+      "multimodal_inputs": [
+        "vision",
+        "audio",
+        "video"
+      ],
+      "tools_supported": true,
+      "is_router": false,
+      "router_status": "DIRECT",
+      "assignable": true,
+      "exclusion_reason": null,
+      "status": "active"
+    },
+    {
+      "endpoint_id": "opencode/nemotron-3.5-lightning-free",
+      "provider_id": "opencode",
+      "model_id": "nemotron-3.5-lightning-free",
+      "display_name": "Nemotron 3.5 Lightning Free",
+      "base_model_id": "nemotron-3.5",
+      "context_limit": 262144,
+      "output_limit": 262144,
+      "variants": [],
+      "capability_classes": [
+        "text/code",
+        "reasoning"
+      ],
+      "multimodal_inputs": [],
+      "tools_supported": true,
+      "is_router": false,
+      "router_status": "DIRECT",
+      "assignable": true,
+      "exclusion_reason": null,
+      "status": "active"
+    },
+    {
+      "endpoint_id": "opencode/nemotron-3.5-super-vl-free",
+      "provider_id": "opencode",
+      "model_id": "nemotron-3.5-super-vl-free",
+      "display_name": "Nemotron 3.5 Super VL Free",
+      "base_model_id": "nemotron-3.5",
+      "context_limit": 1048576,
+      "output_limit": 131072,
+      "variants": [
+        "none",
+        "minimal",
+        "low",
+        "medium",
+        "high",
+        "xhigh"
+      ],
+      "capability_classes": [
+        "text/code",
+        "reasoning",
+        "multimodal"
+      ],
+      "multimodal_inputs": [
+        "vision"
+      ],
+      "tools_supported": true,
+      "is_router": false,
+      "router_status": "DIRECT",
+      "assignable": true,
+      "exclusion_reason": null,
+      "status": "active"
+    }
+  ]
+}

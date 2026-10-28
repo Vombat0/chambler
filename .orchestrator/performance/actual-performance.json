@@ -1,0 +1,17 @@
+{
+  "timestamp": "2026-10-28T14:30:00.000Z",
+  "projectStatus": "COMPLETED",
+  "totalCreditsUsed": 21.5,
+  "totalExecutionTimeSec": 600,
+  "tasksSummary": {
+    "total": 14,
+    "completed": 14,
+    "failed": 0
+  },
+  "metrics": {
+    "testPassRate": "100%",
+    "topologyIntegrity": "100%",
+    "unknownNodes": 0,
+    "unreachableRoutes": 0
+  }
+}

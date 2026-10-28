@@ -1,0 +1,270 @@
+{
+  "total_base_models": 16,
+  "base_models": [
+    {
+      "base_model_id": "beam",
+      "endpoints": [
+        "opencode/beam-free"
+      ],
+      "providers": [
+        "opencode"
+      ],
+      "multi_provider": false,
+      "capability_classes": [
+        "reasoning",
+        "text/code"
+      ],
+      "is_orchestrator_base_model": false
+    },
+    {
+      "base_model_id": "big-pickle",
+      "endpoints": [
+        "opencode/big-pickle"
+      ],
+      "providers": [
+        "opencode"
+      ],
+      "multi_provider": false,
+      "capability_classes": [
+        "reasoning",
+        "text/code"
+      ],
+      "is_orchestrator_base_model": false
+    },
+    {
+      "base_model_id": "claude-opus-5-5",
+      "endpoints": [
+        "google/antigravity-claude-opus-5-5-high",
+        "google/antigravity-claude-opus-5-5-low",
+        "google/antigravity-claude-opus-5-5-medium"
+      ],
+      "providers": [
+        "google"
+      ],
+      "multi_provider": false,
+      "capability_classes": [
+        "multimodal",
+        "reasoning",
+        "text/code"
+      ],
+      "is_orchestrator_base_model": false
+    },
+    {
+      "base_model_id": "claude-sonnet-5-5",
+      "endpoints": [
+        "google/antigravity-claude-sonnet-5-5-high",
+        "google/antigravity-claude-sonnet-5-5-low",
+        "google/antigravity-claude-sonnet-5-5-medium"
+      ],
+      "providers": [
+        "google"
+      ],
+      "multi_provider": false,
+      "capability_classes": [
+        "multimodal",
+        "text/code"
+      ],
+      "is_orchestrator_base_model": true
+    },
+    {
+      "base_model_id": "deepseek-v4.1-flash",
+      "endpoints": [
+        "evren/deepseek-v4.1-flash",
+        "opencode/deepseek-v4.1-flash-free"
+      ],
+      "providers": [
+        "evren",
+        "opencode"
+      ],
+      "multi_provider": true,
+      "capability_classes": [
+        "multimodal",
+        "reasoning",
+        "text/code"
+      ],
+      "is_orchestrator_base_model": false
+    },
+    {
+      "base_model_id": "flint-40b",
+      "endpoints": [
+        "opencode/flint-40b-free"
+      ],
+      "providers": [
+        "opencode"
+      ],
+      "multi_provider": false,
+      "capability_classes": [
+        "reasoning",
+        "text/code"
+      ],
+      "is_orchestrator_base_model": false
+    },
+    {
+      "base_model_id": "gemini-3.5-flash-lite",
+      "endpoints": [
+        "google/antigravity-gemini-3.5-flash-lite"
+      ],
+      "providers": [
+        "google"
+      ],
+      "multi_provider": false,
+      "capability_classes": [
+        "multimodal",
+        "text/code"
+      ],
+      "is_orchestrator_base_model": false
+    },
+    {
+      "base_model_id": "gemini-3.8-flash",
+      "endpoints": [
+        "google/antigravity-gemini-3.8-flash-high",
+        "google/antigravity-gemini-3.8-flash-low",
+        "google/antigravity-gemini-3.8-flash-medium"
+      ],
+      "providers": [
+        "google"
+      ],
+      "multi_provider": false,
+      "capability_classes": [
+        "multimodal",
+        "text/code"
+      ],
+      "is_orchestrator_base_model": false
+    },
+    {
+      "base_model_id": "gemini-4-argon",
+      "endpoints": [
+        "google/antigravity-gemini-4-argon-high",
+        "google/antigravity-gemini-4-argon-low",
+        "google/antigravity-gemini-4-argon-medium"
+      ],
+      "providers": [
+        "google"
+      ],
+      "multi_provider": false,
+      "capability_classes": [
+        "multimodal",
+        "reasoning",
+        "text/code"
+      ],
+      "is_orchestrator_base_model": false
+    },
+    {
+      "base_model_id": "gemma-4-31b",
+      "endpoints": [
+        "evren/gemma-4-31b"
+      ],
+      "providers": [
+        "evren"
+      ],
+      "multi_provider": false,
+      "capability_classes": [
+        "multimodal",
+        "reasoning",
+        "text/code"
+      ],
+      "is_orchestrator_base_model": false
+    },
+    {
+      "base_model_id": "glm-5.3",
+      "endpoints": [
+        "evren/glm-5.3",
+        "opencode/glm-5.3-flash-free"
+      ],
+      "providers": [
+        "evren",
+        "opencode"
+      ],
+      "multi_provider": true,
+      "capability_classes": [
+        "multimodal",
+        "reasoning",
+        "text/code"
+      ],
+      "is_orchestrator_base_model": false
+    },
+    {
+      "base_model_id": "gpt-oss-120b",
+      "endpoints": [
+        "google/antigravity-gpt-oss-120b-medium"
+      ],
+      "providers": [
+        "google"
+      ],
+      "multi_provider": false,
+      "capability_classes": [
+        "multimodal",
+        "reasoning",
+        "text/code"
+      ],
+      "is_orchestrator_base_model": false
+    },
+    {
+      "base_model_id": "mimo-v2.6",
+      "endpoints": [
+        "evren/mimo-v2.6-pro",
+        "opencode/mimo-v2.6-flash-free"
+      ],
+      "providers": [
+        "evren",
+        "opencode"
+      ],
+      "multi_provider": true,
+      "capability_classes": [
+        "multimodal",
+        "reasoning",
+        "text/code"
+      ],
+      "is_orchestrator_base_model": false
+    },
+    {
+      "base_model_id": "nemotron-3.5",
+      "endpoints": [
+        "opencode/nemotron-3.5-lightning-free",
+        "opencode/nemotron-3.5-super-vl-free"
+      ],
+      "providers": [
+        "opencode"
+      ],
+      "multi_provider": false,
+      "capability_classes": [
+        "multimodal",
+        "reasoning",
+        "text/code"
+      ],
+      "is_orchestrator_base_model": false
+    },
+    {
+      "base_model_id": "qwen3-vl-30b",
+      "endpoints": [
+        "evren/qwen3-vl-30b"
+      ],
+      "providers": [
+        "evren"
+      ],
+      "multi_provider": false,
+      "capability_classes": [
+        "multimodal",
+        "reasoning",
+        "text/code"
+      ],
+      "is_orchestrator_base_model": false
+    },
+    {
+      "base_model_id": "qwen3.8-flash-next",
+      "endpoints": [
+        "evren/qwen3.8-flash-next"
+      ],
+      "providers": [
+        "evren"
+      ],
+      "multi_provider": false,
+      "capability_classes": [
+        "multimodal",
+        "reasoning",
+        "text/code"
+      ],
+      "is_orchestrator_base_model": false
+    }
+  ]
+}

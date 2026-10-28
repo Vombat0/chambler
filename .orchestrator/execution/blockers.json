@@ -1,0 +1,5 @@
+{
+  "rules": [
+    "Her ajan kotası bitmeden veya hata almadan önce handoffs/task-context/<TASK_ID>.md checkpoint yazar: tamamlanan adımlar, kalan adımlar, değişen dosyalar, açık kararlar."
+  ]
+}

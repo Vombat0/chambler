@@ -1,0 +1,45 @@
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+:root {
+  color-scheme: dark;
+  font-family: system-ui, sans-serif;
+  color: #e6edf3;
+  background: #10161d;
+}
+
+.shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  background: #1b2430;
+  border-bottom: 1px solid #2b3542;
+}
+
+.muted {
+  color: #8b98a5;
+  font-size: 13px;
+}
+
+.fps {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+  color: #8b98a5;
+}
+
+.table {
+  flex: 1;
+  width: 100%;
+  display: block;
+}

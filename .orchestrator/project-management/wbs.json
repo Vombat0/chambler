@@ -1,0 +1,14 @@
+{
+  "wbs_version": "1.0",
+  "tasks": [
+    { "task_id": "T-INV-001", "name": "Envanter Keşfi" },
+    { "task_id": "T-REQ-001", "name": "Gereksinim Analizi" },
+    { "task_id": "T-RES-001", "name": "Benchmark ve Model Araştırması" },
+    { "task_id": "T-EXP-001", "name": "Mimar Tasarımı ve Veri Modeli" },
+    { "task_id": "T-REG-001", "name": "Orkestratör Dizin ve Kayıt Kurulumu" },
+    { "task_id": "T-DATA-001", "name": "Veri Katmanı Geliştirme" },
+    { "task_id": "T-ENG-001", "name": "Kablo Boy Hesaplama Motoru" },
+    { "task_id": "T-UI-001", "name": "Kullanıcı Arayüzü ve UI Geliştirme" },
+    { "task_id": "T-QA-001", "name": "Test ve Doğrulama" }
+  ]
+}

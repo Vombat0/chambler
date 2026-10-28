@@ -1,0 +1,70 @@
+{
+  "summary": {
+    "snapshot_provider_count": 7,
+    "snapshot_model_count": 90,
+    "live_provider_count": 3,
+    "live_model_count": 28,
+    "verified_available_models": 28,
+    "ineligible_models": 3,
+    "orchestrator_excluded_models": 3,
+    "assignable_models": 25
+  },
+  "snapshot_inventory": {
+    "date": "2026-10-20",
+    "source_file": "/Users/ahmetoktay/Desktop/OpenChamber_Aktif_Modeller_Listesi.pdf",
+    "provider_breakdown": {
+      "google": 7,
+      "evren": 8,
+      "evren2": 8,
+      "evren3": 8,
+      "nvidia": 9,
+      "openai": 14,
+      "opencode": 36
+    },
+    "total_models": 90
+  },
+  "live_providers": [
+    {
+      "provider_id": "google",
+      "name": "Google",
+      "status": "active",
+      "auth_type": "oauth_antigravity",
+      "model_count": 14,
+      "description": "Google Antigravity OAuth suite"
+    },
+    {
+      "provider_id": "evren",
+      "name": "Evren",
+      "status": "active",
+      "auth_type": "api_key",
+      "model_count": 6,
+      "description": "Evren OpenAI-compatible LLM endpoint"
+    },
+    {
+      "provider_id": "opencode",
+      "name": "OpenCode",
+      "status": "active",
+      "auth_type": "public_free",
+      "model_count": 8,
+      "description": "OpenCode community free inference models"
+    }
+  ],
+  "differences_snapshot_vs_live": {
+    "removed_providers": [
+      "evren2",
+      "evren3",
+      "nvidia",
+      "openai"
+    ],
+    "active_providers": [
+      "google",
+      "evren",
+      "opencode"
+    ],
+    "model_count_delta": {
+      "snapshot_total": 90,
+      "live_total": 28,
+      "net_change": -62
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "critical_path": [
+    "T-REQ-001",
+    "T-EXP-001",
+    "T-ENG-001",
+    "T-UI-001",
+    "T-QA-001"
+  ]
+}

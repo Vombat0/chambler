@@ -1,0 +1,52 @@
+{
+  "sources": [
+    {
+      "id": "snapshot_baseline_doc",
+      "type": "baseline_documentation",
+      "source": "/Users/ahmetoktay/.config/opencode/AGENTS.md",
+      "date": "2026-10-20",
+      "description": "Initial baseline inventory containing 90 records across 7 providers"
+    },
+    {
+      "id": "snapshot_desktop_pdf",
+      "type": "pdf_export",
+      "path": "/Users/ahmetoktay/Desktop/OpenChamber_Aktif_Modeller_Listesi.pdf",
+      "date": "2026-10-28",
+      "description": "Active model reference document listing 28 validated endpoints across 3 providers"
+    },
+    {
+      "id": "snapshot_desktop_script",
+      "type": "python_script",
+      "path": "/Users/ahmetoktay/Desktop/OpenChamber_Aktif_Modeller_Listesi.py",
+      "date": "2026-10-27",
+      "description": "Initial ReportLab PDF generation script"
+    },
+    {
+      "id": "live_opencode_cli",
+      "type": "cli_command",
+      "command": "opencode models",
+      "date": "2026-10-28",
+      "verified_endpoints_count": 28
+    },
+    {
+      "id": "live_opencode_api_models",
+      "type": "api_endpoint",
+      "endpoint": "GET /api/model",
+      "date": "2026-10-28",
+      "description": "Live JSON model catalog containing context, output limits, capabilities, and variants"
+    },
+    {
+      "id": "live_opencode_api_providers",
+      "type": "api_endpoint",
+      "endpoint": "GET /api/provider",
+      "date": "2026-10-28",
+      "description": "Live JSON provider catalog"
+    },
+    {
+      "id": "local_opencode_config",
+      "type": "config_file",
+      "path": "/Users/ahmetoktay/.config/opencode/opencode.jsonc",
+      "description": "Active local provider configuration for Google and Evren"
+    }
+  ]
+}

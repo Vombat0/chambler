@@ -1,0 +1,10 @@
+{
+  "dependencies": [
+    { "from": "T-REQ-001", "to": "T-EXP-001" },
+    { "from": "T-EXP-001", "to": "T-DATA-001" },
+    { "from": "T-EXP-001", "to": "T-ENG-001" },
+    { "from": "T-DATA-001", "to": "T-UI-001" },
+    { "from": "T-ENG-001", "to": "T-UI-001" },
+    { "from": "T-UI-001", "to": "T-QA-001" }
+  ]
+}

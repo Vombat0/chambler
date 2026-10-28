@@ -1,0 +1,246 @@
+{
+  "currency": "USD",
+  "provider_pricing_summary": {
+    "google": {
+      "tier": "oauth_antigravity",
+      "cost_per_token": 0,
+      "status": "covered"
+    },
+    "opencode": {
+      "tier": "community_free",
+      "cost_per_token": 0,
+      "status": "free"
+    },
+    "evren": {
+      "tier": "api_key_balance",
+      "cost_per_token": "UNKNOWN",
+      "status": "credit_required"
+    }
+  },
+  "endpoints": {
+    "evren/deepseek-v4.1-flash": {
+      "input_cost_per_1m": "UNKNOWN",
+      "output_cost_per_1m": "UNKNOWN",
+      "cache_read_per_1m": "UNKNOWN",
+      "cache_write_per_1m": "UNKNOWN",
+      "tier": "api_key_credits",
+      "billing_note": "Catalog does not specify per-token pricing; requires evren credit balance"
+    },
+    "evren/gemma-4-31b": {
+      "input_cost_per_1m": "UNKNOWN",
+      "output_cost_per_1m": "UNKNOWN",
+      "cache_read_per_1m": "UNKNOWN",
+      "cache_write_per_1m": "UNKNOWN",
+      "tier": "api_key_credits",
+      "billing_note": "Catalog does not specify per-token pricing; requires evren credit balance"
+    },
+    "evren/glm-5.3": {
+      "input_cost_per_1m": "UNKNOWN",
+      "output_cost_per_1m": "UNKNOWN",
+      "cache_read_per_1m": "UNKNOWN",
+      "cache_write_per_1m": "UNKNOWN",
+      "tier": "api_key_credits",
+      "billing_note": "Catalog does not specify per-token pricing; requires evren credit balance"
+    },
+    "evren/mimo-v2.6-pro": {
+      "input_cost_per_1m": "UNKNOWN",
+      "output_cost_per_1m": "UNKNOWN",
+      "cache_read_per_1m": "UNKNOWN",
+      "cache_write_per_1m": "UNKNOWN",
+      "tier": "api_key_credits",
+      "billing_note": "Catalog does not specify per-token pricing; requires evren credit balance"
+    },
+    "evren/qwen3-vl-30b": {
+      "input_cost_per_1m": "UNKNOWN",
+      "output_cost_per_1m": "UNKNOWN",
+      "cache_read_per_1m": "UNKNOWN",
+      "cache_write_per_1m": "UNKNOWN",
+      "tier": "api_key_credits",
+      "billing_note": "Catalog does not specify per-token pricing; requires evren credit balance"
+    },
+    "evren/qwen3.8-flash-next": {
+      "input_cost_per_1m": "UNKNOWN",
+      "output_cost_per_1m": "UNKNOWN",
+      "cache_read_per_1m": "UNKNOWN",
+      "cache_write_per_1m": "UNKNOWN",
+      "tier": "api_key_credits",
+      "billing_note": "Catalog does not specify per-token pricing; requires evren credit balance"
+    },
+    "google/antigravity-claude-opus-5-5-high": {
+      "input_cost_per_1m": 0,
+      "output_cost_per_1m": 0,
+      "cache_read_per_1m": 0,
+      "cache_write_per_1m": 0,
+      "tier": "oauth_antigravity",
+      "billing_note": "Covered under Antigravity OAuth quota"
+    },
+    "google/antigravity-claude-opus-5-5-low": {
+      "input_cost_per_1m": 0,
+      "output_cost_per_1m": 0,
+      "cache_read_per_1m": 0,
+      "cache_write_per_1m": 0,
+      "tier": "oauth_antigravity",
+      "billing_note": "Covered under Antigravity OAuth quota"
+    },
+    "google/antigravity-claude-opus-5-5-medium": {
+      "input_cost_per_1m": 0,
+      "output_cost_per_1m": 0,
+      "cache_read_per_1m": 0,
+      "cache_write_per_1m": 0,
+      "tier": "oauth_antigravity",
+      "billing_note": "Covered under Antigravity OAuth quota"
+    },
+    "google/antigravity-claude-sonnet-5-5-high": {
+      "input_cost_per_1m": 0,
+      "output_cost_per_1m": 0,
+      "cache_read_per_1m": 0,
+      "cache_write_per_1m": 0,
+      "tier": "oauth_antigravity",
+      "billing_note": "Covered under Antigravity OAuth quota"
+    },
+    "google/antigravity-claude-sonnet-5-5-low": {
+      "input_cost_per_1m": 0,
+      "output_cost_per_1m": 0,
+      "cache_read_per_1m": 0,
+      "cache_write_per_1m": 0,
+      "tier": "oauth_antigravity",
+      "billing_note": "Covered under Antigravity OAuth quota"
+    },
+    "google/antigravity-claude-sonnet-5-5-medium": {
+      "input_cost_per_1m": 0,
+      "output_cost_per_1m": 0,
+      "cache_read_per_1m": 0,
+      "cache_write_per_1m": 0,
+      "tier": "oauth_antigravity",
+      "billing_note": "Covered under Antigravity OAuth quota"
+    },
+    "google/antigravity-gemini-3.5-flash-lite": {
+      "input_cost_per_1m": 0,
+      "output_cost_per_1m": 0,
+      "cache_read_per_1m": 0,
+      "cache_write_per_1m": 0,
+      "tier": "oauth_antigravity",
+      "billing_note": "Covered under Antigravity OAuth quota"
+    },
+    "google/antigravity-gemini-3.8-flash-high": {
+      "input_cost_per_1m": 0,
+      "output_cost_per_1m": 0,
+      "cache_read_per_1m": 0,
+      "cache_write_per_1m": 0,
+      "tier": "oauth_antigravity",
+      "billing_note": "Covered under Antigravity OAuth quota"
+    },
+    "google/antigravity-gemini-3.8-flash-low": {
+      "input_cost_per_1m": 0,
+      "output_cost_per_1m": 0,
+      "cache_read_per_1m": 0,
+      "cache_write_per_1m": 0,
+      "tier": "oauth_antigravity",
+      "billing_note": "Covered under Antigravity OAuth quota"
+    },
+    "google/antigravity-gemini-3.8-flash-medium": {
+      "input_cost_per_1m": 0,
+      "output_cost_per_1m": 0,
+      "cache_read_per_1m": 0,
+      "cache_write_per_1m": 0,
+      "tier": "oauth_antigravity",
+      "billing_note": "Covered under Antigravity OAuth quota"
+    },
+    "google/antigravity-gemini-4-argon-high": {
+      "input_cost_per_1m": 0,
+      "output_cost_per_1m": 0,
+      "cache_read_per_1m": 0,
+      "cache_write_per_1m": 0,
+      "tier": "oauth_antigravity",
+      "billing_note": "Covered under Antigravity OAuth quota"
+    },
+    "google/antigravity-gemini-4-argon-low": {
+      "input_cost_per_1m": 0,
+      "output_cost_per_1m": 0,
+      "cache_read_per_1m": 0,
+      "cache_write_per_1m": 0,
+      "tier": "oauth_antigravity",
+      "billing_note": "Covered under Antigravity OAuth quota"
+    },
+    "google/antigravity-gemini-4-argon-medium": {
+      "input_cost_per_1m": 0,
+      "output_cost_per_1m": 0,
+      "cache_read_per_1m": 0,
+      "cache_write_per_1m": 0,
+      "tier": "oauth_antigravity",
+      "billing_note": "Covered under Antigravity OAuth quota"
+    },
+    "google/antigravity-gpt-oss-120b-medium": {
+      "input_cost_per_1m": 0,
+      "output_cost_per_1m": 0,
+      "cache_read_per_1m": 0,
+      "cache_write_per_1m": 0,
+      "tier": "oauth_antigravity",
+      "billing_note": "Covered under Antigravity OAuth quota"
+    },
+    "opencode/beam-free": {
+      "input_cost_per_1m": 0,
+      "output_cost_per_1m": 0,
+      "cache_read_per_1m": 0,
+      "cache_write_per_1m": 0,
+      "tier": "free",
+      "billing_note": "OpenCode free community tier"
+    },
+    "opencode/big-pickle": {
+      "input_cost_per_1m": 0,
+      "output_cost_per_1m": 0,
+      "cache_read_per_1m": 0,
+      "cache_write_per_1m": 0,
+      "tier": "free",
+      "billing_note": "OpenCode free community tier"
+    },
+    "opencode/deepseek-v4.1-flash-free": {
+      "input_cost_per_1m": 0,
+      "output_cost_per_1m": 0,
+      "cache_read_per_1m": 0,
+      "cache_write_per_1m": 0,
+      "tier": "free",
+      "billing_note": "OpenCode free community tier"
+    },
+    "opencode/flint-40b-free": {
+      "input_cost_per_1m": 0,
+      "output_cost_per_1m": 0,
+      "cache_read_per_1m": 0,
+      "cache_write_per_1m": 0,
+      "tier": "free",
+      "billing_note": "OpenCode free community tier"
+    },
+    "opencode/glm-5.3-flash-free": {
+      "input_cost_per_1m": 0,
+      "output_cost_per_1m": 0,
+      "cache_read_per_1m": 0,
+      "cache_write_per_1m": 0,
+      "tier": "free",
+      "billing_note": "OpenCode free community tier"
+    },
+    "opencode/mimo-v2.6-flash-free": {
+      "input_cost_per_1m": 0,
+      "output_cost_per_1m": 0,
+      "cache_read_per_1m": 0,
+      "cache_write_per_1m": 0,
+      "tier": "free",
+      "billing_note": "OpenCode free community tier"
+    },
+    "opencode/nemotron-3.5-lightning-free": {
+      "input_cost_per_1m": 0,
+      "output_cost_per_1m": 0,
+      "cache_read_per_1m": 0,
+      "cache_write_per_1m": 0,
+      "tier": "free",
+      "billing_note": "OpenCode free community tier"
+    },
+    "opencode/nemotron-3.5-super-vl-free": {
+      "input_cost_per_1m": 0,
+      "output_cost_per_1m": 0,
+      "cache_read_per_1m": 0,
+      "cache_write_per_1m": 0,
+      "tier": "free",
+      "billing_note": "OpenCode free community tier"
+    }
+  }
+}

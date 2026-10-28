@@ -1,0 +1,10 @@
+{
+  "_schema": "Model Benchmark Registry Template - To be populated by specialist research subagents",
+  "status": "TEMPLATE_EMPTY",
+  "note": "Benchmark and empirical performance data are unpopulated; to be researched under dedicated RES-01 task. No synthetic data generated.",
+  "benchmarks": {},
+  "metadata": {
+    "sources": [],
+    "last_updated": "2026-10-28T00:00:00Z"
+  }
+}

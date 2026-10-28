@@ -1,0 +1,27 @@
+{
+  "name": "@chambler/client",
+  "version": "0.1.0",
+  "description": "Three.js sahne + React kabugu (B1'den once: agirsiz).",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b tsconfig.json && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@chambler/shared": "workspace:*",
+    "@dimforge/rapier3d-compat": "^0.21.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "three": "^0.186.1"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/three": "^0.186.0",
+    "@vitejs/plugin-react": "^5.2.0",
+    "typescript": "~5.9.3",
+    "vite": "^6.4.5"
+  }
+}

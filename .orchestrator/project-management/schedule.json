@@ -1,0 +1,11 @@
+{
+  "schedule_type": "PERT/CPM",
+  "tasks_schedule": {
+    "T-REQ-001": { "duration": 2 },
+    "T-EXP-001": { "duration": 3 },
+    "T-DATA-001": { "duration": 4 },
+    "T-ENG-001": { "duration": 5 },
+    "T-UI-001": { "duration": 4 },
+    "T-QA-001": { "duration": 2 }
+  }
+}

@@ -1,0 +1,12 @@
+node_modules/
+dist/
+coverage/
+
+# env
+.env
+.env.*
+*.local
+
+# pre-existing unrelated root files (legacy harness calculator, not part of repo)
+/index.html
+/src/
