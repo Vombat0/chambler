@@ -33,6 +33,8 @@ import {
 } from './palette/packLoader';
 import { fetchPropertyTycoonManifest } from './palette/packSource';
 import { Board2DView } from './board2d/Board2DView';
+import { DiceController } from './board2d/diceController';
+import { DicePanel } from './ui/DicePanel';
 import { ViewToggle } from './board2d/ViewToggle';
 import { loadViewMode, saveViewMode, viewStorage, type ViewMode } from './board2d/viewMode';
 
@@ -149,6 +151,9 @@ export function App() {
   const [packBusy, setPackBusy] = useState(false);
   // 2D-1 — varsayılan görünüm: 2D Tahta (kullanıcının stratejik kararı).
   const [viewMode, setViewMode] = useState<ViewMode>(() => loadViewMode(viewStorage()));
+  // FIX-PLAYABILITY-1: tek paylaşılan zar kontrolcüsü — App seviyesinde yaşar,
+  // 2D/3D her iki modda ve yerel modda da aynı paneli/bannerı besler.
+  const dice = useMemo(() => new DiceController(), []);
   const errorSeq = useRef(0);
   const playersRef = useRef<PlayerInfo[]>([]);
   const settingsRef = useRef<Settings>(settings);
@@ -265,6 +270,9 @@ export function App() {
       });
       room.onMessage('error', (raw) => {
         const message = raw as { code: string; message: string };
+        // FIX-PLAYABILITY-1: nesne havuzu eskileri sessizce düşürüyor; bu iç
+        // bütçe kırpması oyuncuya "hata" gibi korkutucu toast olarak dönmez.
+        if (message.code === 'TRANSFORM_BUDGET') return;
         // Optimistik spawn: sunucu reddi → yerel nesneyi geri al.
         if (SPAWN_REJECT_CODES.includes(message.code)) {
           const notice = optimisticRef.current.rejectOldest(performance.now());
@@ -592,6 +600,32 @@ export function App() {
     applySettingsToSceneLive();
   }, [settings, applySettingsToSceneLive]);
 
+  // FIX-PLAYABILITY-1: zar kontrolcüsü güncel bağlamla bağlı kalır (oda, kimlik, dil).
+  useEffect(() => {
+    dice.bind({
+      getRoom: () => ncRef.current?.getRoom() ?? null,
+      selfId: localMode ? 'local' : selfId,
+      selfName: localMode
+        ? LOCAL_PLAYER.name
+        : (players.find((player) => player.id === selfId)?.name ?? ''),
+      localMode,
+      language: settings.language,
+      // Yerel masada oda yok: duyuruyu sohbet listesine doğrudan yaz.
+      onLocalChat: (text) =>
+        setMessages((previous) => [
+          ...previous.slice(-80),
+          { id: `local-dice-${Date.now()}`, playerName: LOCAL_PLAYER.name, text, sentAt: Date.now() },
+        ]),
+    });
+  }, [dice, localMode, selfId, players, settings.language]);
+
+  // Masa ekranındayken animasyon/abonelik çalışır; ayrılınca durur.
+  useEffect(() => {
+    if (state.screen !== 'table') return;
+    dice.start();
+    return () => dice.stop();
+  }, [dice, state.screen]);
+
   /* -------------------------------- ekranlar -------------------------------- */
 
   const overlays = (
@@ -675,6 +709,7 @@ export function App() {
         <canvas ref={canvasRef} className={`table${viewMode === '2d' ? ' b2d-hidden' : ''}`} />
         {viewMode === '2d' ? (
           <Board2DView
+            dice={dice}
             players={localMode ? [LOCAL_PLAYER] : players}
             selfId={localMode ? 'local' : selfId}
             localMode={localMode}
@@ -696,6 +731,13 @@ export function App() {
           open={paletteOpen}
           onClose={() => setPaletteOpen(false)}
           onAdd={addFromPalette}
+        />
+        {/* FIX-PLAYABILITY-1: kalp atışı zar paneli — 2D/3D her modda görünür. */}
+        <DicePanel
+          dice={dice}
+          players={localMode ? [LOCAL_PLAYER] : players}
+          selfId={localMode ? 'local' : selfId}
+          language={settings.language}
         />
         {overlays}
       </div>

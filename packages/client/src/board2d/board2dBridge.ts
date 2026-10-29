@@ -283,11 +283,9 @@ export class Board2DBridge {
       this.spawnedIds.add(tokenId);
       room.send('objectSpawn', { object: tokenDef(this.selfId, this.selfId, '', this.lastSelf?.x ?? 955, this.lastSelf?.y ?? 955) });
     }
-    const dieId = dieObjectId(this.selfId);
-    if (!this.spawnedIds.has(dieId)) {
-      this.spawnedIds.add(dieId);
-      room.send('objectSpawn', { object: dieDef(this.selfId) });
-    }
+    // FIX-PLAYABILITY-1: zar nesnesini artık DiceController spawn eder —
+    // zar 2D/3D her modda App seviyesinde yaşıyor; burada spawn edilse ikinci
+    // spawn OBJECT_EXISTS hatası üretirdi.
   }
 
   /**

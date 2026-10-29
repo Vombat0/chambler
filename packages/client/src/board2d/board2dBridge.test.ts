@@ -74,15 +74,15 @@ describe('board2dBridge — yapısal oda kontrolü', () => {
 });
 
 describe('board2dBridge — spawn ve yerel çıkış', () => {
-  it('syncRoom kendi piyonunu ve zarını birer kez spawn eder', () => {
+  it('syncRoom kendi piyonunu birer kez spawn eder (zar artık DiceControllerda)', () => {
     const { bridge, sent } = makeBridge();
     bridge.syncRoom();
     bridge.syncRoom();
     const spawns = sent.filter((s) => s.type === 'objectSpawn');
-    expect(spawns).toHaveLength(2);
+    expect(spawns).toHaveLength(1);
     const ids = spawns.map((s) => (s.payload as { object: { id: string } }).object.id);
     expect(ids).toContain(tokenObjectId('me'));
-    expect(ids).toContain(dieObjectId('me'));
+    expect(ids).not.toContain(dieObjectId('me'));
   });
 
   it('sürükleme ObjectEvents üzerinden 20 Hz örneklenir (10 ms aralıklarla iki kare)', () => {

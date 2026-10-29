@@ -25,10 +25,11 @@ import {
 } from './boardGeometry.js';
 import { BOARD_JSON, CHANCE_DECK, COMMUNITY_DECK, cardText, cellAccent, cellName } from './boardData.js';
 import { DeckOrder } from './decks.js';
-import { DiceModel, type DicePhase } from './diceModel.js';
+import type { DiceController } from './diceController.js';
 import { TokenStore, type BoardToken } from './tokenStore.js';
 import { Board2DBridge } from './board2dBridge.js';
 import { makeB2dT } from './strings.js';
+import { DieFace } from '../ui/DieFace.js';
 
 export interface Board2DViewProps {
   players: readonly PlayerInfo[];
@@ -37,6 +38,8 @@ export interface Board2DViewProps {
   language: Language;
   /** Colyseus Room ya da null (yerel masa). */
   getRoom: () => unknown;
+  /** FIX-PLAYABILITY-1: App seviyesindeki evrensel zar denetleyicisi. */
+  dice: DiceController;
 }
 
 interface DragState {
@@ -56,16 +59,6 @@ interface DrawnCard {
 }
 
 /* ------------------------------ küçük yardımcılar ------------------------------ */
-
-/** Zar yüzü noktaları (3×3 ızgara index'i; 4 = orta). */
-const PIPS: Record<number, number[]> = {
-  1: [4],
-  2: [0, 8],
-  3: [0, 4, 8],
-  4: [0, 2, 6, 8],
-  5: [0, 2, 4, 6, 8],
-  6: [0, 2, 3, 5, 6, 8],
-};
 
 function wrapLabel(name: string, maxChars: number): string[] {
   const words = name.split(' ');
@@ -96,32 +89,6 @@ const TYPE_GLYPH: Record<string, string> = {
 };
 
 /* --------------------------------- bileşenler ---------------------------------- */
-
-function Die({ value, rolling, tone }: { value: number; rolling: boolean; tone: 'self' | 'remote' }): JSX.Element {
-  const pips = PIPS[value] ?? PIPS[1]!;
-  const cellSize = 100 / 3;
-  return (
-    <svg
-      viewBox="0 0 100 100"
-      className={`b2d-die${rolling ? ' rolling' : ''}`}
-      data-tone={tone}
-      role="img"
-      aria-label={`${value}`}
-    >
-      <rect x="4" y="4" width="92" height="92" rx="20" className="b2d-die-body" />
-      <rect x="9" y="9" width="82" height="82" rx="16" className="b2d-die-inner" />
-      {pips.map((pip) => (
-        <circle
-          key={pip}
-          cx={(pip % 3) * cellSize + cellSize / 2}
-          cy={Math.floor(pip / 3) * cellSize + cellSize / 2}
-          r="9.5"
-          className="b2d-die-pip"
-        />
-      ))}
-    </svg>
-  );
-}
 
 function Cell({ geom, language, cellIndex }: { geom: CellGeom; language: Language; cellIndex: number }): JSX.Element {
   const name = cellName(geom, language);
@@ -177,8 +144,11 @@ function Cell({ geom, language, cellIndex }: { geom: CellGeom; language: Languag
 /* --------------------------------- ana görünüm --------------------------------- */
 
 export function Board2DView(props: Board2DViewProps): JSX.Element {
-  const { players, selfId, localMode, language, getRoom } = props;
+  const { players, selfId, localMode, language, getRoom, dice } = props;
   const t = useMemo(() => makeB2dT(language), [language]);
+  // FIX-PLAYABILITY-1: zar durumu App seviyesindeki DiceController'dan gelir.
+  const snap = useSyncExternalStore(dice.subscribe, dice.getSnapshot);
+  const rolling = snap.phase === 'rolling';
 
   const store = useMemo(() => new TokenStore(), []);
   const version = useSyncExternalStore(
@@ -191,7 +161,6 @@ export function Board2DView(props: Board2DViewProps): JSX.Element {
   const geometryByIndex = useMemo(() => new Map(geometry.map((geom) => [geom.index, geom])), [geometry]);
 
   const bridgeRef = useRef<Board2DBridge | null>(null);
-  const dice = useMemo(() => new DiceModel(), []);
   const roomRef = useRef<unknown>(null);
   roomRef.current = getRoom();
 
@@ -204,25 +173,14 @@ export function Board2DView(props: Board2DViewProps): JSX.Element {
   );
 
   const [stageSize, setStageSize] = useState(640);
-  const [diceUi, setDiceUi] = useState<{ phase: DicePhase; a: number; b: number; rollId: number }>({
-    phase: 'idle',
-    a: 1,
-    b: 1,
-    rollId: 0,
-  });
-  const [banner, setBanner] = useState<{ sum: number; playerId: string | null } | null>(null);
+  const [banner, setBanner] = useState<{ a: number; b: number; sum: number; playerId: string | null } | null>(null);
   const [drawnCard, setDrawnCard] = useState<DrawnCard | null>(null);
   const bannerTimer = useRef<number | null>(null);
 
-  const selfIdRef = useRef(selfId);
-  selfIdRef.current = selfId;
-  const localModeRef = useRef(localMode);
-  localModeRef.current = localMode;
-
   /* --------------------------------- köprü --------------------------------- */
 
-  const showBanner = (sum: number, playerId: string | null): void => {
-    setBanner({ sum, playerId });
+  const showBanner = (a: number, b: number, sum: number, playerId: string | null): void => {
+    setBanner({ a, b, sum, playerId });
     if (bannerTimer.current !== null) window.clearTimeout(bannerTimer.current);
     bannerTimer.current = window.setTimeout(() => setBanner(null), 3500);
   };
@@ -252,12 +210,17 @@ export function Board2DView(props: Board2DViewProps): JSX.Element {
   useEffect(() => {
     bridge.setRoomGetter(() => roomRef.current);
     bridge.setSelf(selfId);
-    bridge.setHandlers({
-      onDieResult: (info) => {
-        dice.rollFixed(Date.now(), info.value, info.playerId);
-      },
-    });
-  }, [bridge, selfId, dice]);
+    // FIX-PLAYABILITY-1: uzak zar sonuçlarını artık DiceController dinler;
+    // köprü yalnızca piyon hareketinden sorumludur.
+  }, [bridge, selfId]);
+
+  // Zar durduğunda tahtanın ortasında büyük sonuç: 🎲 a + b = sum
+  const bannerShownFor = useRef(-1);
+  useEffect(() => {
+    if (snap.phase !== 'settled' || snap.rollId === bannerShownFor.current) return;
+    bannerShownFor.current = snap.rollId;
+    showBanner(snap.lastA, snap.lastB, snap.sum ?? snap.lastA + snap.lastB, snap.rollerId);
+  }, [snap]);
 
   /* ------------------------------ kadro → piyon ------------------------------ */
 
@@ -286,26 +249,11 @@ export function Board2DView(props: Board2DViewProps): JSX.Element {
 
   useEffect(() => {
     let raf = 0;
-    let lastUi = '';
     const loop = (): void => {
       raf = window.requestAnimationFrame(loop);
       bridge.flush();
       const nowMs = Date.now();
-
-      const settled = dice.tick(nowMs);
-      const faces = dice.facesAt(nowMs);
-      const state = dice.state;
-      // Kendi atışımız durdu: sonucu odaya raporla (sunucu yetkili doğrular).
-      if (settled && state.lastPlayerId === selfIdRef.current && !localModeRef.current) {
-        bridge.reportDieValue(state.a + state.b);
-      }
-      const ui = { phase: state.phase, a: faces.a, b: faces.b, rollId: state.rollId };
-      const uiKey = `${ui.phase}:${ui.a}:${ui.b}:${ui.rollId}`;
-      if (uiKey !== lastUi) {
-        lastUi = uiKey;
-        setDiceUi(ui);
-        if (settled) showBanner(state.a + state.b, state.lastPlayerId);
-      }
+      // FIX-PLAYABILITY-1: zar tik'i DiceController'ın kendi döngüsüne taşındı.
 
       for (const token of store.list()) {
         if (token.self) continue;
@@ -317,7 +265,7 @@ export function Board2DView(props: Board2DViewProps): JSX.Element {
     };
     raf = window.requestAnimationFrame(loop);
     return () => window.cancelAnimationFrame(raf);
-  }, [bridge, dice, store]);
+  }, [bridge, store]);
 
   /* ------------------------------ sahne ölçüsü ------------------------------ */
 
@@ -395,14 +343,40 @@ export function Board2DView(props: Board2DViewProps): JSX.Element {
     if (!snap) return;
     store.upsert(selfId, { x: snap.x, y: snap.y, dragging: false, cellIndex: snap.cell.index, vx: 0, vy: 0 });
     bridge.reportSettle(snap.x, snap.y);
+    // Sürükleyerek hareket ettirildiyse bu atışın rehberliği tamamlanmıştır.
+    if (guidanceActive) guidanceHandled.current = snapRoll;
+  };
+
+  /* --------------------- oynanabilirlik: piyon kılavuzu ---------------------- */
+
+  // FIX-PLAYABILITY-1: kendi zarımız durduysa ve henüz hareket etmediysek
+  // hedef hücre yeşil parlar; hücreye tıklamak piyonu oraya taşır.
+  const guidanceHandled = useRef(0);
+  const snapRoll = snap.rollId;
+  const guidanceActive =
+    snap.phase === 'settled' && snap.rollerId === selfId && snap.sum != null && snapRoll !== guidanceHandled.current;
+  const selfCell = tokens.find((token) => token.self)?.cellIndex ?? 0;
+  const targetGeom = guidanceActive && snap.sum != null ? geometry[(selfCell + snap.sum) % geometry.length] ?? null : null;
+  const guidanceText =
+    targetGeom && snap.sum != null ? t('b2d.target.move', { sum: snap.sum, cell: cellName(targetGeom, language) }) : '';
+
+  const moveSelfToCell = (index: number): void => {
+    const geom = geometryByIndex.get(index);
+    if (!geom) return;
+    const occupants = store.occupantsOfRect({ x: 0, y: 0, w: BOARD_UNITS, h: BOARD_UNITS }, selfId);
+    const sameCount = occupants.filter((token) => token.cellIndex === index).length;
+    const offset = stackOffset(sameCount + 1, sameCount);
+    const x = geom.cx + offset.x;
+    const y = geom.cy + offset.y;
+    store.upsert(selfId, { x, y, dragging: false, cellIndex: index, vx: 0, vy: 0 });
+    bridge.reportSettle(x, y);
+    guidanceHandled.current = snapRoll;
   };
 
   /* ---------------------------------- zarlar --------------------------------- */
 
   const onRoll = (): void => {
-    if (dice.rolling) return;
-    dice.roll(Date.now(), selfId);
-    setDiceUi({ phase: 'rolling', a: diceUi.a, b: diceUi.b, rollId: dice.state.rollId });
+    dice.roll();
   };
 
   const lastRollName =
@@ -484,13 +458,39 @@ export function Board2DView(props: Board2DViewProps): JSX.Element {
                 );
               })}
 
-              {/* Son zar sonucu: tahtanın ortasında büyük */}
+              {/* Son zar sonucu: tahtanın ortasında büyük ve neşeli */}
               {banner ? (
                 <g className="b2d-banner" pointerEvents="none">
                   <text x={BOARD_UNITS / 2} y={BOARD_UNITS / 2 + 128} textAnchor="middle" className="b2d-banner-sum">
-                    {banner.sum}
+                    {`🎲 ${banner.a} + ${banner.b} = ${banner.sum}`}
                   </text>
                 </g>
+              ) : null}
+
+              {/* Piyon kılavuzu: hedef hücre yeşil parlar, tıklayınca piyon gider */}
+              {targetGeom ? (
+                <rect
+                  x={targetGeom.x + 2}
+                  y={targetGeom.y + 2}
+                  width={targetGeom.w - 4}
+                  height={targetGeom.h - 4}
+                  rx={8}
+                  className="b2d-target-glow"
+                  role="button"
+                  aria-label={guidanceText}
+                  onClick={() => moveSelfToCell(targetGeom.index)}
+                />
+              ) : null}
+              {targetGeom ? (
+                <text
+                  x={BOARD_UNITS / 2}
+                  y={BOARD_UNITS / 2 + 182}
+                  textAnchor="middle"
+                  className="b2d-target-note"
+                  pointerEvents="none"
+                >
+                  {guidanceText}
+                </text>
               ) : null}
             </svg>
 
@@ -532,19 +532,21 @@ export function Board2DView(props: Board2DViewProps): JSX.Element {
         </div>
       </div>
 
-      {/* Alt bar: 2D zarlar */}
+      {/* Alt bar: 2D zarlar (controller durumuyla senkron) */}
       <div className="b2d-dicebar" role="group" aria-label={t('b2d.dice.label')}>
         <div className="b2d-dice">
-          <Die value={diceUi.a} rolling={diceUi.phase === 'rolling'} tone="self" />
-          <Die value={diceUi.b} rolling={diceUi.phase === 'rolling'} tone="self" />
+          <DieFace value={snap.a} rolling={rolling} tone="self" />
+          <DieFace value={snap.b} rolling={rolling} tone="self" />
         </div>
-        <button type="button" className="button primary b2d-roll" onClick={onRoll} disabled={diceUi.phase === 'rolling'}>
-          {diceUi.phase === 'rolling' ? t('b2d.dice.rolling') : t('b2d.dice.roll')}
+        <button type="button" className="button primary b2d-roll" onClick={onRoll} disabled={rolling}>
+          {rolling ? t('b2d.dice.rolling') : t('b2d.dice.roll')}
         </button>
         <span className="b2d-dice-result" role="status" aria-live="polite">
           {banner
-            ? `${lastRollName ? `${lastRollName}: ` : ''}${diceUi.a} + ${diceUi.b} = ${banner.sum}`
-            : t('b2d.dice.label')}
+            ? `${lastRollName ? `${lastRollName}: ` : ''}${banner.a} + ${banner.b} = ${banner.sum}`
+            : guidanceActive && guidanceText
+              ? guidanceText
+              : t('b2d.dice.label')}
         </span>
       </div>
 

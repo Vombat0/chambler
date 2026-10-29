@@ -1010,7 +1010,14 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
     this.broadcast(TRANSFORM_JSON_MESSAGE, msg, { except: client });
   }
 
-  /** Charges the room budget; trims (and warns once per window) when exceeded. */
+  /**
+   * Charges the room budget; trims silently when exceeded.
+   *
+   * FIX-PLAYABILITY-1: trimming is an internal flow-control detail — the
+   * client is never notified. The old `TRANSFORM_BUDGET` error frame made the
+   * UI flash a red "something went wrong" toast during ordinary token moves.
+   * Only the server-side debug log remains.
+   */
   private spendTransformBudget(client: Client, bytes: number, now: number): boolean {
     const decision = this.budget.tryConsume(client.sessionId, bytes, now);
     if (decision.allowed) {
@@ -1025,11 +1032,6 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
       this.budgetWarned.add(client.sessionId);
       logger.warn(
         `[table:${this.roomId}] transform budget ${decision.reason} exceeded by ${client.sessionId}; trimming frames (session kept)`,
-      );
-      this.sendError(
-        client,
-        'TRANSFORM_BUDGET',
-        `Transform budget exceeded (${decision.reason}); frames are being trimmed.`,
       );
     }
     return false;

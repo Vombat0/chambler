@@ -240,12 +240,16 @@ describe('B3 binary transform batch', () => {
     const indices: number[] = [];
     for (let i = 0; i < 60; i += 1) indices.push(await spawnOwned(room, alice, `burst-${i}`));
 
-    const err = nextMessage<{ code: string }>(alice, 'error');
     const frames = indices.map((index, i) => wireFrame(index, 1, i));
     // 60 frames x 40 B x 2 non-owner recipients = 4800 B in one tick, vs a
-    // 4096 B/s per-player share -> the tail of the burst is trimmed
+    // 4096 B/s per-player share -> the tail of the burst is trimmed.
+    // FIX-PLAYABILITY-1: trimming is SILENT — no 'error' frame reaches the
+    // client (it scared users as a red toast); only the metric moves.
     alice.send('transformBatch', encodeTransformBatch(frames));
-    expect((await err).code).toBe('TRANSFORM_BUDGET');
+    await delay(150);
+
+    const instance = colyseus.getRoomById<TableRoom>(room.roomId);
+    expect(instance.getMetrics().budgetRejections).toBeGreaterThanOrEqual(1);
 
     // still connected
     const chat = nextMessage<{ text: string }>(bob, 'chat');
