@@ -139,6 +139,8 @@ export function materializeBoard(
       name: manifest.name,
       slots,
       sourcePack: manifest.packId,
+      /** Görsel kaplama kaynağı (`board-plate` → board.png). */
+      artRef: component.assetRef,
       cellSize: boardCellScale(board),
       rows: board.grid?.rows ?? 0,
       cols: board.grid?.cols ?? 0,

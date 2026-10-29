@@ -9,8 +9,22 @@
 
 import manifestRaw from '../../../../packs/property-tycoon/manifest.json?raw';
 import { validatePackManifest, type GamePackManifest } from './packValidation.js';
+import { packAssetNames, packAssetUrl } from '../object/textureLoader.js';
 
 export const PROPERTY_TYCOON_MANIFEST_RAW: string = manifestRaw;
+
+/** "Mülk Tycoon" paket kimliği (doku yolu çözümlemesi için). */
+export const PROPERTY_TYCOON_ASSET_PACK = 'property-tycoon';
+
+/** Mantıksal varlık adını (örn. `board-plate`) paket PNG URL'sine çevirir. */
+export function propertyTycoonAssetUrl(assetRef: string): string | null {
+  return packAssetUrl(assetRef, PROPERTY_TYCOON_ASSET_PACK);
+}
+
+/** Paketteki tüm sanat varlıkları (teşhis/UI için). */
+export function propertyTycoonAssetNames(): string[] {
+  return packAssetNames();
+}
 
 let cached: GamePackManifest | null = null;
 

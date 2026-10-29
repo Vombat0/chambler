@@ -22,10 +22,10 @@ describe('ObjectSpec mapping', () => {
     expect(s.size).toEqual({ x: 0.6, y: 0.6, z: 0.6 });
     expect(s.mass).toBeGreaterThan(0);
   });
-  it('pawn is sphere', () => {
+  it('pawn is a box body (visual is a lathe pawn)', () => {
     const s = specFor(def('pawn'));
-    expect(s.shape).toBe('sphere');
-    expect(s.radius).toBeGreaterThan(0);
+    expect(s.shape).toBe('box');
+    expect(s.size.y).toBeGreaterThan(s.size.x);
   });
   it('card is thin box', () => {
     const s = specFor(def('card'));
