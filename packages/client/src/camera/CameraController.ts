@@ -7,6 +7,11 @@ export class CameraController {
 
   constructor(camera: THREE.PerspectiveCamera, domElement: HTMLElement) {
     this.controls = new OrbitControls(camera, domElement);
+    // Başlangıç perspektifini koru: sahne, kamerayı (0, 5.0, 5.2) konumunda
+    // (0, 0.2, 0)'a baktırarak kurar; hedefi eşitleyip güncelleyerek
+    // ~43° tatlı izometrik masa görünümünü sabitleriz.
+    this.controls.target.set(0, 0.2, 0);
+    this.controls.update();
     this.controls.enableDamping = true;
     this.controls.dampingFactor = 0.08;
     this.controls.minDistance = 2;

@@ -66,15 +66,15 @@ export class SceneManager {
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.shadowMap.enabled = true;
-    this.renderer.shadowMap.type = THREE.PCFShadowMap;
+    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color('#1b2430');
-    this.scene.fog = new THREE.Fog('#1b2430', 12, 30);
+    this.scene.background = new THREE.Color('#141820');
+    this.scene.fog = new THREE.FogExp2('#141820', 0.035);
 
     this.camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
-    this.camera.position.set(0, 4.5, 6);
-    this.camera.lookAt(0, 0, 0);
+    this.camera.position.set(0, 5.0, 5.2);
+    this.camera.lookAt(0, 0.2, 0);
 
     this.setupLights();
     this.setupTable();
@@ -113,21 +113,33 @@ export class SceneManager {
   }
 
   private setupLights(): void {
-    const ambient = new THREE.AmbientLight('#ffffff', 0.45);
+    const ambient = new THREE.AmbientLight('#ffffff', 0.55);
     this.scene.add(ambient);
 
-    const key = new THREE.DirectionalLight('#fff2dc', 1.1);
-    key.position.set(5, 8, 3);
+    // Sıcak ana ışık (güneş/masa lambası hissi) — yumuşak gölgeler.
+    const key = new THREE.DirectionalLight('#fff4e6', 1.6);
+    key.position.set(5, 9, 4);
     key.castShadow = true;
-    key.shadow.mapSize.set(1024, 1024);
+    key.shadow.mapSize.set(2048, 2048);
     key.shadow.camera.near = 0.5;
     key.shadow.camera.far = 30;
     key.shadow.camera.left = -8;
     key.shadow.camera.right = 8;
     key.shadow.camera.top = 8;
     key.shadow.camera.bottom = -8;
-    key.shadow.bias = -0.0005;
+    key.shadow.bias = -0.0001;
+    key.shadow.normalBias = 0.02;
     this.scene.add(key);
+
+    // Soğuk mavi dolgu ışığı — sıcak/soğuk kontrast ile derinlik.
+    const fill = new THREE.DirectionalLight('#90b4d8', 0.6);
+    fill.position.set(-5, 6, -3);
+    this.scene.add(fill);
+
+    // Tahtanın ortasına odaklanan hafif sıcak masa lambası.
+    const lamp = new THREE.PointLight('#fff0dd', 0.8, 12);
+    lamp.position.set(0, 4, 0);
+    this.scene.add(lamp);
   }
 
   private setupTable(): void {
@@ -139,7 +151,7 @@ export class SceneManager {
     const tableGeo = new THREE.BoxGeometry(tableW, thickness, tableD);
     const tableMat = new THREE.MeshStandardMaterial({
       map: felt,
-      roughness: 0.9,
+      roughness: 0.85,
       metalness: 0.0,
     });
     const table = new THREE.Mesh(tableGeo, tableMat);
@@ -148,8 +160,8 @@ export class SceneManager {
     table.castShadow = false;
     this.scene.add(table);
 
-    // rim
-    const rimMat = new THREE.MeshStandardMaterial({ color: '#3a2a1a', roughness: 0.8 });
+    // rim — cilalı koyu ceviz ahşap
+    const rimMat = new THREE.MeshStandardMaterial({ color: '#2c1a0e', roughness: 0.45, metalness: 0.05 });
     const rimH = 0.08;
     const rimT = 0.12;
     const rimGeoX = new THREE.BoxGeometry(tableW + rimT * 2, rimH, rimT);
@@ -199,7 +211,7 @@ export class SceneManager {
     canvas.height = size;
     const ctx = canvas.getContext('2d');
     if (ctx) {
-      ctx.fillStyle = '#1f6b3a';
+      ctx.fillStyle = '#1b4322';
       ctx.fillRect(0, 0, size, size);
       for (let i = 0; i < size * size * 0.35; i++) {
         const x = Math.random() * size;
