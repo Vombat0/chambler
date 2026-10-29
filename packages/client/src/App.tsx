@@ -32,6 +32,9 @@ import {
   type PackStepId,
 } from './palette/packLoader';
 import { fetchPropertyTycoonManifest } from './palette/packSource';
+import { Board2DView } from './board2d/Board2DView';
+import { ViewToggle } from './board2d/ViewToggle';
+import { loadViewMode, saveViewMode, viewStorage, type ViewMode } from './board2d/viewMode';
 
 const delay = (ms: number) => new Promise<void>((resolve) => { window.setTimeout(resolve, ms); });
 
@@ -144,6 +147,8 @@ export function App() {
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [packProgress, setPackProgress] = useState<PackLoadProgress | null>(null);
   const [packBusy, setPackBusy] = useState(false);
+  // 2D-1 — varsayılan görünüm: 2D Tahta (kullanıcının stratejik kararı).
+  const [viewMode, setViewMode] = useState<ViewMode>(() => loadViewMode(viewStorage()));
   const errorSeq = useRef(0);
   const playersRef = useRef<PlayerInfo[]>([]);
   const settingsRef = useRef<Settings>(settings);
@@ -174,6 +179,11 @@ export function App() {
       saveSettings(browserStorage, next);
       return next;
     });
+  }, []);
+
+  const changeViewMode = useCallback((mode: ViewMode) => {
+    setViewMode(mode);
+    saveViewMode(viewStorage(), mode);
   }, []);
 
   const pushError = useCallback((code: string, serverMessage = '') => {
@@ -644,7 +654,7 @@ export function App() {
 
   return (
     <I18nProvider language={settings.language}>
-      <div className="app">
+      <div className="app app-table">
         <Hud
           roomCode={localMode ? null : (state.room?.code ?? null)}
           players={localMode ? [LOCAL_PLAYER] : players}
@@ -658,8 +668,20 @@ export function App() {
           onLeave={leaveTable}
           language={settings.language}
           onLanguageChange={changeLanguage}
+          viewToggle={
+            <ViewToggle mode={viewMode} language={settings.language} onChange={changeViewMode} />
+          }
         />
-        <canvas ref={canvasRef} className="table" />
+        <canvas ref={canvasRef} className={`table${viewMode === '2d' ? ' b2d-hidden' : ''}`} />
+        {viewMode === '2d' ? (
+          <Board2DView
+            players={localMode ? [LOCAL_PLAYER] : players}
+            selfId={localMode ? 'local' : selfId}
+            localMode={localMode}
+            language={settings.language}
+            getRoom={() => ncRef.current?.getRoom() ?? null}
+          />
+        ) : null}
         <TableTools
           paletteOpen={paletteOpen}
           onTogglePalette={() => setPaletteOpen((open) => !open)}

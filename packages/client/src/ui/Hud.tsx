@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import type { ReactNode } from 'react';
 import type { ConnectionStatus } from '../net/NetworkClient.js';
 import type { PlayerInfo } from '@chambler/shared';
 import { colorKeyOf } from './lobby.js';
@@ -22,6 +23,8 @@ export interface HudProps {
   onLeave: () => void;
   language: Language;
   onLanguageChange: (language: Language) => void;
+  /** 2D-1: [ 2D Tahta | 3D Masa ] geçiş düğmesi (App'den enjekte edilir). */
+  viewToggle?: ReactNode;
 }
 
 /**
@@ -56,6 +59,7 @@ export function Hud(props: HudProps) {
           {t(status.key)}
         </span>
         <span className="fps">{props.fps} fps</span>
+        {props.viewToggle}
         <select
           className="select hud-lang"
           aria-label={t('settings.language.label')}

@@ -916,3 +916,389 @@ body {
     max-width: none;
   }
 }
+
+/* ------------------------------------------------------------------ */
+/* 2D-1 — Board2DView: tepeden kutu oyunu görünümü (BGA/Roll20 tarzı)  */
+/* ------------------------------------------------------------------ */
+
+/* Masa ekranı: HUD üstte sabit; oyun alanı kalan yüksekliği doldurur. */
+.app-table {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  min-height: 100dvh;
+}
+
+.app-table > .table,
+.app-table > .b2d {
+  flex: 1;
+  min-height: 0;
+}
+
+.b2d-hidden {
+  display: none !important;
+}
+
+.b2d {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(120% 90% at 50% 8%, #1a2130 0%, #12161f 55%, #0d1118 100%);
+}
+
+/* Deri/keçe masa matı dokusu: ince çapraz doku + vinyet. */
+.b2d-mat {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.012) 0 2px, transparent 2px 4px),
+    repeating-linear-gradient(-45deg, rgba(0, 0, 0, 0.05) 0 2px, transparent 2px 4px);
+}
+
+.b2d-stage-wrap {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Kare sahne: ResizeObserver ile ölçülür; vektör çarpılmaz, bulanıklaşmaz. */
+.b2d-stage {
+  position: relative;
+  flex: none;
+  border-radius: 18px;
+  box-shadow:
+    0 18px 60px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(146, 178, 220, 0.14),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  touch-action: none;
+}
+
+.b2d-board {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 18px;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Hücreler */
+.b2d-cell-bg {
+  fill: #161d2b;
+  stroke: rgba(148, 178, 214, 0.16);
+  stroke-width: 1.4;
+}
+
+.b2d-cell-name {
+  font-size: 13px;
+  font-weight: 650;
+  fill: var(--text);
+  letter-spacing: 0.2px;
+  paint-order: stroke;
+}
+
+.b2d-cell-price {
+  font-size: 11.5px;
+  font-weight: 600;
+  fill: #9fb6d4;
+}
+
+.b2d-cell-price.start-salary {
+  fill: #8fd3a5;
+}
+
+.b2d-glyph {
+  font-size: 21px;
+  font-weight: 700;
+  fill: #cdd9ea;
+}
+
+.b2d-brand {
+  font-size: 34px;
+  font-weight: 800;
+  fill: rgba(154, 183, 219, 0.34);
+  letter-spacing: 7px;
+}
+
+/* Snap yuvaları: hafif parlayan halkalar */
+.b2d-slot-halo {
+  fill: rgba(126, 181, 255, 0.05);
+  stroke: none;
+}
+
+.b2d-slot-ring {
+  fill: none;
+  stroke: rgba(126, 181, 255, 0.34);
+  stroke-width: 1.6;
+  stroke-dasharray: 4 5;
+}
+
+/* Desteler */
+.b2d-deck {
+  cursor: pointer;
+  outline: none;
+}
+
+.b2d-deck:hover .b2d-card-back,
+.b2d-deck:focus-visible .b2d-card-back {
+  filter: brightness(1.25);
+}
+
+.b2d-card-shadow {
+  fill: rgba(0, 0, 0, 0.5);
+}
+
+.b2d-card-back {
+  fill: #1c2637;
+  stroke-width: 2.5;
+}
+
+.b2d-deck-glyph {
+  font-size: 30px;
+  font-weight: 800;
+  fill: #fff;
+}
+
+.b2d-deck-name {
+  font-size: 15px;
+  font-weight: 700;
+  fill: #dbe6f5;
+}
+
+.b2d-deck-hint {
+  font-size: 10.5px;
+  fill: #7e91ab;
+}
+
+/* Zar banner'ı */
+.b2d-banner-sum {
+  font-size: 84px;
+  font-weight: 800;
+  fill: #ffd97a;
+  stroke: rgba(0, 0, 0, 0.45);
+  stroke-width: 2;
+  paint-order: stroke;
+}
+
+/* Piyon katmanı */
+.b2d-tokens {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.b2d-token {
+  position: absolute;
+  transform: translate(-50%, -58%);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.18) 26%, transparent 45%),
+    radial-gradient(circle at 50% 78%, rgba(0, 0, 0, 0.42) 0%, transparent 60%),
+    var(--token-color, #888);
+  border: 1.5px solid rgba(10, 14, 20, 0.75);
+  box-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.55),
+    0 1px 0 rgba(255, 255, 255, 0.28) inset;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #10151c;
+  font-weight: 800;
+  pointer-events: auto;
+  cursor: grab;
+  transition: left 110ms linear, top 110ms linear;
+  touch-action: none;
+  z-index: 1;
+}
+
+.b2d-token.self {
+  box-shadow:
+    0 0 0 2px rgba(255, 255, 255, 0.65),
+    0 3px 8px rgba(0, 0, 0, 0.6),
+    0 1px 0 rgba(255, 255, 255, 0.3) inset;
+}
+
+.b2d-token.dragging {
+  cursor: grabbing;
+  transition: none;
+  scale: 1.18;
+  z-index: 3;
+  box-shadow:
+    0 14px 22px rgba(0, 0, 0, 0.6),
+    0 1px 0 rgba(255, 255, 255, 0.3) inset;
+}
+
+.b2d-token-label {
+  line-height: 1;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+/* Piyon adı: küçük etiket, piyonun altında */
+.b2d-token-name {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, 2px);
+  font-size: 0.62em;
+  font-weight: 600;
+  white-space: nowrap;
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: rgba(10, 14, 20, 0.72);
+  color: #dbe6f5;
+  pointer-events: none;
+}
+
+/* Alt zar barı */
+.b2d-dicebar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 10px 14px;
+  background: linear-gradient(180deg, rgba(16, 22, 31, 0.6), rgba(12, 16, 23, 0.94));
+  border-top: 1px solid var(--border);
+}
+
+.b2d-dice {
+  display: flex;
+  gap: 8px;
+}
+
+.b2d-die {
+  width: 52px;
+  height: 52px;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.55));
+}
+
+.b2d-die-body {
+  fill: #f2ede2;
+  stroke: #cdc5b4;
+  stroke-width: 1.6;
+}
+
+.b2d-die-inner {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.7);
+  stroke-width: 1.4;
+}
+
+.b2d-die-pip {
+  fill: #20242c;
+}
+
+.b2d-die.rolling {
+  animation: b2d-die-shake 220ms linear infinite;
+}
+
+@keyframes b2d-die-shake {
+  0% { transform: rotate(-7deg) translateY(0); }
+  25% { transform: rotate(9deg) translateY(-4px); }
+  50% { transform: rotate(-4deg) translateY(1px); }
+  75% { transform: rotate(6deg) translateY(-2px); }
+  100% { transform: rotate(-7deg) translateY(0); }
+}
+
+.b2d-dice-result {
+  min-width: 132px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* Açılan kart */
+.b2d-card-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(6, 9, 14, 0.55);
+  backdrop-filter: blur(2px);
+}
+
+.b2d-card {
+  width: min(320px, calc(100vw - 40px));
+  border-radius: 14px;
+  background: linear-gradient(170deg, #212c3e, #171f2c);
+  border: 1px solid var(--border-strong);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+  padding: 0 0 18px;
+  overflow: hidden;
+  animation: b2d-card-flip 380ms cubic-bezier(0.2, 0.9, 0.25, 1.2);
+  transform-origin: top center;
+}
+
+@keyframes b2d-card-flip {
+  from { transform: rotateY(86deg) scale(0.94); opacity: 0.2; }
+  to { transform: rotateY(0) scale(1); opacity: 1; }
+}
+
+.b2d-card[data-deck='chance'] { border-top: 4px solid #c2456b; }
+.b2d-card[data-deck='community'] { border-top: 4px solid #2e8b8b; }
+
+.b2d-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px 6px 14px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: #94a9c6;
+}
+
+.b2d-card-title {
+  margin: 4px 16px 8px;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.b2d-card-text {
+  margin: 0 16px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: #cdd9ea;
+}
+
+/* HUD geçiş düğmesi */
+.b2d-toggle {
+  display: inline-flex;
+  gap: 0;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.b2d-toggle-item {
+  border: none;
+  border-radius: 0;
+  padding: 6px 10px;
+  font-size: 13px;
+}
+
+.b2d-toggle-item[aria-pressed='true'] {
+  background: var(--accent);
+  color: #fff;
+}
+
+@media (max-width: 760px) {
+  .b2d-die { width: 42px; height: 42px; }
+  .b2d-mat { padding: 8px; }
+}
