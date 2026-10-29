@@ -41,6 +41,7 @@ export const KNOWN_ERROR_CODES = new Set([
   'SEAT_TAKEN',
   'COLOR_INVALID',
   'COLOR_TAKEN',
+  'HOST_ONLY',
   'ROOM_NOT_FOUND',
   'ROOM_FULL',
   'OBJECT_INVALID',

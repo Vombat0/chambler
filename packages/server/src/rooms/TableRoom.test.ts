@@ -291,6 +291,54 @@ describe('TableRoom lobby', () => {
     expect(other.sentAt).toBeGreaterThan(0);
   });
 
+  it('starts the table when the host asks and rejects non-host attempts', async () => {
+    const room = await createTable();
+    const alice = await join(room, 'Alice');
+    const bob = await join(room, 'Bob');
+    expect(room.state.started).toBe(false);
+
+    const rejection = nextMessage<{ code: string }>(bob, 'error');
+    bob.send('tableStart', {});
+    expect((await rejection).code).toBe('HOST_ONLY');
+    expect(room.state.started).toBe(false);
+
+    alice.send('tableStart', {});
+    await waitUntil(() => room.state.started === true, 'table started');
+
+    // Idempotent: starting again changes nothing (no error, no state churn).
+    let sawError = false;
+    const offError = alice.onMessage('error', () => { sawError = true; });
+    alice.send('tableStart', {});
+    await new Promise((resolve) => { setTimeout(resolve, 150); });
+    offError();
+    expect(sawError).toBe(false);
+    expect(room.state.started).toBe(true);
+  });
+
+  it('replays the recent chat history to a player joining later', async () => {
+    const room = await createTable();
+    const alice = await join(room, 'Alice');
+    alice.send('chat', { text: 'first message' });
+    alice.send('chat', { text: 'second message' });
+
+    const bob = await join(room, 'Bob');
+    const history = await nextMessage<{
+      messages: Array<{ playerId: string; playerName: string; text: string; sentAt: number }>;
+    }>(bob, 'chatHistory');
+    expect(history.messages).toHaveLength(2);
+    expect(history.messages[0]).toMatchObject({
+      playerId: alice.sessionId,
+      playerName: 'Alice',
+      text: 'first message',
+    });
+    expect(history.messages[1]).toMatchObject({
+      playerId: alice.sessionId,
+      playerName: 'Alice',
+      text: 'second message',
+    });
+    expect(history.messages[1].sentAt).toBeGreaterThanOrEqual(history.messages[0].sentAt);
+  });
+
   it('rate-limits chat to 3 messages per second', async () => {
     const room = await createTable();
     const alice = await join(room, 'Alice');

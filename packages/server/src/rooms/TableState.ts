@@ -29,6 +29,8 @@ export class TableState extends Schema {
   @type('string') hostId = '';
   @type('uint8') maxPlayers = 8;
   @type('uint64') createdAt = 0;
+  /** True once the host pressed "start"; every client (and late joiners) enter the table. */
+  @type('boolean') started = false;
   /** sessionId -> player. */
   @type({ map: PlayerState }) players = new MapSchema<PlayerState>();
   /** objectId -> object durable state. */

@@ -161,6 +161,20 @@ const MIN_OBJECT_INTERVAL_MS = TRANSFORM_INTERVAL_MS * 0.8;
 const MAX_PENDING_TRANSFORMS = 512;
 /** Max characters of object meta persisted/restored (mirrors the spawn limit). */
 const MAX_META_JSON = 4096;
+/** Chat messages kept for players joining later (ring buffer size). */
+const MAX_RECENT_CHATS = 50;
+
+/**
+ * Chat entry kept in the recent-history ring buffer. Same wire shape as the
+ * `chat` broadcast plus the sender's display name, so a late joiner sees who
+ * wrote what even if the sender has already left the table.
+ */
+export interface ChatHistoryEntry {
+  playerId: string;
+  playerName: string;
+  text: string;
+  sentAt: number;
+}
 
 /** Room-level counters used by the bandwidth measurement script and ops. */
 export interface TableRoomMetrics {
@@ -214,6 +228,8 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
   private dirty = false;
   private everHadPlayers = false;
   private restoredFrom: TableSnapshot | null = null;
+  /** FIX-MULTIPLAYER-1: last MAX_RECENT_CHATS chat messages for late joiners. */
+  private readonly recentChats: ChatHistoryEntry[] = [];
 
   override async onCreate(options?: unknown): Promise<void> {
     this.config = defaultServerConfig ?? loadConfig();
@@ -391,6 +407,8 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
     // B4: full state for fresh joins and reconnects — object list with
     // last-known transforms, so the client can reset interpolation cleanly.
     this.sendTableResync(client);
+    // FIX-MULTIPLAYER-1: chat written before this player joined.
+    this.sendChatHistory(client);
     this.markDirty();
     logger.info(`[table:${this.roomId}] ${player.name} joined (seat ${player.seat})`);
   }
@@ -463,6 +481,7 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
     this.onMessage('chat', (client, payload) => this.handleChat(client, payload));
     this.onMessage('seat', (client, payload) => this.handleSeatChange(client, payload));
     this.onMessage('color', (client, payload) => this.handleColorChange(client, payload));
+    this.onMessage('tableStart', (client) => this.handleTableStart(client));
 
     this.onMessage('objectSpawn', (client, payload) => this.handleObjectSpawn(client, payload));
     this.onMessage('objectRemove', (client, payload) => this.handleObjectRemove(client, payload));
@@ -501,6 +520,42 @@ export class TableRoom extends Room<TableState, TableRoomMetadata, unknown, Tabl
       sentAt: Date.now(),
     };
     this.broadcast('chat', message);
+    this.rememberChat({
+      playerId: player.id,
+      playerName: player.name,
+      text: validation.text,
+      sentAt: message.sentAt,
+    });
+  }
+
+  /**
+   * FIX-MULTIPLAYER-1: host starts the table. Flips the synchronised
+   * `started` flag so every connected client — and everyone joining later —
+   * enters the table screen together. Non-host attempts are rejected.
+   */
+  private handleTableStart(client: Client): void {
+    if (!this.state.players.has(client.sessionId)) return;
+    if (!this.isHost(client)) {
+      this.sendError(client, 'HOST_ONLY', 'Only the host can start the table.');
+      return;
+    }
+    if (this.state.started) return; // idempotent: already started
+    this.state.started = true;
+    logger.info(`[table:${this.roomId}] table started by ${client.sessionId}`);
+  }
+
+  /** Keeps the last MAX_RECENT_CHATS chat messages (bounded insertion order). */
+  private rememberChat(entry: ChatHistoryEntry): void {
+    this.recentChats.push(entry);
+    if (this.recentChats.length > MAX_RECENT_CHATS) {
+      this.recentChats.splice(0, this.recentChats.length - MAX_RECENT_CHATS);
+    }
+  }
+
+  /** Sends the recent chat history to a fresh / reconnecting client. */
+  private sendChatHistory(client: Client): void {
+    if (this.recentChats.length === 0) return;
+    client.send('chatHistory', { messages: this.recentChats.map((entry) => ({ ...entry })) });
   }
 
   private handleSeatChange(client: Client, payload: unknown): void {

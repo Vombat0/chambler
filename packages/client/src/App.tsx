@@ -35,6 +35,18 @@ import { fetchPropertyTycoonManifest } from './palette/packSource';
 
 const delay = (ms: number) => new Promise<void>((resolve) => { window.setTimeout(resolve, ms); });
 
+/** Oda state'inden bu bileşenin ilgilendiği alanlar (şema instance'ı). */
+interface RoomStateView {
+  players?: Map<string, PlayerInfo>;
+  maxPlayers?: number;
+  started?: boolean;
+}
+
+/** Masa sunucu tarafında başlatılmış mı (geç katılan / dönen host için)? */
+function readStarted(state: unknown): boolean {
+  return (state as RoomStateView | null | undefined)?.started === true;
+}
+
 /** Masa tarafındaki nesneleri placer girdisine çevirir. */
 function tableOccupied(controller: InteractionController) {
   return occupiedFrom(
@@ -197,10 +209,36 @@ export function App() {
       const room = nc.getRoom();
       if (!room) return;
       setSelfId(room.sessionId);
+      // FIX-MULTIPLAYER-1: `started` KENAR tetiklemesi — sunucu masayı
+      // başlattığında buradaki herkes masaya geçer. Seviye değil kenar
+      // kullanılıyor: masadan lobiye dönen oyuncu sonraki state yamasıyla
+      // masaya geri çekilmez.
+      let wasStarted = readStarted(room.state);
       room.onStateChange((nextState: unknown) => {
-        const table = nextState as { players?: Map<string, PlayerInfo>; maxPlayers?: number };
+        const table = nextState as RoomStateView;
         if (table.players) setPlayers([...table.players.values()]);
         if (typeof table.maxPlayers === 'number') setMaxPlayers(table.maxPlayers);
+        const started = readStarted(nextState);
+        if (started && !wasStarted) machine.enterTable();
+        wasStarted = started;
+      });
+      room.onMessage('chatHistory', (raw) => {
+        // FIX-MULTIPLAYER-1: katılmadan önce yazılmış sohbet geçmişi.
+        const payload = raw as { messages?: Array<{ playerId: string; playerName?: string; text: string; sentAt: number }> };
+        const history = Array.isArray(payload?.messages) ? payload.messages : [];
+        if (history.length === 0) return;
+        setMessages((previous) => [
+          ...previous,
+          ...history.map((message, index) => ({
+            id: `${message.playerId}-${message.sentAt}-h${index}`,
+            playerName:
+              message.playerName ??
+              playersRef.current.find((player) => player.id === message.playerId)?.name ??
+              message.playerId,
+            text: message.text,
+            sentAt: message.sentAt,
+          })),
+        ].slice(-80));
       });
       room.onMessage('chat', (raw) => {
         const message = raw as { playerId: string; text: string; sentAt: number };
@@ -232,7 +270,7 @@ export function App() {
       });
       nc.onStatus((status) => setConnectionStatus(status));
     },
-    [pushError],
+    [machine, pushError],
   );
 
   const connect = useCallback(
@@ -244,6 +282,8 @@ export function App() {
         const room = code === null ? await nc.createAndJoin(name) : await nc.join(code, name);
         wireRoom(nc);
         machine.joinedLobby({ code: room.roomId, name });
+        // FIX-MULTIPLAYER-1: masa zaten başladıysa geç katılan doğrudan masaya girer.
+        if (readStarted(room.state)) machine.enterTable();
       } catch (err) {
         pushError(joinFailureCode(err), err instanceof Error ? err.message : String(err));
       } finally {
@@ -252,6 +292,22 @@ export function App() {
     },
     [machine, pushError, wireRoom],
   );
+
+  /**
+   * Host "masaya başla": sunucuya `tableStart` gönderir; `started` state'i
+   * herkese yayıldığında (kendisi dahil) masaya geçilir. Masa zaten
+   * başlatılmışsa (lobiye dönen host) anında geçilir — state değişmediği
+   * için kenar tetiklemesi gelmez.
+   */
+  const startTable = useCallback(() => {
+    const room = ncRef.current?.getRoom();
+    if (!room) return;
+    if (readStarted(room.state)) {
+      machine.enterTable();
+      return;
+    }
+    room.send('tableStart', {});
+  }, [machine]);
 
   const sendChat = useCallback((text: string) => {
     ncRef.current?.getRoom()?.send('chat', { text: sanitizeChatText(text) ?? text });
@@ -576,7 +632,7 @@ export function App() {
             onSendChat={sendChat}
             onSeatChange={changeSeat}
             onColorChange={changeColor}
-            onStart={() => machine.enterTable()}
+            onStart={startTable}
             onBack={leaveLobby}
             busy={busy}
           />
