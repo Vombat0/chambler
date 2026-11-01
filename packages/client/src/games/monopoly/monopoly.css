@@ -1,0 +1,1437 @@
+/* ==========================================================================
+   Mülk Tycoon — kutu oyunu arayüzü
+   Keçe masa, altın çerçeve, tapu kartları ve adım adım piyonlar.
+   ========================================================================== */
+
+.mp-root {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  color: #ece6d8;
+  background:
+    radial-gradient(120% 80% at 50% -10%, #1d2a24 0%, #131a18 46%, #0b0f0e 100%);
+  font-family: var(--font-sans, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------- üst bar -------------------------------- */
+
+.mp-topbar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 18px;
+  background: linear-gradient(180deg, rgba(23, 33, 29, 0.96), rgba(13, 19, 17, 0.92));
+  border-bottom: 1px solid rgba(217, 179, 108, 0.22);
+}
+
+.mp-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.mp-brand-mark {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  font-size: 20px;
+  font-weight: 800;
+  color: #10160f;
+  background: linear-gradient(150deg, #f3dda7, #c09a4c);
+  box-shadow: 0 4px 12px rgba(192, 154, 76, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.mp-brand h1 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 750;
+  letter-spacing: 0.4px;
+}
+
+.mp-brand p {
+  margin: 1px 0 0;
+  font-size: 11.5px;
+  color: #90a59a;
+}
+
+.mp-topstats {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mp-chip {
+  padding: 4px 11px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 650;
+  color: #cfd9d0;
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(217, 179, 108, 0.2);
+}
+
+/* --------------------------------- düzen ---------------------------------- */
+
+.mp-layout {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(196px, 236px) minmax(0, 1fr) minmax(196px, 250px);
+  grid-template-rows: minmax(0, 1fr);
+  gap: 10px;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.mp-side {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.mp-side::-webkit-scrollbar,
+.mp-players::-webkit-scrollbar,
+.mp-log::-webkit-scrollbar {
+  width: 7px;
+}
+
+.mp-side::-webkit-scrollbar-thumb,
+.mp-players::-webkit-scrollbar-thumb,
+.mp-log::-webkit-scrollbar-thumb {
+  background: rgba(217, 179, 108, 0.28);
+  border-radius: 99px;
+}
+
+.mp-panel,
+.mp-players {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(28, 38, 33, 0.82), rgba(15, 21, 19, 0.88));
+  border: 1px solid rgba(217, 179, 108, 0.16);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.32);
+}
+
+.mp-players {
+  flex: 1;
+  overflow-y: auto;
+  gap: 9px;
+}
+
+.mp-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(217, 179, 108, 0.14);
+}
+
+.mp-panel-head h2 {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #b9a887;
+}
+
+.mp-badge {
+  padding: 1px 8px;
+  border-radius: 99px;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #0f1512;
+  background: linear-gradient(150deg, #f0d79a, #bd9647);
+}
+
+.mp-icon-btn {
+  font-family: inherit;
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: transparent;
+  color: #a9b8ac;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.mp-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+/* -------------------------------- oyuncular ------------------------------- */
+
+.mp-player {
+  position: relative;
+  padding: 8px 9px 9px 12px;
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.028);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.mp-player::before {
+  content: '';
+  position: absolute;
+  inset: 8px auto 8px 0;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--player-color, #888);
+  opacity: 0.85;
+}
+
+.mp-player.is-current {
+  background: linear-gradient(100deg, rgba(255, 231, 168, 0.1), rgba(255, 255, 255, 0.03));
+  border-color: rgba(240, 215, 154, 0.5);
+  box-shadow: 0 0 0 1px rgba(240, 215, 154, 0.14), 0 6px 18px rgba(0, 0, 0, 0.32);
+}
+
+.mp-player.is-current::before {
+  box-shadow: 0 0 12px var(--player-color, #888);
+}
+
+.mp-player.is-bankrupt {
+  opacity: 0.42;
+  filter: grayscale(0.8);
+}
+
+.mp-player-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mp-avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  font-size: 12.5px;
+  font-weight: 800;
+  color: #10160f;
+  background: var(--player-color, #888);
+  box-shadow: inset 0 -2px 5px rgba(0, 0, 0, 0.28), 0 1px 0 rgba(255, 255, 255, 0.35) inset;
+}
+
+.mp-player-id {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.mp-player-id strong {
+  font-size: 12.5px;
+  font-weight: 680;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mp-player-id em {
+  font-style: normal;
+  font-size: 10px;
+  color: #9fb2a4;
+}
+
+.mp-cash {
+  font-size: 12px;
+  font-weight: 750;
+  color: #ffe9a8;
+}
+
+.mp-tag {
+  margin-left: auto;
+  padding: 1px 7px;
+  border-radius: 5px;
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #cdd8cf;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.mp-tag.danger {
+  color: #ffd9d9;
+  background: rgba(198, 66, 66, 0.35);
+}
+
+.mp-mini-meta {
+  display: flex;
+  gap: 8px;
+  margin: 4px 0 0 35px;
+  font-size: 10px;
+  color: #8fa296;
+}
+
+.mp-props {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.mp-prop {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 100%;
+  padding: 2px 6px 2px 5px;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-left: 3px solid var(--prop-color, #666);
+  background: rgba(255, 255, 255, 0.045);
+  color: #d5dfd6;
+  font-size: 9.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 140ms ease;
+}
+
+.mp-prop:hover {
+  background: rgba(255, 255, 255, 0.11);
+}
+
+.mp-prop.is-mortgaged {
+  opacity: 0.5;
+  text-decoration: line-through;
+}
+
+.mp-prop-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mp-prop-houses {
+  font-size: 9px;
+  color: #ffe9a8;
+  letter-spacing: 0.5px;
+}
+
+.mp-empty {
+  font-size: 10.5px;
+  color: #7e9187;
+  font-style: italic;
+}
+
+/* ---------------------------------- tahta --------------------------------- */
+
+.mp-main {
+  position: relative;
+  z-index: 0;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mp-board-shell {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.mp-board-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mp-board {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: block;
+  border-radius: 22px;
+  box-shadow: 0 22px 44px rgba(0, 0, 0, 0.5);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.mp-cell {
+  cursor: pointer;
+  outline: none;
+}
+
+.mp-cell-bg {
+  fill: #15271f;
+  stroke: rgba(217, 179, 108, 0.2);
+  stroke-width: 1.3;
+  transition: fill 140ms ease;
+}
+
+.mp-cell:hover .mp-cell-bg {
+  fill: #1d3429;
+}
+
+.mp-cell.is-owned .mp-cell-bg {
+  fill: #193025;
+}
+
+.mp-cell:focus-visible .mp-cell-bg {
+  stroke: #f0d79a;
+  stroke-width: 2.4;
+}
+
+.mp-cell-selected {
+  fill: none;
+  stroke: #ffe9a8;
+  stroke-width: 2.6;
+  pointer-events: none;
+}
+
+.mp-cell-name {
+  font-size: 12.5px;
+  font-weight: 660;
+  fill: #eee6d5;
+  letter-spacing: 0.15px;
+  pointer-events: none;
+}
+
+.mp-cell-name.is-corner {
+  font-size: 11px;
+  font-weight: 720;
+  fill: #f6edd8;
+  letter-spacing: 0.3px;
+}
+
+.mp-cell-price {
+  font-size: 11px;
+  font-weight: 650;
+  fill: #a9b98f;
+  pointer-events: none;
+}
+
+.mp-cell-salary {
+  font-size: 10px;
+  font-weight: 700;
+  fill: #f0d79a;
+  pointer-events: none;
+}
+
+.mp-cell-mortgaged {
+  font-size: 8.5px;
+  font-weight: 800;
+  fill: #ff9d9d;
+  letter-spacing: 0.6px;
+  pointer-events: none;
+}
+
+.mp-glyph {
+  font-size: 20px;
+  font-weight: 700;
+  fill: #cdd9c4;
+  pointer-events: none;
+}
+
+.mp-house-dot {
+  fill: #4fbe7a;
+  stroke: #0b1a12;
+  stroke-width: 0.8;
+  pointer-events: none;
+}
+
+.mp-hotel-mark {
+  fill: #e2564b;
+  stroke: #0b1a12;
+  stroke-width: 0.9;
+  pointer-events: none;
+}
+
+.mp-center-kicker {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  fill: rgba(217, 179, 108, 0.62);
+}
+
+.mp-center-brand {
+  font-size: 40px;
+  font-weight: 830;
+  letter-spacing: 5px;
+  fill: rgba(240, 215, 154, 0.9);
+}
+
+.mp-center-initial {
+  font-size: 30px;
+  font-weight: 830;
+  fill: #10160f;
+}
+
+.mp-center-turn {
+  font-size: 17px;
+  font-weight: 670;
+  fill: #e6ddc8;
+}
+
+.mp-center-cash {
+  font-size: 15px;
+  font-weight: 750;
+  fill: #ffe9a8;
+}
+
+.mp-center-pot {
+  font-size: 10.5px;
+  font-weight: 640;
+  fill: #b9c9ba;
+}
+
+.mp-center-salary {
+  font-size: 11px;
+  font-weight: 640;
+  letter-spacing: 1.4px;
+  fill: rgba(169, 185, 143, 0.8);
+}
+
+/* --------------------------------- piyonlar -------------------------------- */
+
+.mp-pawn {
+  transition: transform 115ms cubic-bezier(0.34, 1.4, 0.64, 1);
+  filter: drop-shadow(0 4px 5px rgba(0, 0, 0, 0.5));
+}
+
+.mp-pawn.is-current {
+  filter: drop-shadow(0 0 7px rgba(255, 233, 168, 0.9)) drop-shadow(0 4px 5px rgba(0, 0, 0, 0.5));
+}
+
+.mp-pawn.is-bankrupt {
+  opacity: 0.3;
+}
+
+.mp-pawn-letter {
+  font-size: 12.5px;
+  font-weight: 830;
+  fill: #10160f;
+  pointer-events: none;
+}
+
+/* ---------------------------------- altlık --------------------------------- */
+
+.mp-dock {
+  flex: none;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  padding: 9px 14px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(29, 40, 34, 0.92), rgba(14, 20, 18, 0.96));
+  border: 1px solid rgba(217, 179, 108, 0.18);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.34);
+}
+
+.mp-dock-dice {
+  display: flex;
+  gap: 7px;
+}
+
+.mp-die {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 3px;
+  width: 44px;
+  height: 44px;
+  padding: 6px;
+  border-radius: 10px;
+  background: linear-gradient(150deg, #fdfbf4, #e3ddd0);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.mp-die.is-rolling {
+  animation: mp-die-shake 190ms linear infinite;
+}
+
+@keyframes mp-die-shake {
+  0% { transform: rotate(-8deg) translateY(0) scale(1); }
+  30% { transform: rotate(11deg) translateY(-4px) scale(1.04); }
+  60% { transform: rotate(-6deg) translateY(2px) scale(0.98); }
+  100% { transform: rotate(-8deg) translateY(0) scale(1); }
+}
+
+.mp-pip {
+  border-radius: 50%;
+  background: #23281f;
+}
+
+.mp-pip.is-empty {
+  background: transparent;
+}
+
+.mp-dock-center {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.mp-turn-pill {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 3px 11px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 720;
+  color: #d8e2d7;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mp-turn-pill i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  box-shadow: 0 0 9px currentColor;
+}
+
+.mp-turn-pill.is-self {
+  color: #16200f;
+  background: linear-gradient(150deg, #f3dda7, #c8a457);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.mp-dock-hint {
+  font-size: 10.5px;
+  color: #90a398;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mp-dock-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mp-jail-actions {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+/* --------------------------------- düğmeler -------------------------------- */
+
+.mp-btn {
+  font-family: inherit;
+  padding: 8px 15px;
+  border-radius: 9px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.075);
+  color: #e7e2d3;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 140ms ease, transform 120ms ease, box-shadow 160ms ease;
+}
+
+.mp-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.mp-btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.mp-btn:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+
+.mp-btn.primary {
+  color: #16200f;
+  border-color: rgba(255, 255, 255, 0.42);
+  background: linear-gradient(150deg, #f3dda7, #c8a457);
+  box-shadow: 0 5px 14px rgba(200, 164, 87, 0.28);
+}
+
+.mp-btn.primary:hover:not(:disabled) {
+  background: linear-gradient(150deg, #fbe9bc, #d5b063);
+}
+
+.mp-btn.ghost {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #bfcbbf;
+}
+
+.mp-btn.small {
+  padding: 5px 10px;
+  font-size: 11px;
+  border-radius: 7px;
+}
+
+.mp-roll {
+  min-width: 168px;
+  padding: 12px 20px;
+  font-size: 13.5px;
+  font-weight: 780;
+  letter-spacing: 0.5px;
+}
+
+.mp-roll.is-live {
+  animation: mp-roll-glow 2.1s ease-in-out infinite;
+}
+
+@keyframes mp-roll-glow {
+  0%, 100% { box-shadow: 0 5px 14px rgba(200, 164, 87, 0.3), 0 0 0 0 rgba(240, 215, 154, 0.42); }
+  50% { box-shadow: 0 5px 20px rgba(200, 164, 87, 0.5), 0 0 0 7px rgba(240, 215, 154, 0); }
+}
+
+.mp-end {
+  min-width: 140px;
+}
+
+/* -------------------------------- tapu kartı ------------------------------- */
+
+.mp-deed {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 13px;
+  background: linear-gradient(175deg, #fbf6e9, #efe6d1);
+  color: #26301f;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.42), inset 0 0 0 1px rgba(255, 255, 255, 0.7);
+}
+
+.mp-deed.is-compact .mp-deed-body {
+  padding: 9px 11px 10px;
+}
+
+.mp-deed-head {
+  position: relative;
+  padding: 13px 14px 11px;
+  text-align: center;
+  color: #f7f1df;
+  background: var(--deed-accent, #3a5c48);
+}
+
+.mp-deed-band {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.mp-deed-kicker {
+  margin: 0;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 2.2px;
+  opacity: 0.82;
+}
+
+.mp-deed-head h3 {
+  margin: 4px 0 6px;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: 0.2px;
+}
+
+.mp-deed-price {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 760;
+  padding: 2px 12px;
+  display: inline-block;
+  border-radius: 99px;
+  background: rgba(0, 0, 0, 0.22);
+}
+
+.mp-deed-body {
+  padding: 11px 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mp-deed-rents {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mp-deed-label {
+  margin: 0 0 3px;
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: #7d7558;
+}
+
+.mp-deed-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 2px 6px;
+  border-radius: 5px;
+  font-size: 11.5px;
+  color: #4a5238;
+}
+
+.mp-deed-row b {
+  font-weight: 760;
+  color: #2d3524;
+}
+
+.mp-deed-row.is-active {
+  background: rgba(58, 92, 72, 0.16);
+  color: #1f2a1a;
+  font-weight: 720;
+}
+
+.mp-deed-row.is-active b {
+  color: #1d5c3a;
+}
+
+.mp-deed-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 10px;
+  margin: 2px 0 0;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(64, 74, 48, 0.3);
+}
+
+.mp-deed-meta div {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.mp-deed-meta dt {
+  font-size: 8.5px;
+  font-weight: 750;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+  color: #857c5f;
+}
+
+.mp-deed-meta dd {
+  margin: 0;
+  font-size: 11.5px;
+  font-weight: 740;
+  color: #2f3727;
+}
+
+.mp-deed-owner {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding-top: 8px;
+  border-top: 1px solid rgba(64, 74, 48, 0.18);
+  font-size: 11px;
+  font-weight: 700;
+  color: #3c4630;
+}
+
+.mp-deed-owner.is-free {
+  color: #7f7657;
+  font-style: italic;
+}
+
+.mp-deed-tag {
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  color: #fbf6e9;
+  background: #7a5d3a;
+}
+
+.mp-deed-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 12px 12px;
+}
+
+.mp-deed-actions .mp-btn {
+  font-family: inherit;
+  color: #26301f;
+  border-color: rgba(38, 48, 31, 0.22);
+  background: rgba(58, 92, 72, 0.14);
+}
+
+.mp-deed-actions .mp-btn:hover:not(:disabled) {
+  background: rgba(58, 92, 72, 0.25);
+}
+
+.mp-deed-live {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 2px 2px;
+}
+
+.mp-deed-live .mp-btn {
+  font-family: inherit;
+  flex: 1 1 auto;
+  justify-content: center;
+}
+
+.mp-deed-close {
+  font-family: inherit;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.28);
+  color: #fff;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.mp-deed-close:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* --------------------------------- günlük ---------------------------------- */
+
+.mp-log-panel {
+  flex: 1;
+  min-height: 0;
+}
+
+.mp-log-small {
+  flex: 0 0 auto;
+  max-height: 172px;
+}
+
+.mp-log {
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mp-log li {
+  padding: 5px 7px;
+  border-radius: 6px;
+  font-size: 10.5px;
+  line-height: 1.35;
+  color: #c2cec2;
+  background: rgba(255, 255, 255, 0.035);
+  border-left: 2px solid rgba(217, 179, 108, 0.32);
+}
+
+.mp-log li:first-child {
+  color: #f0e6cf;
+  border-left-color: #f0d79a;
+}
+
+.mp-log li.mp-empty {
+  background: none;
+  border: none;
+}
+
+/* --------------------------------- modallar -------------------------------- */
+
+.mp-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(6, 11, 9, 0.72);
+  backdrop-filter: blur(4px);
+  animation: mp-fade-in 180ms ease;
+}
+
+@keyframes mp-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.mp-modal {
+  width: min(360px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #1b2621, #131a17);
+  border: 1px solid rgba(217, 179, 108, 0.28);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.6);
+  animation: mp-pop-in 220ms cubic-bezier(0.2, 1.2, 0.4, 1);
+}
+
+@keyframes mp-pop-in {
+  from { opacity: 0; transform: translateY(14px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.mp-modal-buy {
+  width: min(330px, 100%);
+}
+
+.mp-modal-kicker {
+  margin: 0;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+  color: #b9a887;
+  text-align: center;
+}
+
+.mp-modal-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.mp-modal-actions .mp-btn {
+  font-family: inherit;
+  flex: 1 1 auto;
+  justify-content: center;
+  padding: 11px 14px;
+  font-size: 12.5px;
+}
+
+/* Kart modalı: desteden fırlayan kart */
+
+.mp-card-modal {
+  width: min(310px, 100%);
+  gap: 14px;
+  padding: 18px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  align-items: stretch;
+}
+
+.mp-card-deck {
+  margin: 0;
+  text-align: center;
+  font-size: 10.5px;
+  font-weight: 820;
+  letter-spacing: 3px;
+  color: #f0d79a;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.mp-card-face {
+  position: relative;
+  overflow: hidden;
+  padding: 26px 20px 22px;
+  border-radius: 16px;
+  text-align: center;
+  color: #2b3322;
+  background:
+    radial-gradient(120% 90% at 50% 0%, #fffdf3 0%, #f2e9d2 55%, #e6dabd 100%);
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+  transform-origin: 50% 80%;
+  animation: mp-card-flip 420ms cubic-bezier(0.2, 1.3, 0.4, 1);
+}
+
+@keyframes mp-card-flip {
+  from { opacity: 0; transform: translateY(46px) rotate(-8deg) scale(0.82); }
+  to { opacity: 1; transform: translateY(0) rotate(0) scale(1); }
+}
+
+.mp-card-modal.is-chance .mp-card-face {
+  background: radial-gradient(120% 90% at 50% 0%, #fff7f0 0%, #f7e2d4 58%, #eed3c0 100%);
+}
+
+.mp-card-modal.is-community .mp-card-face {
+  background: radial-gradient(120% 90% at 50% 0%, #f2fbf6 0%, #dcefe1 58%, #cae4d2 100%);
+}
+
+.mp-card-face h3 {
+  margin: 0 0 8px;
+  font-size: 17px;
+  font-weight: 820;
+  color: #26301f;
+  letter-spacing: 0.2px;
+}
+
+.mp-card-face p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #4a5238;
+}
+
+.mp-card-corner {
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  font-size: 15px;
+  font-weight: 800;
+  color: rgba(70, 82, 52, 0.28);
+}
+
+.mp-card-glyph {
+  position: absolute;
+  right: -6px;
+  bottom: -20px;
+  font-size: 84px;
+  font-weight: 800;
+  line-height: 1;
+  color: rgba(70, 82, 52, 0.1);
+  pointer-events: none;
+}
+
+.mp-card-modal .mp-btn {
+  font-family: inherit;
+  padding: 11px 14px;
+  font-size: 12.5px;
+}
+
+/* Kazanan */
+
+.mp-winner {
+  width: min(340px, 100%);
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  padding: 22px 18px 18px;
+}
+
+.mp-winner-crown {
+  font-size: 34px;
+  line-height: 1;
+  color: var(--winner-color, #f0d79a);
+  filter: drop-shadow(0 4px 12px rgba(240, 215, 154, 0.5));
+}
+
+.mp-winner h2 {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 830;
+  color: #f4ecd8;
+}
+
+.mp-winner p {
+  margin: 0;
+  font-size: 12px;
+  color: #a3b3a5;
+}
+
+.mp-winner-cash {
+  font-size: 22px;
+  font-weight: 830;
+  color: #ffe9a8;
+  padding: 6px 20px;
+  border-radius: 99px;
+  background: rgba(240, 215, 154, 0.1);
+  border: 1px solid rgba(240, 215, 154, 0.26);
+}
+
+.mp-winner .mp-modal-actions {
+  width: 100%;
+  margin-top: 6px;
+}
+
+/* ------------------------------- duyarlılık -------------------------------- */
+
+@media (max-width: 1180px) {
+  .mp-layout {
+    grid-template-columns: minmax(168px, 200px) minmax(0, 1fr) minmax(168px, 210px);
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .mp-roll {
+    min-width: 132px;
+    padding: 10px 14px;
+    font-size: 12.5px;
+  }
+}
+
+@media (max-width: 940px) {
+  .mp-layout {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
+    overflow-y: auto;
+    align-content: start;
+  }
+
+  .mp-side-left {
+    order: 2;
+    max-height: 218px;
+  }
+
+  .mp-side-right {
+    order: 3;
+    overflow: visible;
+  }
+
+  .mp-main {
+    order: 1;
+    display: block;
+    min-height: 0;
+  }
+
+  .mp-board-shell,
+  .mp-board-wrap {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .mp-board {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+  }
+
+  .mp-main .mp-dock {
+    margin-top: 10px;
+  }
+
+  .mp-log-panel {
+    max-height: 190px;
+  }
+
+  .mp-dock {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas:
+      'dice center'
+      'actions actions';
+    row-gap: 8px;
+  }
+
+  .mp-dock-dice { grid-area: dice; }
+  .mp-dock-center { grid-area: center; }
+  .mp-dock-actions { grid-area: actions; justify-content: stretch; }
+  .mp-dock-actions .mp-btn {
+  font-family: inherit; flex: 1 1 auto; }
+  .mp-jail-actions { width: 100%; }
+  .mp-jail-actions .mp-btn {
+  font-family: inherit; flex: 1 1 auto; }
+}
+
+@media (max-width: 620px) {
+  .mp-topbar {
+    padding: 8px 12px;
+  }
+
+  .mp-brand p {
+    display: none;
+  }
+
+  .mp-die {
+    width: 38px;
+    height: 38px;
+    padding: 5px;
+  }
+
+  .mp-center-brand {
+    font-size: 30px;
+  }
+}
+
+/* ------------------------------- kurulum ekranı ---------------------------- */
+
+.mp-setup-root {
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.mp-setup {
+  width: min(470px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px;
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(30, 42, 35, 0.94), rgba(15, 21, 19, 0.96));
+  border: 1px solid rgba(217, 179, 108, 0.22);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+}
+
+.mp-setup-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mp-setup-head h1 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 790;
+  letter-spacing: 0.3px;
+}
+
+.mp-setup-head p {
+  margin: 2px 0 0;
+  font-size: 11.5px;
+  color: #90a59a;
+}
+
+.mp-setup-kicker {
+  margin: 0;
+  padding-top: 10px;
+  border-top: 1px solid rgba(217, 179, 108, 0.16);
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+  color: #b9a887;
+}
+
+.mp-setup-count {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 12px;
+  font-weight: 650;
+  color: #c5d1c5;
+}
+
+.mp-count-buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.mp-count {
+  font-family: inherit;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  color: #cdd8cd;
+  font-size: 12.5px;
+  font-weight: 720;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.mp-count.is-active {
+  color: #16200f;
+  background: linear-gradient(150deg, #f3dda7, #c8a457);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.mp-setup-players {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mp-setup-players li {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 9px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.mp-setup-field {
+  flex: 1;
+  min-width: 0;
+}
+
+.mp-setup-input {
+  font-family: inherit;
+  width: 100%;
+  padding: 7px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(8, 13, 11, 0.6);
+  color: #eae5d6;
+  font-size: 12.5px;
+  font-family: inherit;
+  font-weight: 600;
+}
+
+.mp-setup-input:focus {
+  outline: none;
+  border-color: rgba(240, 215, 154, 0.6);
+  box-shadow: 0 0 0 3px rgba(240, 215, 154, 0.14);
+}
+
+.mp-setup-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--player-color, #888);
+  box-shadow: 0 0 9px var(--player-color, #888);
+}
+
+.mp-setup-index {
+  flex: none;
+  width: 16px;
+  text-align: right;
+  font-size: 10px;
+  font-weight: 700;
+  color: #78897e;
+}
+
+.mp-setup-start {
+  margin-top: 4px;
+  padding: 13px 18px;
+  font-size: 13.5px;
+  letter-spacing: 0.4px;
+}
+
+.mp-setup-hint {
+  margin: 0;
+  text-align: center;
+  font-size: 10.5px;
+  color: #84998c;
+}
