@@ -76,6 +76,16 @@ function toHttpUrl(wsUrl: string): string {
 
 
 
+/**
+ * Varsayılan sunucu: tarayıcıda aynı origin. Render.com gibi tek servis
+ * dağıtımlarında frontend ve WebSocket backend aynı https:// adresindedir;
+ * CORS gerekmez. Node/test ortamında localhost'a düşer.
+ */
+function defaultServerUrl(): string {
+  if (typeof window !== 'undefined' && window.location?.origin) return window.location.origin;
+  return 'http://localhost:3001';
+}
+
 export class NetworkClient {
   private readonly client: SdkLike;
   private readonly policy: ReconnectPolicy;
@@ -90,7 +100,7 @@ export class NetworkClient {
   private reconnectTimer: ReturnType<typeof setTimeout> | null = null;
   private reconnectionToken: string | null = null;
 
-  constructor(opts: NetworkClientOptions | string) {
+  constructor(opts: NetworkClientOptions | string = defaultServerUrl()) {
     const o: NetworkClientOptions = typeof opts === 'string' ? { url: opts } : opts;
     this.client = o.sdk ?? new Client(o.url);
     this.policy = new ReconnectPolicy({ maxAttempts: o.maxReconnectAttempts ?? 5 });

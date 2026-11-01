@@ -394,7 +394,7 @@ export function CarcassonneGameView({ players, onExit }: CarcassonneGameViewProp
                 </button>
                 {onExit && (
                   <button className="ck-btn ck-btn-ghost" onClick={onExit}>
-                    ← Menü
+                    ✕ Ana Menü
                   </button>
                 )}
               </div>
@@ -409,7 +409,7 @@ export function CarcassonneGameView({ players, onExit }: CarcassonneGameViewProp
           🏰 Tile Kingdoms
           {onExit && (
             <button className="ck-btn ck-btn-mini" onClick={onExit}>
-              ✕
+              ✕ Ana Menü
             </button>
           )}
         </div>

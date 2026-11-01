@@ -65,6 +65,16 @@ export function MonopolyEntry(props: MonopolyEntryProps): JSX.Element {
             <h1>{t('mp.title')}</h1>
             <p>{t('mp.subtitle')}</p>
           </div>
+          {onExit ? (
+            <button
+              type="button"
+              className="mp-btn ghost small"
+              style={{ marginLeft: 'auto' }}
+              onClick={onExit}
+            >
+              {t('mp.exit')}
+            </button>
+          ) : null}
         </header>
 
         <p className="mp-setup-kicker">{t('mp.setup.title')}</p>

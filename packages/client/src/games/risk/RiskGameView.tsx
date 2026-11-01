@@ -79,6 +79,7 @@ export function RiskGameView({ onExit }: RiskGameViewProps) {
           setup={setup}
           setSetup={setSetup}
           onStart={() => setPhase('game')}
+          onExit={onExit}
         />
       ) : (
         <RiskBoard setup={setup} onExit={() => setPhase('lobby')} onQuit={onExit} />
@@ -101,10 +102,12 @@ function Lobby({
   setup,
   setSetup,
   onStart,
+  onExit,
 }: {
   setup: SetupRow[];
   setSetup: (s: SetupRow[]) => void;
   onStart: () => void;
+  onExit?: () => void;
 }) {
   const shapes = useMemo(() => buildShapes(), []);
   return (
@@ -120,6 +123,15 @@ function Lobby({
         ))}
       </svg>
       <div className="lobby-panel">
+        {onExit ? (
+          <button
+            className="rk-btn ghost sm"
+            style={{ marginBottom: 10 }}
+            onClick={onExit}
+          >
+            ✕ Ana Menü
+          </button>
+        ) : null}
         <div className="lobby-title">⚔ TERRITORY WARS</div>
         <div className="lobby-sub">Aetheris&apos;i kana kana fethet — 28 bölge, 5 kıta, tek imparator.</div>
         <div className="lobby-rows">
@@ -569,7 +581,7 @@ function TopBar({
   return (
     <div className="top">
       <button className="rk-btn ghost sm" onClick={onExit}>
-        ← Çık
+        ✕ Ana Menü
       </button>
       <div className="turn-chip" style={{ borderColor: me.color }}>
         <span className="dot" style={{ background: me.color }} />

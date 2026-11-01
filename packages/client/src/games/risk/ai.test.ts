@@ -95,7 +95,9 @@ describe('AI vs AI — başsız simülasyon', () => {
       if (!next) break;
       const now = total(next);
       // Savaş/kaydırma adımları toplam orduyu asla artıramaz (takviye yalnızca DEPLOY'da).
-      if (next.phase === 'ATTACK' || next.phase === 'FORTIFY') {
+      // Aynı adımda tur devri olursa yeni takviye havuzu gelir; o yüzden tolerans
+      // yalnızca tur içinde uygulanır.
+      if (next.turn === state.turn && (next.phase === 'ATTACK' || next.phase === 'FORTIFY')) {
         expect(now).toBeLessThanOrEqual(prev);
       }
       state = next;

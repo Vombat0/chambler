@@ -5,6 +5,9 @@
  * they exercise the real express/Colyseus stack.
  */
 import http from 'node:http';
+import path from 'node:path';
+import { existsSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import express, { type RequestHandler } from 'express';
 import { Server, matchMaker } from 'colyseus';
 import { WebSocketTransport, type TransportOptions } from '@colyseus/ws-transport';
@@ -26,10 +29,24 @@ export interface ChamblerServer {
   stop(): Promise<void>;
 }
 
+/**
+ * Tek servis dağıtımında frontend ve API aynı host'tan gelir. Bu durumda
+ * `Origin` başlığı isteğin kendi `Host`'u ile eşleşir ve allow-list'e
+ * ihtiyaç duymadan kabul edilir (Render.com: sıfır CORS yapılandırması).
+ */
+function isSameOrigin(origin: string | undefined, host: string | undefined): boolean {
+  if (!origin || !host) return false;
+  try {
+    return new URL(origin).host === host;
+  } catch {
+    return false;
+  }
+}
+
 function corsMiddleware(allowedOrigins: readonly string[]): RequestHandler {
   return (req, res, next) => {
     const origin = req.headers.origin;
-    if (origin && isOriginAllowed(origin, allowedOrigins)) {
+    if (origin && (isOriginAllowed(origin, allowedOrigins) || isSameOrigin(origin, req.headers.host))) {
       res.setHeader('Access-Control-Allow-Origin', allowedOrigins.includes('*') ? '*' : origin);
       res.setHeader('Vary', 'Origin');
       res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
@@ -49,7 +66,7 @@ function verifyClient(
 ): NonNullable<TransportOptions['verifyClient']> {
   return (info, done) => {
     const origin = info.origin || info.req.headers.origin;
-    if (isOriginAllowed(origin, config.corsOrigins)) {
+    if (isOriginAllowed(origin, config.corsOrigins) || isSameOrigin(origin, info.req.headers.host)) {
       done(true);
       return;
     }
@@ -246,6 +263,37 @@ export function createChamblerServer(overrides: Partial<ServerConfig> = {}): Cha
       });
     }
   });
+
+  /**
+   * R0 — tek servis dağıtımı: `packages/client/dist` varsa frontend'i aynı
+   * origin'den sunar. API olmayan GET istekleri SPA için index.html'e düşer,
+   * böylece Render.com'da tek URL ve sıfır CORS ile çalışır.
+   */
+  const here = path.dirname(fileURLToPath(import.meta.url));
+  const clientDist = [
+    path.resolve(process.cwd(), 'packages/client/dist'),
+    path.resolve(here, '../../client/dist'),
+  ].find((candidate) => existsSync(path.join(candidate, 'index.html')));
+
+  if (clientDist) {
+    app.use(express.static(clientDist, { index: false, maxAge: '1h' }));
+    app.use((req, res, next) => {
+      if (req.method !== 'GET') {
+        next();
+        return;
+      }
+      if (req.path.startsWith('/api') || req.path.startsWith('/health')) {
+        next();
+        return;
+      }
+      // Uzantılı istekler (eksik JS/CSS/görsel) SPA'ya değil 404'e gider.
+      if (path.extname(req.path) !== '') {
+        next();
+        return;
+      }
+      res.sendFile(path.join(clientDist, 'index.html'));
+    });
+  }
 
   const httpServer = http.createServer(app);
   const transport = new WebSocketTransport({
